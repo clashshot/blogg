@@ -1,0 +1,192 @@
+<?php
+
+
+class BlogModel
+{
+
+    public static function blogexists($slug)
+    {
+        $database = DatabaseFactory::getFactory()->getConnection();
+        $blog = $database->prepare('SELECT * FROM Blog WHERE slug = :slug');
+        $blog->execute(array(
+            ':slug' => $slug
+        ));
+        $blogr = $blog->fetchObject();
+        if($blog->rowCount() > 0) {
+            return $blogr->id;
+        } else {
+            return false;
+        }
+    }
+
+    public static function getBlog($id){
+        $database = DatabaseFactory::getFactory()->getConnection();
+        $blog = $database->prepare('SELECT * FROM Blog WHERE id = :id');
+        $blog->execute(array(
+            ':id' => $id
+        ));
+        $blogr = $blog->fetchObject();
+        if($blog->rowCount() > 0) {
+            return $blogr;
+        }
+    }
+
+    public static function getpost($blogid, $postslug)
+    {
+        $database = DatabaseFactory::getFactory()->getConnection();
+        $post = $database->prepare('SELECT * FROM Post WHERE slug = :slug AND blog_id = :blog');
+        $post->execute(array(
+            ':slug' => $postslug,
+            ':blog' => $blogid
+        ));
+        if($post->rowCount() > 0) {
+            return $post->fetchObject();
+        }else{
+            return false;
+        }
+    }
+
+    public static function getPosts($blogid, $page = 1, $posts_per_page = 5){
+
+    }
+
+    public static function addpost($blogid){
+        $title = Request::post('title');
+        $category = Request::post('category');
+        $visibility = Request::post('visibility');
+        $comment = Request::post('comment');
+        $content = Request::post('content');
+        $titleslug = self::slugify($title);
+        $database = DatabaseFactory::getFactory()->getConnection();
+        try {
+            $add = $database->prepare('INSERT INTO Post (blog_id, category_id, user_id, slug, title, content, visibility, created, allow_comments)
+            VALUES (:blog_id, :category_id, :user_id, :slug, :title, :content, :visibility, :created, :allow_comments)');
+            $add->execute(array(
+                ':blog_id' => $blogid,
+                ':category_id' => $category,
+                ':user_id' => Session::get('user_id'),
+                ':slug' => $titleslug,
+                ':title' => $title,
+                ':content' => $content,
+                ':visibility' => $visibility,
+                ':created' => date('Y-m-d H:i:s'),
+                ':allow_comments' => $comment
+            ));
+            if($add){
+                return true;
+            }
+        } catch (PDOException $e){
+            echo $e;
+            return false;
+        }
+
+    }
+
+    public static function blog_create(){
+        $title = Request::post('title');
+        $description = Request::post('description');
+        $about = Request::post('about');
+        $blogname = self::slugify(Request::post('blogname'));
+        $database = DatabaseFactory::getFactory()->getConnection();
+        if (self::blogexists($blogname)){
+            Session::add('feedback_negative', Text::get('FEEDBACK_BLOG_SLUG_IN_USE'));
+            Session::set('title', $title);
+            Session::set('description', $description);
+            Session::set('about', $about);
+            return false;
+        }
+        $blog = $database->prepare('INSERT INTO `Blog`(user_id, slug,`title`, `description`, `about`) VALUES(:user_id, :slug, :title, :description, :about)');
+        $success = $blog->execute(array(
+            ':user_id' => Session::get("user_id"),
+            ':slug' => $blogname,
+            ':title' => $title,
+            ':description' => $description,
+            ':about' => $about
+        ));
+        if ($success){
+            return self::getBlog($database->lastInsertId());
+        }else{
+            return false;
+        }
+    }
+    public static function slugify($blogname)
+    {
+        $blogname = str_replace(array('å', 'ä', 'ö'), array('a', 'a', 'o'), $blogname);
+
+        // replace non letter or digits by -
+        $blogname = preg_replace('~[^\pL\d]+~u', '-', $blogname);
+
+        // transliterate
+        $blogname = iconv('utf-8', 'us-ascii//TRANSLIT', $blogname);
+
+        // remove unwanted characters
+        $blogname = preg_replace('~[^-\w]+~', '', $blogname);
+
+        // trim
+        $blogname = trim($blogname, '-');
+
+        // remove duplicate -
+        $blogname = preg_replace('~-+~', '-', $blogname);
+
+        // lowercase
+
+        if (empty($blogname)) {
+            return 'n-a';
+        }
+
+        return $blogname;
+    }
+
+    public static function addMod($blog_id){
+        $database = DatabaseFactory::getFactory()->getConnection();
+
+        $user_email = strip_tags(Request::post('user_email'));
+
+        $query = $database->prepare("SELECT user_id FROM users WHERE user_email = :email");
+        $query->execute(array(':email' => $user_email));
+        $user_id = $query->fetchobject()->user_id;
+        $query = $database->prepare("INSERT INTO Blog_moderator (user_id,blog_id) VALUES (:user_id,:blog_id)");
+
+        if ($query->execute(array(':user_id' => $user_id,'blog_id' => $blog_id))){
+            return true;
+        }else {
+            return false;
+        }
+    }
+    public static function removeMod($blog_id){
+        $database = DatabaseFactory::getFactory()->getConnection();
+
+        $user_email = strip_tags(Request::post('user_email'));
+
+        $query = $database->prepare("SELECT user_id FROM users WHERE user_email = :email");
+        $query->execute(array(':email' => $user_email));
+        $user_id = $query->fetchobject()->user_id;
+
+        $query = $database->prepare("DELETE FROM Blog_moderator WHERE user_id = :user_id AND blog_id = :blog_id");
+
+        if ($query->execute(array(':user_id' => $user_id,'blog_id' => $blog_id))){
+            return true;
+        }else {
+            return false;
+        }
+    }
+
+    public static function getMods($blog_id){
+        $database = DatabaseFactory::getFactory()->getConnection();
+
+        $query = $database->prepare("SELECT user_email FROM Blog_moderator  LEFT JOIN users on users.user_id=Blog_moderator.user_id WHERE blog_id = :blog_id");
+        $query->execute(array(':blog_id' => $blog_id));
+
+        $mods = array();
+
+        $modNumber = $query->rowCount();
+
+        for ($i=0;$i<$modNumber;$i++){
+            $modObj = $query->fetchobject();
+            array_push($mods, $modObj);
+        }
+
+        return $mods;
+    }
+
+}
