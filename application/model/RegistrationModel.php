@@ -23,7 +23,7 @@ class RegistrationModel
         $user_password_repeat = Request::post('user_password_repeat');
 
         // stop registration flow if registrationInputValidation() returns false (= anything breaks the input check rules)
-        $validation_result = self::registrationInputValidation(Request::post('captcha'), $user_name, $user_password_new, $user_password_repeat, $user_email, $user_email_repeat);
+        $validation_result = self::registrationInputValidation(Request::post('g-recaptcha-response'), $user_name, $user_password_new, $user_password_repeat, $user_email, $user_email_repeat);
         if (!$validation_result) {
             return false;
         }
@@ -248,6 +248,7 @@ class RegistrationModel
      */
     public static function sendVerificationEmail($user_id, $user_email, $user_activation_hash)
     {
+
         $body = Config::get('EMAIL_VERIFICATION_CONTENT') . Config::get('URL') . Config::get('EMAIL_VERIFICATION_URL')
                 . '/' . urlencode($user_id) . '/' . urlencode($user_activation_hash);
 

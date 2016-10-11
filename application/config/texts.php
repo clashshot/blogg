@@ -72,4 +72,5 @@ return array(
     "FEEDBACK_NOTE_DELETION_FAILED" => "Note deletion failed.",
     "FEEDBACK_COOKIE_INVALID" => "Your remember-me-cookie is invalid.",
     "FEEDBACK_COOKIE_LOGIN_SUCCESSFUL" => "You were successfully logged in via the remember-me-cookie.",
+    "FEEDBACK_BLOG_SLUG_IN_USE" => "This blog name is already in use. Please take another one.",
 );

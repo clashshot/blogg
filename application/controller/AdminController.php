@@ -32,4 +32,10 @@ class AdminController extends Controller
 
         Redirect::to("admin");
     }
+
+    public function reports(){
+        $this->View->render('admin/report', array(
+            'reports' => ReportModel::reports(Request::get('page'))
+        ));
+    }
 }

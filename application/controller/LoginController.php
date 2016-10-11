@@ -19,6 +19,7 @@ class LoginController extends Controller
     /**
      * Index, default action (shows the login form), when you do login/index
      */
+
     public function index()
     {
         // if user is logged in redirect to main-page, if not show the view
@@ -26,7 +27,7 @@ class LoginController extends Controller
             Redirect::home();
         } else {
             $data = array('redirect' => Request::get('redirect') ? Request::get('redirect') : NULL);
-            $this->View->render('login/index', $data);
+            $this->View->render('index/index', $data);
         }
     }
 
@@ -52,13 +53,13 @@ class LoginController extends Controller
             if (Request::post('redirect')) {
                 Redirect::toPreviousViewedPageAfterLogin(ltrim(urldecode(Request::post('redirect')), '/'));
             } else {
-                Redirect::to('user/index');
+                Redirect::to('dashboard/index');
             }
         } else {
             if (Request::post('redirect')) {
                 Redirect::to('login?redirect=' . ltrim(urlencode(Request::post('redirect')), '/'));
             } else {
-                Redirect::to('login/index');
+                Redirect::to('index/index');
             }
         }
     }
@@ -106,8 +107,8 @@ class LoginController extends Controller
      */
     public function requestPasswordReset_action()
     {
-        PasswordResetModel::requestPasswordReset(Request::post('user_name_or_email'), Request::post('captcha'));
-        Redirect::to('login/index');
+        PasswordResetModel::requestPasswordReset(Request::post('user_name_or_email'), Request::post('g-recaptcha-response'));
+        Redirect::to('index');
     }
 
     /**

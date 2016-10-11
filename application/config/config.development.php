@@ -68,13 +68,7 @@ return array(
     'DB_PASS' => '{1=[GVqKvieZ',
     'DB_PORT' => '3306',
     'DB_CHARSET' => 'utf8',
-    /**
-     * Configuration for: Captcha size
-     * The currently used Captcha generator (https://github.com/Gregwar/Captcha) also runs without giving a size,
-     * so feel free to use ->build(); inside CaptchaModel.
-     */
-    'CAPTCHA_WIDTH' => 359,
-    'CAPTCHA_HEIGHT' => 100,
+
     /**
      * Configuration for: Cookies
      * 1209600 seconds = 2 weeks
@@ -107,7 +101,7 @@ return array(
      * AVATAR_SIZE set the pixel size of avatars/gravatars (will be 44x44 by default). Avatars are always squares.
      * AVATAR_DEFAULT_IMAGE is the default image in public/avatars/
      */
-    'USE_GRAVATAR' => false,
+    'USE_GRAVATAR' => true,
     'GRAVATAR_DEFAULT_IMAGESET' => 'mm',
     'GRAVATAR_RATING' => 'pg',
     'AVATAR_SIZE' => 44,
@@ -144,13 +138,13 @@ return array(
      * Configuration for: Email content data
      */
     'EMAIL_PASSWORD_RESET_URL' => 'login/verifypasswordreset',
-    'EMAIL_PASSWORD_RESET_FROM_EMAIL' => 'no-reply@example.com',
-    'EMAIL_PASSWORD_RESET_FROM_NAME' => 'My Project',
-    'EMAIL_PASSWORD_RESET_SUBJECT' => 'Password reset for Blogg',
-    'EMAIL_PASSWORD_RESET_CONTENT' => 'Please click on this link to reset your password: ',
+    'EMAIL_PASSWORD_RESET_FROM_EMAIL' => 'no-reply@hepicsolutions.com',
+    'EMAIL_PASSWORD_RESET_FROM_NAME' => 'BlogNation',
+    'EMAIL_PASSWORD_RESET_SUBJECT' => 'Återställning av lösenord - BlogNation',
+    'EMAIL_PASSWORD_RESET_CONTENT' => 'Klicka på denna länk för att återställa ditt lösenord: ',
     'EMAIL_VERIFICATION_URL' => 'register/verify',
-    'EMAIL_VERIFICATION_FROM_EMAIL' => 'no-reply@example.com',
-    'EMAIL_VERIFICATION_FROM_NAME' => 'My Project',
-    'EMAIL_VERIFICATION_SUBJECT' => 'Account activation for PROJECT XY',
-    'EMAIL_VERIFICATION_CONTENT' => 'Please click on this link to activate your account: ',
+    'EMAIL_VERIFICATION_FROM_EMAIL' => 'no-reply@hepicsolutions.com',
+    'EMAIL_VERIFICATION_FROM_NAME' => 'BlogNation',
+    'EMAIL_VERIFICATION_SUBJECT' => 'Kontoaktivering - BlogNation',
+    'EMAIL_VERIFICATION_CONTENT' => 'Klicka på länken för att aktivera ditt konto: ',
 );

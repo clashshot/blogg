@@ -53,7 +53,7 @@ class Auth
         // self::checkSessionConcurrency();
 
         // if user is not logged in or is not an admin (= not role type 7)
-        if (!Session::userIsLoggedIn() || Session::get("user_account_type") != 7) {
+        if (!Session::userIsLoggedIn() || Session::get("user_account_type") != 3) {
 
             // ... then treat user as "not logged in", destroy session, redirect to login page
             Session::destroy();

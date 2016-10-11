@@ -15,19 +15,7 @@ class CaptchaModel
      */
     public static function generateAndShowCaptcha()
     {
-        // create a captcha with the CaptchaBuilder lib (loaded via Composer)
-        $captcha = new Gregwar\Captcha\CaptchaBuilder;
-        $captcha->build(
-            Config::get('CAPTCHA_WIDTH'),
-            Config::get('CAPTCHA_HEIGHT')
-        );
 
-        // write the captcha character into session
-        Session::set('captcha', $captcha->getPhrase());
-
-        // render an image showing the characters (=the captcha)
-        header('Content-type: image/jpeg');
-        $captcha->output();
     }
 
     /**
@@ -37,7 +25,10 @@ class CaptchaModel
      */
     public static function checkCaptcha($captcha)
     {
-        if ($captcha == Session::get('captcha')) {
+        $secretkey = '6Lf9lAgUAAAAACnoldGS8eiUqKuoGa6TETIX2vIT';
+        $verifyResponse = file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret=$secretkey&response=$captcha");
+        $responseData = json_decode($verifyResponse);
+        if($responseData->success == '1'){
             return true;
         }
 

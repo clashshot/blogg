@@ -17,19 +17,6 @@ class RegisterController extends Controller
     }
 
     /**
-     * Register page
-     * Show the register form, but redirect to main-page if user is already logged-in
-     */
-    public function index()
-    {
-        if (LoginModel::isUserLoggedIn()) {
-            Redirect::home();
-        } else {
-            $this->View->render('register/index');
-        }
-    }
-
-    /**
      * Register page action
      * POST-request after form submit
      */
@@ -38,9 +25,9 @@ class RegisterController extends Controller
         $registration_successful = RegistrationModel::registerNewUser();
 
         if ($registration_successful) {
-            Redirect::to('login/index');
+            Redirect::to('index/index');
         } else {
-            Redirect::to('register/index');
+            Redirect::to('index/index');
         }
     }
 
@@ -53,9 +40,9 @@ class RegisterController extends Controller
     {
         if (isset($user_id) && isset($user_activation_verification_code)) {
             RegistrationModel::verifyNewUser($user_id, $user_activation_verification_code);
-            $this->View->render('register/verify');
+            $this->View->render('index/index');
         } else {
-            Redirect::to('login/index');
+            Redirect::to('index/index');
         }
     }
 

@@ -53,10 +53,30 @@ class Application
                 $this->controller->error404();
             }
         } else {
-            // load 404 error page
-            require Config::get('PATH_CONTROLLER') . 'ErrorController.php';
-            $this->controller = new ErrorController;
-            $this->controller->error404();
+            if($blogID = BlogModel::blogexists($this->blogname)){
+                require Config::get('PATH_CONTROLLER') . 'BlogController.php';
+                $this->controller = new BlogController();
+                // If blogname and action name is requested
+                if(method_exists($this->controller, $this->action_name)){
+                    if (!empty($this->parameters)) {
+                        // call the method and pass arguments to it
+                        array_unshift($this->parameters, $blogID);
+                        call_user_func_array(array($this->controller, $this->action_name), $this->parameters);
+                    } else {
+                        // if no parameters are given, just call the method without parameters, like $this->index->index();
+                        $this->controller->{$this->action_name}($blogID);
+                    }
+                }elseif($this->action_name != 'index'){
+                    $this->controller->post($blogID, $this->action_name);
+                }else{
+                    $this->controller->index($blogID);
+                }
+            }else{
+                // load 404 error page
+                require Config::get('PATH_CONTROLLER') . 'ErrorController.php';
+                $this->controller = new ErrorController;
+                $this->controller->error404();
+            }
         }
     }
 
@@ -75,7 +95,6 @@ class Application
             // put URL parts into according properties
             $this->controller_name = isset($url[0]) ? $url[0] : null;
             $this->action_name = isset($url[1]) ? $url[1] : null;
-
             // remove controller name and action name from the split URL
             unset($url[0], $url[1]);
 
@@ -101,6 +120,7 @@ class Application
         }
 
         // rename controller name to real controller class/file name ("index" to "IndexController")
+        $this->blogname = ucwords($this->controller_name);
         $this->controller_name = ucwords($this->controller_name) . 'Controller';
     }
 }
