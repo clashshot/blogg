@@ -91,6 +91,6 @@
                 </div><!-- /.container -->
             </nav><!-- /.navbar -->
         <?php endif; ?>
-    <? } ?>
+    <?php } ?>
 
 
