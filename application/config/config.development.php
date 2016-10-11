@@ -62,8 +62,8 @@ return array(
      * DB_CHARSET The charset, necessary for security reasons. Check Database.php class for more info.
      */
     'DB_TYPE' => 'mysql',
-    'DB_HOST' => 'localhost',
-    'DB_NAME' => 'hepicnew_blogg',
+    'DB_HOST' => 'home.rickfo.se',
+    'DB_NAME' => 'blogg',
     'DB_USER' => 'hepicnew_blogg',
     'DB_PASS' => '{1=[GVqKvieZ',
     'DB_PORT' => '3306',
