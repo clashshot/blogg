@@ -31,7 +31,7 @@
                         </div>
                     </td>
                 </tr>
-            <? }
+            <?php }
             }?>
             <!-- <a href="#"><i class="fa fa-2x"></i></a> -->
             </tbody>
