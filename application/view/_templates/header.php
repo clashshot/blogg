@@ -42,7 +42,7 @@
                 </div><!-- /.nav-collapse -->
             </div><!-- /.container -->
         </nav><!-- /.navbar -->
-    <? } else { ?>
+    <?php } else { ?>
         <?php if (Session::userIsLoggedIn()) : ?>
         <nav class="navbar navbar-fixed-top navbar-inverse">
             <div class="container-fluid">
