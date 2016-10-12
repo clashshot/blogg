@@ -19,10 +19,13 @@ if(locSearch){
 function solvereport(button, id) {
     $.ajax('/admin/report/solve/' + id,{
         success:function (data) {
-            console.log("Lyckades: " + data);
-            var row = button.parentNode.parentNode;
-            row.parentNode.removeChild(row);
-        },
-
+            if(data){
+                var row = button.parentNode.parentNode;
+                row.parentNode.removeChild(row);
+            }else{
+                var report = document.getElementsByClassName("col-md-9")[0];
+                $('<div class="alert alert-danger fade in"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>Misslyckades att ändra status</div>').prependTo(report);
+            }
+        }
     });
 }
