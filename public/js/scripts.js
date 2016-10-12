@@ -15,3 +15,14 @@ var locSearch = window.location.search.substring(1).split('&')[0];
 if(locSearch){
     document.getElementById( locSearch ).style.display = "block";
 }
+
+function solvereport(button, id) {
+    $.ajax('/admin/report/solve/' + id,{
+        success:function (data) {
+            console.log("Lyckades: " + data);
+            var row = button.parentNode.parentNode;
+            row.parentNode.removeChild(row);
+        },
+
+    });
+}

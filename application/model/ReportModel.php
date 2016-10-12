@@ -6,9 +6,11 @@ class ReportModel
 
     public static function reports($page = 0, $filter = 'prio', $report_per_page = 10)
     {
-        //TODO Kolla rättigheter här?
+        if(Auth::checkAdminAuthentication()){
+            return false;
+        }
         $database = DatabaseFactory::getFactory()->getConnection();
-        $reports = $database->prepare('SELECT Report.*, COUNT(user_id) as times FROM Report GROUP BY type, reported_id ORDER BY priority DESC, times DESC LIMIT ' . ($page * $report_per_page) . ', ' . $report_per_page);
+        $reports = $database->prepare('SELECT *FROM Report LEFT JOIN users ON Report.user_id = users.user_id WHERE Report.status != 1 ORDER BY priority DESC LIMIT ' . ($page * $report_per_page) . ', ' . $report_per_page);
         $reports->execute();
         if ($reports->rowCount() > 0) {
             $reportList = array();
@@ -22,14 +24,23 @@ class ReportModel
     }
 
     public static function completed($id){
-        //TODO Kolla om man har rättighet att ta bort den
+        if(Auth::checkAdminAuthentication()){
+            return false;
+        }
         $database = DatabaseFactory::getFactory()->getConnection();
-        $report = $database->prepare("DELETE FROM Report WHERE id = :id");
-        return $report->execute(array('id' => $id));
+        $report = $database->prepare("UPDATE Report SET admin_id = :user, status = 1 WHERE id = :id");
+        return $report->execute(array('id' => $id, 'user' => Session::get('user_id')));
     }
 
-    public static function report($user, $type, $reported_id, $reason, $prio = 5){
-        //TODO Ska man hämta user_id eller ska den skickas med
+    public static function report(){
+        $user = Session::get('user_id');
+        $type = Request::post('type');
+        $reported_id = Request::post('reported_id');
+        $reason = Request::post('reason');
+        $priority = 1;
+        if(isset($_POST['prio'])){
+            $priority = Request::post('prio');
+        }
         if(reportexists($user, $type, $reported_id)){
             return false;
         }
@@ -40,7 +51,7 @@ class ReportModel
             'type' => $type,
             'reported' => $reported_id,
             'reason' => $reason,
-            'prio' => $prio
+            'prio' => $priority
         ));
     }
 

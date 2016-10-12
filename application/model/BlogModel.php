@@ -46,6 +46,19 @@ class BlogModel
         }
     }
 
+    public static function getpostbyid($postid){
+        $database = DatabaseFactory::getFactory()->getConnection();
+        $post = $database->prepare('SELECT * FROM Post WHERE id = :id');
+        $post->execute(array(
+            ':id' => $postid
+        ));
+        if($post->rowCount() > 0) {
+            return $post->fetchObject();
+        }else{
+            return false;
+        }
+    }
+
     public static function getPosts($blogid, $page = 1, $posts_per_page = 5){
 
     }
