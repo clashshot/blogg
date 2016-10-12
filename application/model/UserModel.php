@@ -341,26 +341,37 @@ class UserModel
         return $query->fetch();
     }
     //Function for checking if you are allowed to see a specific post
-    public static function getPermission($blog_id,$visibility){
+    public static function getPermission($blog_id){
         $database = DatabaseFactory::getFactory()->getConnection();
 
-        $account_type = -1;
+        $visibility = 1;
         if(Session::userIsLoggedIn()){
             $query = $database->prepare("SELECT user_account_type FROM users WHERE user_id = :user_id");
             $query->execute(array(':user_id' => Session::get("user_id")));
-            $account_type = $query->fetchObject()->user_account_type;
+            if($query->fetchObject()->user_account_type>=2){
+                $visibility=4;
+                return $visibility;
+            }else{
+                $visibility=2;
+            }
         }
-
-
+        /*
         $query = $database->prepare("SELECT * FROM Blog_moderator WHERE user_id = :user_id AND blog_id = :blog_id");
         $query->execute(array(':user_id' => Session::get("user_id"),':blog_id' => $blog_id));
-        $mod = $query->rowCount();
-
+        if($query->rowCount()>=1){
+            $visibility=3;
+        }
+        */
         $query = $database->prepare("SELECT user_id FROM Blog WHERE id = :blog_id");
         $query->execute(array(':blog_id' => $blog_id));
         $blog_owner = $query->fetchObject()->user_id;
+        if (Session::get("user_id")==$blog_owner){
+            $visibility=3;
+        }
+        //visibility 1=anon 2=logged in 3=blog owner + site admin
 
-        //visibility 1=anon 2=logged in 3=your mods+site admin 4=blog owner + site admin
+        return $visibility;
+        /*
         switch ($visibility){
             case 1:
                 return true;
@@ -389,7 +400,7 @@ class UserModel
             default:
                 return false;
                 break;
-        }
+        */
     }
     //Check if you allowed to edit a specific post/comment
     public static function getEditPermission($blog_id){
