@@ -349,7 +349,7 @@ class UserModel
             $query = $database->prepare("SELECT user_account_type FROM users WHERE user_id = :user_id");
             $query->execute(array(':user_id' => Session::get("user_id")));
             if($query->fetchObject()->user_account_type>=2){
-                $visibility=4;
+                $visibility=3;
                 return $visibility;
             }else{
                 $visibility=2;
@@ -364,9 +364,10 @@ class UserModel
         */
         $query = $database->prepare("SELECT user_id FROM Blog WHERE id = :blog_id");
         $query->execute(array(':blog_id' => $blog_id));
-        $blog_owner = $query->fetchObject()->user_id;
-        if (Session::get("user_id")==$blog_owner){
-            $visibility=3;
+        if ($query->rowCount()>=1){
+            if (Session::get("user_id") == $query->fetchObject()->user_id) {
+                $visibility = 3;
+            }
         }
         //visibility 1=anon 2=logged in 3=blog owner + site admin
 
