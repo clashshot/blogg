@@ -23,17 +23,6 @@ class BlogController extends Controller
             'posts' => BlogModel::getPosts($blogid, Request::get('page'))
         ));
     }
-    public function create() {
-        $this->View->render('blog/create');
-    }
-    public function blog_create(){
-        if($blog = BlogModel::blog_create()){
-            Redirect::to($blog->slug . "/manage" );
-        } else {
-            Redirect::to('blog/create');
-        }
-
-    }
 
     public function post($blogid, $postslug){
         if($post = BlogModel::getpost($blogid, $postslug)){

@@ -26,6 +26,20 @@ class DashboardController extends Controller
     ));
     }
 
+    public function create() {
+        $this->View->render('dashboard/create');
+    }
+
+    public function blog_create(){
+        if($blog = BlogModel::blog_create()){
+            Session::add('feedback_positive', 'Bloggen har skapats');
+            Redirect::to($blog->slug . "/manage" );
+        } else {
+            Session::add('feedback_negative', 'Bloggen kunde inte skapas, kontrollera och försök igen.');
+            Redirect::to('dashboard/create');
+        }
+    }
+
     public function delete($slug){
         if(DashboardModel::delete($slug)){
             Session::add('feedback_positive', 'Bloggen togs bort.');
