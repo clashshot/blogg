@@ -33,14 +33,20 @@ class AdminController extends Controller
         Redirect::to("admin");
     }
 
-    public function reports(){
-        $this->View->render('admin/report', array(
-            'reports' => ReportModel::reports(Request::get('page'))
-        ));
-    }
-
-    public function report($action = 'solve', $data = null){
+    public function report($action = 'index', $data = null){
         switch ($action){
+            case 'index':
+                $this->View->render('admin/report', array(
+                    'reports' => ReportModel::reports(Request::get('page')),
+                    'paginate' => new Paginate("Report WHERE status != 1")
+                ));
+                break;
+            case 'history':
+                $this->View->render('admin/reportlog', array(
+                    'reports' => ReportModel::reportlog(Request::get('page')),
+                    'paginate' => new Paginate("Report WHERE status = 1")
+                ));
+                break;
             case 'solve':
                 $this->View->renderJSON(ReportModel::completed($data));
                 break;

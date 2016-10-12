@@ -14,10 +14,11 @@
                     <table class="table">
                         <thead>
                         <tr>
+                            <th>Hanterad av</th>
+                            <th>Ändrades</th>
                             <th>Användare</th>
                             <th>Typ</th>
                             <th>Anledning</th>
-                            <th>Prioritet</th>
                             <th>Innehåll</th>
                             <th>Hantering</th>
                         </tr>
@@ -27,6 +28,10 @@
                         foreach ($this->reports as $report) {
                             ?>
                             <tr>
+                                <td>
+                                    <a href="<?= Config::get('URL') . 'profile/showProfile/' . $report->admin_id; ?>"><?= $report->admin_name ?></a>
+                                </td>
+                                <td><?=$report->updated_at?></td>
                                 <td>
                                     <a href="<?= Config::get('URL') . 'profile/showProfile/' . $report->user_id; ?>"><?= $report->user_name ?></a>
                                 </td>

@@ -1,1 +1,1 @@
-EDIT POST
+EDIT POST <?=$this->post->slug?>

@@ -15,7 +15,12 @@
                     </tr>
                     <tr>
                         <td>
-                            <span class="glyphicon glyphicon-file text-info"></span><a href="<?php echo Config::get('URL'); ?>admin/reports">Rapporteringar</a>
+                            <span class="glyphicon glyphicon-file text-info"></span><a href="<?php echo Config::get('URL'); ?>admin/report">Rapporteringar</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span class="glyphicon glyphicon-hourglass text-info"></span><a href="<?php echo Config::get('URL'); ?>admin/report/history">Rapporterings historik</a>
                         </td>
                     </tr>
                 </table>

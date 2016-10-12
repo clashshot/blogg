@@ -59,8 +59,19 @@ class BlogModel
         }
     }
 
-    public static function getPosts($blogid, $page = 1, $posts_per_page = 5){
-
+    public static function getPosts($blogid, $page = 0, $posts_per_page = 5){
+        $database = DatabaseFactory::getFactory()->getConnection();
+        $posts = $database->prepare('SELECT *FROM Post WHERE blog_id = :blog_id ORDER BY created DESC LIMIT ' . ($page * $posts_per_page) . ', ' . $posts_per_page);
+        $posts->execute(array(':blog_id' => $blogid));
+        if($posts->rowCount() > 0) {
+            $postarray = array();
+            while($post = $posts->fetchObject()){
+                $postarray[] = $post;
+            }
+            return $postarray;
+        }else{
+            return false;
+        }
     }
 
     public static function addpost($blogid){

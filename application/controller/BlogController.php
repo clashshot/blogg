@@ -20,7 +20,8 @@ class BlogController extends Controller
     public function index($blogid){
         $this->View->render('blog/index', array(
             'blog' => BlogModel::getBlog($blogid),
-            'posts' => BlogModel::getPosts($blogid, Request::get('page'))
+            'posts' => BlogModel::getPosts($blogid, Request::get('page')),
+            'paginate' => new Paginate("Post WHERE blog_id = :blog_id", [':blog_id' => $blogid], 5)
         ));
     }
 
@@ -37,8 +38,9 @@ class BlogController extends Controller
         switch (strtolower($method)){
             case 'index':
                 $this->View->render('manage/index', array(
-                    'blog' => BlogModel::getBlog($blogid)
-                    //TODO 'stats' => BlogModel::getBlogStats($blogid)
+                    'blog' => BlogModel::getBlog($blogid),
+                    'posts' => BlogModel::getPosts($blogid, Request::get("page"), 10),
+                    'paginate' => new Paginate("Post WHERE blog_id = :blog_id", [':blog_id' => $blogid], 10)
                 ));
                 break;
             case 'addpost':
