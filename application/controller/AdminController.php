@@ -38,4 +38,12 @@ class AdminController extends Controller
             'reports' => ReportModel::reports(Request::get('page'))
         ));
     }
+
+    public function report($action = 'solve', $data = null){
+        switch ($action){
+            case 'solve':
+                $this->View->renderJSON(ReportModel::completed($data));
+                break;
+        }
+    }
 }
