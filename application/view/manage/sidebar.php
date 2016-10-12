@@ -11,17 +11,22 @@
                     <table class="table">
                         <tr>
                             <td>
-                                <span class="glyphicon glyphicon-pencil text-primary"></span><a href="<?php echo Config::get('URL') . '/' . $this->blog->slug;?>/manage">Inlägg</a>
+                                <span class="glyphicon glyphicon-pencil text-primary"></span><a href="<?php echo Config::get('URL') . $this->blog->slug;?>/manage">Inlägg</a>
                             </td>
                         </tr>
                         <tr>
                             <td>
-                                <span class="glyphicon glyphicon-file text-info"></span><a href="<?php echo Config::get('URL') . '/' . $this->blog->slug;?>/manage/category">Kategori</a>
+                                <span class="glyphicon glyphicon-file text-info"></span><a href="<?php echo Config::get('URL') . $this->blog->slug;?>/manage/category">Kategori</a>
                             </td>
                         </tr>
                         <tr>
                             <td>
-                                <span class="glyphicon glyphicon-flash text-success"></span><a href="<?php echo Config::get('URL') . '/' . $this->blog->slug;?>/manage/mods">Hantera moderatorer</a>
+                                <span class="glyphicon glyphicon-flash text-success"></span><a href="<?php echo Config::get('URL') . $this->blog->slug;?>/manage/mods">Hantera moderatorer</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span class="glyphicon glyphicon-pencil text-primary"></span><a href="<?php echo Config::get('URL') . $this->blog->slug;?>/manage/update">Uppdatera bloggen</a>
                             </td>
                         </tr>
                     </table>
