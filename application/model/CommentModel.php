@@ -45,10 +45,35 @@ class CommentModel
         }
     }
 
-    public static function subComment($post_id)
+    public static function subComment()
     {
         $database = DatabaseFactory::getFactory()->getConnection();
+        $id = Request::get("id");
 
+        $query = $database->prepare("SELECT `user_id`,`comment` FROM `Comment` WHERE :comment_id = :id");
+        $query->execute;
+    }
 
+    public static function getComment($id)
+    {
+        $database = DatabaseFactory::getFactory()->getConnection();
+        $resultSet = $database->prepare("SELECT * FROM `Comment` where id=$id");
+
+        $row = $resultSet->fetch();
+        echo $row[0];
+        echo $row[1];
+        echo $row[2];
+        echo $row[3];
+        echo $row[4];
+        echo $row[5];
+        echo $row[6];
+        echo $row[7];
+
+        /*if($resultSet->num_rows > 0) {
+            while($rows = $resultSet->fetch_assoc()) {
+
+            }
+        } else
+            echo "Inga resultat!";*/
     }
 }
