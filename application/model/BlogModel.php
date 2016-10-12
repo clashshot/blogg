@@ -83,25 +83,23 @@ class BlogModel
     }
 
     public static function blog_create(){
+
         $title = Request::post('title');
         $description = Request::post('description');
         $about = Request::post('about');
-        $blogname = self::slugify(Request::post('blogname'));
+        $visibility = Request::post('visibility');
+        $blogname = self::slugify($title);
+
         $database = DatabaseFactory::getFactory()->getConnection();
-        if (self::blogexists($blogname)){
-            Session::add('feedback_negative', Text::get('FEEDBACK_BLOG_SLUG_IN_USE'));
-            Session::set('title', $title);
-            Session::set('description', $description);
-            Session::set('about', $about);
-            return false;
-        }
-        $blog = $database->prepare('INSERT INTO `Blog`(user_id, slug,`title`, `description`, `about`) VALUES(:user_id, :slug, :title, :description, :about)');
+
+        $blog = $database->prepare('INSERT INTO Blog (user_id, slug, title, description, about, visible) VALUES(:user_id, :slug, :title, :description, :about, :visible)');
         $success = $blog->execute(array(
             ':user_id' => Session::get("user_id"),
             ':slug' => $blogname,
             ':title' => $title,
             ':description' => $description,
-            ':about' => $about
+            ':about' => $about,
+            ':visible' => $visibility
         ));
         if ($success){
             return self::getBlog($database->lastInsertId());
@@ -109,6 +107,7 @@ class BlogModel
             return false;
         }
     }
+
     public static function slugify($blogname)
     {
         $blogname = str_replace(array('å', 'ä', 'ö'), array('a', 'a', 'o'), $blogname);
@@ -129,6 +128,7 @@ class BlogModel
         $blogname = preg_replace('~-+~', '-', $blogname);
 
         // lowercase
+        $blogname = strtolower($blogname);
 
         if (empty($blogname)) {
             return 'n-a';
