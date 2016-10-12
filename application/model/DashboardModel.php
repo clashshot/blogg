@@ -17,5 +17,19 @@ class DashboardModel
         return $listblog;
     }
 
+    public static function delete($slug){
+        $database = DatabaseFactory::getFactory()->getConnection();
+
+        $q = $database->prepare('DELETE FROM Blog WHERE slug = :slug AND user_id = :user_id');
+        $q->execute(array(
+            ':slug' => $slug,
+            ':user_id' => Session::get('user_id')
+        ));
+        if($q){
+            return true;
+        }
+        return false;
+    }
+
 
 }

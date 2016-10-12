@@ -80,6 +80,11 @@ class BlogController extends Controller
                 }
                 echo '<br>deletepost<br>';
                 break;
+            case 'update':
+                $this->View->render ('manage/editblog',array(
+                    "blog" => BlogModel::getBlog($blogid)
+                ));
+                break;
             case 'deleteblog':
                 if(UserModel::getEditPermission($blogid) >= 4){
                     //TODO BlogModel::deleteblog($blogid);

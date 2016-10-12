@@ -25,4 +25,14 @@ class DashboardController extends Controller
             'listblogs' => DashboardModel::listblogs()
     ));
     }
+
+    public function delete($slug){
+        if(DashboardModel::delete($slug)){
+            Session::add('feedback_positive', 'Bloggen togs bort.');
+            Redirect::to('dashboard');
+        } else {
+            Session::add('feedback_negative', 'Kunde ej ta bort, försök igen.');
+            Redirect::to('dashboard');
+        }
+    }
 }
