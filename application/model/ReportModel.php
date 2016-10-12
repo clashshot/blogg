@@ -31,7 +31,6 @@ class ReportModel
         $reports = $database->prepare('SELECT Report.*, user.user_id as user_id, user.user_name as user_name, admin.user_id as admin_id, admin.user_name as admin_name FROM Report LEFT JOIN users as user ON Report.user_id = user.user_id LEFT JOIN users as admin ON Report.admin_id = admin.user_id WHERE Report.status = 1 ORDER BY priority DESC LIMIT ' . ($page * $report_per_page) . ', ' . $report_per_page);
         $reports->execute();
         if ($reports->rowCount() > 0) {
-            $pages = $database->prepare('SELECT COUNT(id) as amount FROM Report WHERE Report.status = 1 ORDER BY priority DESC');
             $reportList = array();
             while ($report = $reports->fetchObject()){
                 $reportList[] = $report;
