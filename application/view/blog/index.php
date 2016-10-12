@@ -1,5 +1,4 @@
 <div class="container">
-    <div class="well text-center"><h1><?=$this->blog->title?></h1></div>
     <div class="row">
         <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
             <div class="well">
