@@ -41,7 +41,7 @@
         <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
             <div class="well">
                 <div class="profile-userpic">
-                    <img src="https://scontent-arn2-1.xx.fbcdn.net/v/t1.0-9/12523991_1075837129141264_7524897460062579225_n.jpg?oh=12d1e6829f5a4834197220de5747588e&oe=585F5ADC">
+                    <img src="<?=$this->user->user_avatar_link?>">
                 </div>
                 <?= $this->blog->description ?>
             </div>
