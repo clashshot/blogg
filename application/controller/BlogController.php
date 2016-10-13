@@ -31,8 +31,11 @@ class BlogController extends Controller
     public function post($blogid, $postslug)
     {
         if ($post = BlogModel::getpost($blogid, $postslug)) {
-            echo '<h1>' . $post->title . '</h1>';
-            echo "<p>$post->content</p>";
+            $this->View->render('blog/post',array(
+                'blog' => BlogModel::getBlog($blogid),
+                'post' => $post,
+                'comments' => CommentModel::getComments($post->id)
+            ));
         } elseif (BlogModel::getpage($blogid, $postslug)) {
             $this->View->render('page/index', array(
                 'page' => BlogModel::getPage($blogid, $postslug)
