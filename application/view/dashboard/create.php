@@ -2,6 +2,7 @@
 
     <?php $this->renderFeedbackMessages(); ?>
     <div class="panel panel-default">
+        
         <div class="panel-heading">Skapa ny blogg</div>
         <div class="panel-body">
     <form method="post" action="<?php echo Config::get('URL'); ?>dashboard/blog_create">
