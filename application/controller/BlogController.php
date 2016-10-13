@@ -95,9 +95,9 @@ class BlogController extends Controller
                 break;
             case 'addmod_action':
                 if (BlogModel::addMod($blogid)) {
-                    Redirect::to('manage/mods');
+                    Redirect::to(BlogModel::getBlog($blogid)->slug.'/manage/mods');
                 } else {
-                    Redirect::to('manage/mods');
+                    Redirect::to(BlogModel::getBlog($blogid)->slug.'/manage/mods');
                 }
                 break;
             case 'removemod_action':
