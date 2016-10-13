@@ -252,4 +252,14 @@ class BlogModel
         return $sql->fetchAll();
     }
 
+    public static function getCategory($id){
+        $database = DatabaseFactory::getFactory()->getConnection();
+        $query = $database->prepare("SELECT * FROM Category WHERE id = :id");
+        $query->execute(array(':id' => $id));
+        if($query->rowCount() == 1){
+            return $query->fetchObject()->name;
+        }else{
+            return "Ingen kategori";
+        }
+    }
 }
