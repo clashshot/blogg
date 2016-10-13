@@ -161,7 +161,8 @@ class BlogModel
         return $blogname;
     }
 
-    public static function addMod($blog_id){
+    public static function addMod($blog_id)
+    {
         $database = DatabaseFactory::getFactory()->getConnection();
 
         $user_email = strip_tags(Request::post('user_email'));
@@ -169,23 +170,30 @@ class BlogModel
         $query = $database->prepare("SELECT user_id FROM users WHERE user_email = :email");
         $query->execute(array(':email' => $user_email));
         $user_id = $query->fetchobject()->user_id;
-        $query = $database->prepare("INSERT INTO Blog_moderator (user_id,blog_id) VALUES (:user_id,:blog_id)");
 
-        if ($query->execute(array(':user_id' => $user_id,'blog_id' => $blog_id))){
-            return true;
-        }else {
+        $query = $database->prepare("SELECT * FROM Blog_moderator WHERE user_id = :user_id AND blog_id = :blog_id");
+        $query->execute(array(':user_id' => $user_id, 'blog_id' => $blog_id));
+        if (!$query->rowCount() >= 1){
+            $query = $database->prepare("INSERT INTO Blog_moderator (user_id,blog_id) VALUES (:user_id,:blog_id)");
+
+            if ($query->execute(array(':user_id' => $user_id, 'blog_id' => $blog_id))) {
+                return true;
+            } else {
+                return false;
+            }
+        }else{
             return false;
         }
     }
     public static function removeMod($blog_id){
         $database = DatabaseFactory::getFactory()->getConnection();
 
-        $user_email = strip_tags(Request::post('user_email'));
-
+        $user_id = strip_tags(Request::post('user_id'));
+        /*
         $query = $database->prepare("SELECT user_id FROM users WHERE user_email = :email");
         $query->execute(array(':email' => $user_email));
         $user_id = $query->fetchobject()->user_id;
-
+        */
         $query = $database->prepare("DELETE FROM Blog_moderator WHERE user_id = :user_id AND blog_id = :blog_id");
 
         if ($query->execute(array(':user_id' => $user_id,'blog_id' => $blog_id))){
@@ -199,6 +207,9 @@ class BlogModel
         $database = DatabaseFactory::getFactory()->getConnection();
 
         $query = $database->prepare("SELECT user_email FROM Blog_moderator LEFT JOIN users on users.user_id=Blog_moderator.user_id WHERE blog_id = :blog_id");
+
+        $query = $database->prepare("SELECT users.user_id, users.user_email FROM Blog_moderator  LEFT JOIN users on users.user_id=Blog_moderator.user_id WHERE blog_id = :blog_id");
+
         $query->execute(array(':blog_id' => $blog_id));
 
         $mods = array();
