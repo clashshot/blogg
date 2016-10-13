@@ -101,11 +101,14 @@ class BlogController extends Controller
                 }
                 break;
             case 'removemod_action':
+                /*
                 if(BlogModel::removeMod($blogid)){
                     Redirect::to(BlogModel::getBlog($blogid)->slug . '/manage/mods');
                 } else {
                     Redirect::to(BlogModel::getBlog($blogid)->slug . '/manage/mods');
                 }
+                */
+                $this->View->renderJSON(BlogModel::completedRemoveMod($data));
                 break;
             case 'category':
                 echo 'category';
@@ -116,7 +119,12 @@ class BlogController extends Controller
                 break;
         }
     }
+    public function removeMod($blog_id){
 
+
+        $this->View->renderJSON(BlogModel::removeMod($blog_id));
+
+    }
     public function comment($blogid){
 
     }

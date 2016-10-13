@@ -29,3 +29,19 @@ function solvereport(button, id) {
         }
     });
 }
+function removemod(button, bid, uid) {
+    $.ajax('/blog/removeMod/' + bid,{
+        data:{format:"json", user_id: uid},
+        dataType: 'json',
+        type: "POST",
+        success:function (data) {
+            if(data){
+                var row = button.parentNode.parentNode;
+                row.parentNode.removeChild(row);
+            }else{
+                var manage = document.getElementsByClassName("col-md-9")[0];
+                $('<div class="alert alert-danger fade in"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>Misslyckades att ta bort mod</div>').prependTo(manage);
+            }
+        }
+    });
+}

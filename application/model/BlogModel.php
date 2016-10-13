@@ -220,5 +220,10 @@ class BlogModel
 
         return $mods;
     }
+    public static function completedRemoveMod($blog_id,$user_id){
+        $database = DatabaseFactory::getFactory()->getConnection();
+        $mod = $database->prepare("DELETE FROM blog_moderator WHERE user_id = :user_id AND blog_id = :blog_id");
+        return $mod->execute(array('blog_id' => $blog_id, 'user_id' => $user_id));
+    }
 
 }
