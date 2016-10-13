@@ -37,8 +37,8 @@
                 </table>
                 Lägg till mod:</br>
                 <form method="post" action="<?php echo Config::get('URL'); echo $this->blog->slug; ?>/manage/addmod_action">
-                    <input type="text" name="user_email" placeholder="email address (a real address)" required />
-                    <input type="submit" value="lägg till" />
+                    <input type="text" class="form-control" name="user_email" placeholder="email address (a real address)" required />
+                    <input type="submit" class="btn btn-primary" value="lägg till" />
                 </form>
 
             </div>
