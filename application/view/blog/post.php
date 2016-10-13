@@ -27,9 +27,17 @@
 ?>
 
 <div class="container-fluid">
-    <div class="col-md-8">
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2 well">
+            <h2 class="text-center"><?=$this->post->title?></h2>
+            <?=$this->post->content?>
+        </div>
+    </div>
+    <div class="row">
+    <div class="col-md-8 well col-md-offset-2">
         <?php
         renderComments($this->comments);
         ?>
+    </div>
     </div>
 </div>
