@@ -30,6 +30,21 @@ function solvereport(button, id) {
     });
 }
 
+function unsolvereport(button, id) {
+    $.ajax('/admin/report/unsolve/' + id,{
+        success:function (data) {
+            if(data){
+                var row = button.parentNode.parentNode;
+                row.parentNode.removeChild(row);
+            }else{
+                var report = document.getElementsByClassName("col-md-9")[0];
+                $('<div class="alert alert-danger fade in"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>Misslyckades att ändra status</div>').prependTo(report);
+            }
+        }
+    });
+}
+
+
 function removemod(button, bid, uid) {
     $.ajax('/blog/removeMod/' + bid, {
         data: {format: "json", user_id: uid},

@@ -24,18 +24,22 @@ class BlogController extends Controller
             'blog' => $blog,
             'user' => UserModel::getPublicProfileOfUser($blog->user_id),
             'posts' => BlogModel::getPosts($blogid, Request::get('page')),
-            'paginate' => new Paginate("Post WHERE blog_id = :blog_id", [':blog_id' => $blogid], 5)
+            'paginate' => new Paginate("Post WHERE blog_id = :blog_id AND visibility <= :permission", [':blog_id' => $blogid, ':permission' => UserModel::getPermission($blogid)], 5)
         ));
     }
 
     public function post($blogid, $postslug)
     {
         if ($post = BlogModel::getpost($blogid, $postslug)) {
-            $this->View->render('blog/post',array(
-                'blog' => BlogModel::getBlog($blogid),
-                'post' => $post,
-                'comments' => CommentModel::getComments($post->id)
-            ));
+            if(UserModel::getPermission($blogid) >= $post->visibility){
+                $this->View->render('blog/post',array(
+                    'blog' => BlogModel::getBlog($blogid),
+                    'post' => $post,
+                    'comments' => CommentModel::getComments($post->id)
+                ));
+            }else{
+                Redirect::to(BlogModel::getBlog($blogid)->slug);
+            }
         } elseif (BlogModel::getpage($blogid, $postslug)) {
             $this->View->render('page/index', array(
                 'page' => BlogModel::getPage($blogid, $postslug)

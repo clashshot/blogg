@@ -80,8 +80,8 @@
                                     ?>
                                 </td>
                                 <td>
-                                    <button type="button" onclick="solvereport(this, <?= $report->id ?>)"
-                                            class="btn btn-primary">Löst
+                                    <button type="button" onclick="unsolvereport(this, <?= $report->id ?>)"
+                                            class="btn btn-primary">Inte löst
                                     </button>
                                 </td>
                             </tr>

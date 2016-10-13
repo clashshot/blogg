@@ -47,7 +47,16 @@ class ReportModel
         }
         $database = DatabaseFactory::getFactory()->getConnection();
         $report = $database->prepare("UPDATE Report SET admin_id = :user, status = 1 WHERE id = :id");
-        return $report->execute(array('id' => $id, 'user' => Session::get('user_id')));
+        return $report->execute(array(':id' => $id, ':user' => Session::get('user_id')));
+    }
+
+    public static function statuschange($id, $status){
+        if(Auth::checkAdminAuthentication()){
+            return false;
+        }
+        $database = DatabaseFactory::getFactory()->getConnection();
+        $report = $database->prepare("UPDATE Report SET admin_id = :user, status = :status WHERE id = :id");
+        return $report->execute(array(':id' => $id, ':status' => $status, ':user' => Session::get('user_id')));
     }
 
     public static function report(){

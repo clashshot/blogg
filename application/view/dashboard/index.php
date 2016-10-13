@@ -21,7 +21,7 @@
 
                     </td>
                     <td></td><td></td>
-                    <td>109 Inlägg</td>
+                    <td><?=$value->posts?> Inlägg</td>
                     <td>
                         <div class="btn-group">
                             <a href="<?php echo Config::get('URL');echo $value->slug;?>"><button class="btn btn-default" type="button"><i class="fa fa-fw fa-eye"></i>Visa</button></a>

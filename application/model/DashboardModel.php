@@ -7,7 +7,7 @@ class DashboardModel
     {
         $database = DatabaseFactory::getFactory()->getConnection();
 
-        $query = $database->prepare("SELECT * FROM Blog WHERE user_id = :id");
+        $query = $database->prepare("SELECT Blog.*, COUNT(Post.id) as posts FROM Blog LEFT JOIN Post ON Post.blog_id = Blog.id WHERE Blog.user_id = :id GROUP BY Blog.id ");
         $query->execute(array(
             ':id' => Session::get('user_id')
         ));

@@ -48,7 +48,10 @@ class AdminController extends Controller
                 ));
                 break;
             case 'solve':
-                $this->View->renderJSON(ReportModel::completed($data));
+                echo ReportModel::completed($data);
+                break;
+            case 'unsolve':
+                echo ReportModel::statuschange($data, 0);
                 break;
         }
     }

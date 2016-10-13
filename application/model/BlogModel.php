@@ -61,8 +61,8 @@ class BlogModel
 
     public static function getPosts($blogid, $page = 0, $posts_per_page = 5){
         $database = DatabaseFactory::getFactory()->getConnection();
-        $posts = $database->prepare('SELECT *FROM Post WHERE blog_id = :blog_id ORDER BY created DESC LIMIT ' . ($page * $posts_per_page) . ', ' . $posts_per_page);
-        $posts->execute(array(':blog_id' => $blogid));
+        $posts = $database->prepare('SELECT *FROM Post WHERE blog_id = :blog_id AND visibility <= :permission ORDER BY created DESC LIMIT ' . ($page * $posts_per_page) . ', ' . $posts_per_page);
+        $posts->execute(array(':blog_id' => $blogid, ':permission' => UserModel::getPermission($blogid)));
         if($posts->rowCount() > 0) {
             $postarray = array();
             while($post = $posts->fetchObject()){
