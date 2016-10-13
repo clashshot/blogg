@@ -29,8 +29,12 @@ class BlogController extends Controller
         if($post = BlogModel::getpost($blogid, $postslug)){
             echo '<h1>' . $post->title . '</h1>';
             echo "<p>$post->content</p>";
-        }else{
-            echo '<h1>Post not found!</h1>';
+        }elseif(BlogModel::getpage($blogid, $postslug)){
+            $this->View->render('page/index', array(
+                'page' => BlogModel::getPage($blogid, $postslug)
+            ));
+        } else {
+            echo '<h1>Did not find post.</h1>';
         }
     }
 
@@ -76,14 +80,6 @@ class BlogController extends Controller
                     "blog" => BlogModel::getBlog($blogid)
                 ));
                 break;
-            case 'deleteblog':
-                if(UserModel::getEditPermission($blogid) >= 4){
-                    //TODO BlogModel::deleteblog($blogid);
-                }else{
-                    Redirect::to(BlogModel::getBlog($blogid)->slug . '/manage');
-                }
-                echo 'deleteblog';
-                break;
             case 'history':
                 echo 'history';
                 break;
@@ -117,6 +113,12 @@ class BlogController extends Controller
                         'paginate' => new Paginate("Category WHERE blog_id = :blog_id", [':blog_id' => $blogid], 10)
                     ));
                 break;
+            case 'addcategory':
+
+                break;
+            case 'remove':
+                break;
+
             default:
                 header('HTTP/1.0 404 Not Found', true, 404);
                 $this->View->render('error/404');
