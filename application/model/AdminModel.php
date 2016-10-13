@@ -92,4 +92,16 @@ class AdminModel
             return true;
         }
     }
+
+    public static function isAdmin(){
+        $database = DatabaseFactory::getFactory()->getConnection();
+
+        $query = $database->prepare("SELECT user_account_type FROM users WHERE user_id = :user");
+        $query->execute(array(':user' => Session::get("user_id")));
+        if ($query->fetchObject()->user_account_type >= 3){
+            return true;
+        }else{
+            return false;
+        }
+    }
 }
