@@ -50,6 +50,7 @@ class BlogController extends Controller
 
     public function manage($blogid, $method = 'index', $postslug = ''){
         switch (strtolower($method)){
+            // Shows posts
             case 'index':
                 $this->View->render('manage/index', array(
                     'blog' => BlogModel::getBlog($blogid),
@@ -57,11 +58,13 @@ class BlogController extends Controller
                     'paginate' => new Paginate("Post WHERE blog_id = :blog_id", [':blog_id' => $blogid], 10)
                 ));
                 break;
+            // Render view for add post
             case 'addpost':
                 $this->View->render('manage/addpost',array(
                     'blog' => BlogModel::getBlog($blogid)
                 ));
                 break;
+            // Add post
             case 'addpost_action':
                 if(BlogModel::addpost($blogid)){
                     Session::add('feedback_positive', 'Inlägg skapades');
@@ -71,34 +74,29 @@ class BlogController extends Controller
                     Redirect::to(BlogModel::getBlog($blogid)->slug.'/manage/addpost');
                 }
                 break;
+            // Render view for edit post
             case 'editpost':
                 $post = BlogModel::getpost($blogid, $postslug);
                 $this->View->render('manage/editpost', array('post' => $post));
                 break;
-            case 'deletepost':
-                if(UserModel::getEditPermission($blogid) >= 3){
-                    $post = BlogModel::getpost($blogid, $postslug);
-                    //TODO BlogModel::deletepost($blogid, $postslug);
-                    echo 'Should have deleted ' . $post->title;
-                }else{
-                    Redirect::to(BlogModel::getBlog($blogid)->slug . '/manage');
-                }
-                echo '<br>deletepost<br>';
-                break;
-            case 'update':
+            // Render view for edit blog
+            case 'editblog':
                 $this->View->render ('manage/editblog',array(
                     "blog" => BlogModel::getBlog($blogid)
                 ));
                 break;
+            // Render view for history
             case 'history':
                 echo 'history';
                 break;
+            // Render view for blog moderators
             case 'mods':
                 $this->View->render('manage/mods', array(
                     'blog' => BlogModel::getBlog($blogid),
                     'mods' => BlogModel::getMods($blogid)
                 ));
                 break;
+            // Add moderator a blog
             case 'addmod_action':
                 if (BlogModel::addMod($blogid)) {
                     Redirect::to(BlogModel::getBlog($blogid)->slug.'/manage/mods');
@@ -106,6 +104,7 @@ class BlogController extends Controller
                     Redirect::to(BlogModel::getBlog($blogid)->slug.'/manage/mods');
                 }
                 break;
+            // Remove moderator from a blog
             case 'removemod_action':
                 /*
                 if(BlogModel::removeMod($blogid)){
@@ -116,6 +115,7 @@ class BlogController extends Controller
                 */
                 $this->View->renderJSON(BlogModel::completedRemoveMod($data));
                 break;
+            // Render view for category
             case 'category':
                     $this->View->render('manage/category', array(
                         'blog' => BlogModel::getBlog($blogid),
@@ -123,12 +123,11 @@ class BlogController extends Controller
                         'paginate' => new Paginate("Category WHERE blog_id = :blog_id", [':blog_id' => $blogid], 10)
                     ));
                 break;
+            // Add category
             case 'addcategory':
 
                 break;
-            case 'remove':
-                break;
-
+            // If nothing is requested, this is default 404 error view
             default:
                 header('HTTP/1.0 404 Not Found', true, 404);
                 $this->View->render('error/404');
@@ -137,10 +136,10 @@ class BlogController extends Controller
     }
     public function removeMod($blog_id){
 
-
         $this->View->renderJSON(BlogModel::removeMod($blog_id));
 
     }
+    
     public function ajaxcheck($action = 'index', $value = null){
         switch ($action){
             case 'blog_slug':
