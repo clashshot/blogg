@@ -27,24 +27,19 @@ class BlogController extends Controller
 
     public function post($blogid, $postslug){
         if($post = BlogModel::getpost($blogid, $postslug)){
-<<<<<<< HEAD
+
             $this->View->render('blog/post',array(
                 'blog' => BlogModel::getBlog($blogid),
                 'post' => $post,
                 'comments' => CommentModel::getComments($post->id)
             ));
-        }else{
-            echo '<h1>Post not found!</h1>';
-=======
-            echo '<h1>' . $post->title . '</h1>';
-            echo "<p>$post->content</p>";
         }elseif(BlogModel::getpage($blogid, $postslug)){
             $this->View->render('page/index', array(
                 'page' => BlogModel::getPage($blogid, $postslug)
             ));
         } else {
             echo '<h1>Did not find post.</h1>';
->>>>>>> origin/master
+
         }
     }
 
@@ -113,7 +108,7 @@ class BlogController extends Controller
                     Redirect::to('manage/mods');
                 }
                 */
-                $this->View->renderJSON(BlogModel::completedRemoveMod($data));
+                // $this->View->renderJSON(BlogModel::completedRemoveMod($data));
                 break;
             // Render view for category
             case 'category':
