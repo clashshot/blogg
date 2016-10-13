@@ -13,7 +13,7 @@
                 print "Dina nuvarande moderatorer:</br>";
                 foreach ($this->mods as $mod){
                     ?>
-                    <?=$mod->user_email?></br>
+                    Email: <?=$mod->user_email?> ID: <?=$mod->user_id?></br>
                     <?php
                 }
                 ?>
@@ -22,9 +22,9 @@
                     <input type="text" name="user_email" placeholder="email address (a real address)" required />
                     <input type="submit" value="lägg till" />
                 </form>
-                Ta bort moderatorer:</br>
+                </br>Ta bort moderatorer:</br>
                 <form method="post" action="<?php echo Config::get('URL'); echo $this->blog->slug; ?>/manage/removemod_action">
-                    <input type="text" name="user_email" placeholder="email address (a real address)" required />
+                    <input type="number" name="user_id" placeholder="ID" required />
                     <input type="submit" value="ta bort" />
                 </form>
             </div>

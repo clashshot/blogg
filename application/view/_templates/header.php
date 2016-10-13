@@ -35,9 +35,13 @@
                 </div>
                 <div id="navbar" class="collapse navbar-collapse">
                     <ul class="nav navbar-nav navbar-right">
-                        <li><a href="#">Home</a></li>
-                        <li><a href="#about">About</a></li>
-                        <li><a href="#contact">Contact</a></li>
+                        <?php
+                            if(!empty($page = BlogModel::showPages($this->blog->id))){
+                            foreach ($page as $key => $value){
+                                echo '<li><a href='.Config::get('URL').$this->blog->slug.'/'.$value->slug.'>'.ucfirst($value->title).'</a></li>';
+                            }
+                            };
+                        ?>
                     </ul>
                 </div><!-- /.nav-collapse -->
             </div><!-- /.container -->
