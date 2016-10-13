@@ -11,10 +11,9 @@
     <!-- send empty favicon fallback to prevent user's browser hitting the server for lots of favicon requests resulting in 404s -->
     <link rel="icon" href="data:;base64,=">
     <!-- CSS -->
-
     <link rel="stylesheet" href="https://bootswatch.com/cosmo/bootstrap.min.css">
     <link rel="stylesheet" href="<?php echo Config::get('URL'); ?>css/style.css" />
-    <script src="<?php echo Config::get('URL'); ?>js/ckeditor/ckeditor.js"></script>
+    <link rel="stylesheet" href="<?php echo Config::get('URL'); ?>js/wysibb/theme/default/wbbtheme.css" />
     <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>

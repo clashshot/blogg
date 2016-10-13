@@ -29,13 +29,8 @@
                         <label class="radio-inline"><input type="radio" name="comment" value="0" />Tillåt ej kommentarer</label>
                     </div>
                     <div class="form-group">
-                        <textarea name="content" class="form-control" id="editor1"></textarea>
+                        <textarea name="content" class="form-control" id="editor"></textarea>
                     </div>
-                    <script>
-                        CKEDITOR.replace('editor1',{
-                            extraPlugins : 'bbcode',
-                        });
-                    </script>
 
             </div>
 
