@@ -29,12 +29,8 @@ class BlogController extends Controller
         if($post = BlogModel::getpost($blogid, $postslug)){
             echo '<h1>' . $post->title . '</h1>';
             echo "<p>$post->content</p>";
-        }elseif(BlogModel::getpage($blogid, $postslug)){
-            $this->View->render('page/index', array(
-                'page' => BlogModel::getPage($blogid, $postslug)
-            ));
-        } else {
-            echo '<h1>Did not find post.</h1>';
+        }else{
+            echo '<h1>Post not found!</h1>';
         }
     }
 
@@ -99,26 +95,20 @@ class BlogController extends Controller
                 break;
             case 'addmod_action':
                 if (BlogModel::addMod($blogid)) {
-                    Redirect::to(BlogModel::getBlog($blogid)->slug . '/manage/mods');
+                    Redirect::to('manage/mods');
                 } else {
-                    Redirect::to(BlogModel::getBlog($blogid)->slug . '/manage/mods');
+                    Redirect::to('manage/mods');
                 }
                 break;
             case 'removemod_action':
                 if(BlogModel::removeMod($blogid)){
-                    Redirect::to(BlogModel::getBlog($blogid)->slug . '/manage/mods');
+                    Redirect::to('manage/mods');
                 } else {
-                    Redirect::to(BlogModel::getBlog($blogid)->slug . '/manage/mods');
+                    Redirect::to('manage/mods');
                 }
                 break;
             case 'category':
-                if(CategoryModel::showCategory($blogid)){
-                    $this->View->render('manage/category', array(
-                        'blog' => BlogModel::getBlog($blogid),
-                        'category' => CategoryModel::showCategory($blogid),
-                        'paginate' => new Paginate("Category WHERE blog_id = :blog_id", [':blog_id' => $blogid], 10)
-                    ));
-                }
+                echo 'category';
                 break;
             default:
                 header('HTTP/1.0 404 Not Found', true, 404);
@@ -133,15 +123,14 @@ class BlogController extends Controller
                 $baseSlug = BlogModel::slugify($value);
                 $slug = $baseSlug;
                 for ($i = 0; $i < 5; $i++){
-
                     if(!BlogModel::blogexists($slug)){
-                        $this->View->renderJSON($slug);
+                        echo $slug;
                         break;
                     }
                     $slug = $baseSlug . '-' . $this->generateRandomString(6);
                 }
                 if (BlogModel::blogexists($slug)){
-                    $this->View->renderJSON("Kunde inte skapa en unik slug");
+                    echo "Kunde inte skapa en unik slug";
                 }
                 break;
             default:
