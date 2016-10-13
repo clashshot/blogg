@@ -180,12 +180,12 @@ class BlogModel
     public static function removeMod($blog_id){
         $database = DatabaseFactory::getFactory()->getConnection();
 
-        $user_email = strip_tags(Request::post('user_email'));
-
+        $user_id = strip_tags(Request::post('user_id'));
+        /*
         $query = $database->prepare("SELECT user_id FROM users WHERE user_email = :email");
         $query->execute(array(':email' => $user_email));
         $user_id = $query->fetchobject()->user_id;
-
+        */
         $query = $database->prepare("DELETE FROM Blog_moderator WHERE user_id = :user_id AND blog_id = :blog_id");
 
         if ($query->execute(array(':user_id' => $user_id,'blog_id' => $blog_id))){
@@ -198,7 +198,7 @@ class BlogModel
     public static function getMods($blog_id){
         $database = DatabaseFactory::getFactory()->getConnection();
 
-        $query = $database->prepare("SELECT user_email FROM Blog_moderator  LEFT JOIN users on users.user_id=Blog_moderator.user_id WHERE blog_id = :blog_id");
+        $query = $database->prepare("SELECT users.user_id, users.user_email FROM Blog_moderator  LEFT JOIN users on users.user_id=Blog_moderator.user_id WHERE blog_id = :blog_id");
         $query->execute(array(':blog_id' => $blog_id));
 
         $mods = array();
