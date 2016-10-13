@@ -1,5 +1,5 @@
 <div class="container">
-    <div class="col-md-10 col-md-offset-1">
+
     <?php $this->renderFeedbackMessages(); ?>
     <div class="panel panel-default">
         <div class="panel-heading">Skapa ny blogg</div>
@@ -24,7 +24,7 @@
         </div>
         <div class="form-group">
             <label>Beskrivning om din blogg</label>
-        <textarea name="about" class="form-control" id="editor2" required></textarea>
+        <textarea name="about" class="form-control" id="editor" required rows="12"></textarea>
         </div>
         <script>
             CKEDITOR.replace('editor2',{
@@ -35,4 +35,3 @@
     </form>
     </div>
     </div>
-</div>
