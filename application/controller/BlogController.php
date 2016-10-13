@@ -27,6 +27,7 @@ class BlogController extends Controller
 
     public function post($blogid, $postslug){
         if($post = BlogModel::getpost($blogid, $postslug)){
+<<<<<<< HEAD
             $this->View->render('blog/post',array(
                 'blog' => BlogModel::getBlog($blogid),
                 'post' => $post,
@@ -34,6 +35,16 @@ class BlogController extends Controller
             ));
         }else{
             echo '<h1>Post not found!</h1>';
+=======
+            echo '<h1>' . $post->title . '</h1>';
+            echo "<p>$post->content</p>";
+        }elseif(BlogModel::getpage($blogid, $postslug)){
+            $this->View->render('page/index', array(
+                'page' => BlogModel::getPage($blogid, $postslug)
+            ));
+        } else {
+            echo '<h1>Did not find post.</h1>';
+>>>>>>> origin/master
         }
     }
 
@@ -79,14 +90,6 @@ class BlogController extends Controller
                     "blog" => BlogModel::getBlog($blogid)
                 ));
                 break;
-            case 'deleteblog':
-                if(UserModel::getEditPermission($blogid) >= 4){
-                    //TODO BlogModel::deleteblog($blogid);
-                }else{
-                    Redirect::to(BlogModel::getBlog($blogid)->slug . '/manage');
-                }
-                echo 'deleteblog';
-                break;
             case 'history':
                 echo 'history';
                 break;
@@ -98,20 +101,61 @@ class BlogController extends Controller
                 break;
             case 'addmod_action':
                 if (BlogModel::addMod($blogid)) {
-                    Redirect::to('manage/mods');
+                    Redirect::to(BlogModel::getBlog($blogid)->slug.'/manage/mods');
                 } else {
-                    Redirect::to('manage/mods');
+                    Redirect::to(BlogModel::getBlog($blogid)->slug.'/manage/mods');
                 }
                 break;
             case 'removemod_action':
+                /*
                 if(BlogModel::removeMod($blogid)){
                     Redirect::to('manage/mods');
                 } else {
                     Redirect::to('manage/mods');
                 }
+                */
+                $this->View->renderJSON(BlogModel::completedRemoveMod($data));
                 break;
             case 'category':
-                echo 'category';
+                    $this->View->render('manage/category', array(
+                        'blog' => BlogModel::getBlog($blogid),
+                        'category' => CategoryModel::showCategory($blogid),
+                        'paginate' => new Paginate("Category WHERE blog_id = :blog_id", [':blog_id' => $blogid], 10)
+                    ));
+                break;
+            case 'addcategory':
+
+                break;
+            case 'remove':
+                break;
+
+            default:
+                header('HTTP/1.0 404 Not Found', true, 404);
+                $this->View->render('error/404');
+                break;
+        }
+    }
+    public function removeMod($blog_id){
+
+
+        $this->View->renderJSON(BlogModel::removeMod($blog_id));
+
+    }
+    public function ajaxcheck($action = 'index', $value = null){
+        switch ($action){
+            case 'blog_slug':
+                $baseSlug = BlogModel::slugify($value);
+                $slug = $baseSlug;
+                for ($i = 0; $i < 5; $i++){
+                    if(!BlogModel::blogexists($slug)){
+                        echo $slug;
+                        break;
+                    }
+                    $slug = $baseSlug . '-' . $this->generateRandomString(6);
+                }
+                if (BlogModel::blogexists($slug)){
+                    echo "Kunde inte skapa en unik slug";
+                }
                 break;
             default:
                 header('HTTP/1.0 404 Not Found', true, 404);
@@ -123,5 +167,15 @@ class BlogController extends Controller
     public function comment($post_id){
         $comment = CommentModel::getComments($post_id);
         print_r($comment);
+    }
+
+    private function generateRandomString($length = 10) {
+        $characters = '0123456789';
+        $charactersLength = strlen($characters);
+        $randomString = '';
+        for ($i = 0; $i < $length; $i++) {
+            $randomString .= $characters[rand(0, $charactersLength - 1)];
+        }
+        return $randomString;
     }
 }

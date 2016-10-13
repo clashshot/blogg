@@ -11,7 +11,8 @@
     <!-- send empty favicon fallback to prevent user's browser hitting the server for lots of favicon requests resulting in 404s -->
     <link rel="icon" href="data:;base64,=">
     <!-- CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://bootswatch.com/cosmo/bootstrap.min.css">
     <link rel="stylesheet" href="<?php echo Config::get('URL'); ?>css/style.css" />
     <script src="<?php echo Config::get('URL'); ?>js/ckeditor/ckeditor.js"></script>
     <!--[if lt IE 9]>
@@ -35,9 +36,13 @@
                 </div>
                 <div id="navbar" class="collapse navbar-collapse">
                     <ul class="nav navbar-nav navbar-right">
-                        <li><a href="#">Home</a></li>
-                        <li><a href="#about">About</a></li>
-                        <li><a href="#contact">Contact</a></li>
+                        <?php
+                            if(!empty($page = BlogModel::showPages($this->blog->id))){
+                            foreach ($page as $key => $value){
+                                echo '<li><a href='.Config::get('URL').$this->blog->slug.'/'.$value->slug.'>'.ucfirst($value->title).'</a></li>';
+                            }
+                            };
+                        ?>
                     </ul>
                 </div><!-- /.nav-collapse -->
             </div><!-- /.container -->
@@ -59,6 +64,7 @@
                     <ul class="nav navbar-nav navbar-right">
                         <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#" class="navbar-link"><?php echo $_SESSION['user_name'] ?><span class="caret"></span></a>
                             <ul role="menu" class="dropdown-menu">
+                                <?php if(AdminModel::isAdmin()){?><li><a href="<?=Config::get('URL')?>admin">Admin panel</a></li><?php } ?>
                                 <li><a href="<?php echo Config::get('URL'); ?>user/editAvatar">Ändra din avatar</a></li>
                                 <li><a href="<?php echo Config::get('URL'); ?>user/edituseremail">Ändra e-post</a></li>
                                 <li><a href="<?php echo Config::get('URL'); ?>user/changePassword">Ändra lösenord</a></li>

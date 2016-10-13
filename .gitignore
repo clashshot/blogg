@@ -1,2 +1,8 @@
+<<<<<<< HEAD
 .idea/deployment.xml
 *.xml
+.idea/workspace.xml
+=======
+.idea
+*.xml
+>>>>>>> aa05fe2a02e40383d714dc2483d989ba14aa6398

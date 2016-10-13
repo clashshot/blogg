@@ -25,8 +25,8 @@
                     <td>
                         <div class="btn-group">
                             <a href="<?php echo Config::get('URL');echo $value->slug;?>"><button class="btn btn-default" type="button"><i class="fa fa-fw fa-eye"></i>Visa</button></a>
-                            <a href="<?php echo Config::get('URL');echo $value->slug;?>/manage"><button class="btn btn-default" type="button"><i class="fa fa-fw fa-cog"></i>Administrera</button></a>
-                            <a href="<?php echo Config::get('URL'); ?>dashboard/delete/<?php echo $value->slug; ?>" onclick="return confirm('Är du säker på att du vill ta bort denna blogg?')"><button class="btn btn-default" type="button"><i class="fa fa-fw s fa-remove"></i>Ta bort</button></a>
+                            <a href="<?php echo Config::get('URL');echo $value->slug;?>/manage"><button class="btn btn-primary" type="button"><i class="fa fa-fw fa-cog"></i>Administrera</button></a>
+                            <a href="<?php echo Config::get('URL'); ?>dashboard/delete/<?php echo $value->slug; ?>" onclick="return confirm('Är du säker på att du vill ta bort denna blogg?')"><button class="btn btn-danger" type="button"><i class="fa fa-fw s fa-remove"></i>Ta bort</button></a>
                         </div>
                     </td>
                 </tr>

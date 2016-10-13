@@ -7,8 +7,7 @@
     <form method="post" action="<?php echo Config::get('URL'); ?>dashboard/blog_create">
         <div class = "form-group">
             <label>Bloggnamn</label>
-            <input type="text"  name ="title" class="form-control" required>
-            <span class="help-block">/kalleanka-7882</span>
+            <input type="text" onkeyup="blogSlugCheck(this)" name ="title" class="form-control" required>
         </div>
         <div class = "form-group">
             <label>Kort beskrivning om dig</label>

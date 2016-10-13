@@ -12,6 +12,34 @@ footer {
 .well {
     background-color: #ffffff;
 }
+.time {
+    color: rgb(175,175,175);
+    border-top: 1px solid rgb(220,220,220);
+    padding: 10px;
+}
+
+.readmore {
+    margin-right:8px;
+}
+.likebtn {
+    margin-left: 8px;
+}
+
+.short {
+    line-height: 1.5;
+    height:9em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.comment {
+    position: relative;
+}
+
+.like {
+    position: relative;
+    color: rgb(175,175,175);
+}
 
 .glyphicon { margin-right:10px; }
 .panel-nopadding { padding:0px; }

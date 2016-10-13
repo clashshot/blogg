@@ -6,10 +6,32 @@
             foreach ($this->posts as $post) {
                 ?>
                 <div class="well">
-                    <div class="row text-center">
-                        <h2><?= $post->title ?></h2>
+                    <div class="row">
+                        <h2 class="text-center"><?= $post->title ?></h2>
+                        <p class="text-center"><?=BlogModel::getCategory($post->category_id)?></p>
                         <div class="col-md-12">
-                            <h4><?= $post->content ?></h4>
+                            <h4 class="short"><?= $post->content ?></h4>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group pull-right readmore">
+                            <a class="btn btn-primary" href="<?=Config::get('URL')?><?=$this->blog->slug?>/<?=$post->slug?>">Read More</a>
+                        </div>
+                    </div>
+                    <div class="time row">
+                        <div class="pull-left">
+                            <p><?= $post->created?></p>
+                        </div>
+                        <div class="pull-right comment">
+                            <p><b>73</b> Comments</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="pull-left likebtn">
+                            <input type="submit" class="btn btn-primary" value="Like">
+                        </div>
+                        <div class="pull-right like">
+                            <p><b>48</b> Likes</p>
                         </div>
                     </div>
                 </div>
@@ -18,21 +40,7 @@
             $this->paginate->render();
             ?>
 
-            <div class="well">
-                <div class="row">
-                    <h2 class="text-center">Lorem Ipsum</h2>
-                    <div class="col-md-12">
-                        <h4>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent quis magna magna. Morbi
-                            ultrices efficitur pharetra. Sed non porttitor urna. Mauris ut est tincidunt, faucibus lacus
-                            at, vehicula lorem. Maecenas pellentesque lobortis sem, quis mollis dui vestibulum eget. Sed
-                            maximus porttitor odio non sodales. In tempor eget massa quis egestas. Phasellus odio ante,
-                            maximus non erat in, consequat vulputate tortor. Etiam vehicula enim velit, in scelerisque
-                            eros porttitor at. Suspendisse egestas pulvinar metus, ac fermentum dui auctor non.
-                            Suspendisse gravida hendrerit nisi, vitae elementum turpis molestie in. Nulla elementum
-                            accumsan porttitor.</h4>
-                    </div>
-                </div>
-            </div>
+
         </div>
         <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
             <div class="well">
