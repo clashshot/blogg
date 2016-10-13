@@ -45,35 +45,40 @@ class CommentModel
         }
     }
 
-    public static function subComment()
+    public static function subComment($id)
     {
         $database = DatabaseFactory::getFactory()->getConnection();
-        $id = Request::get("id");
 
-        $query = $database->prepare("SELECT `user_id`,`comment` FROM `Comment` WHERE :comment_id = :id");
-        $query->execute;
+        $query = $database->prepare("SELECT * FROM `Comment` LEFT JOIN users ON Comment.user_id = users.user_id WHERE comment_id = :id");
+        $query->execute(array(
+            ":id" => $id
+        ));
+
+        if($query->rowCount() > 0){
+            $comments = array();
+            while($comment = $query->fetchObject()){
+                $comment->subComments = self::subComment($comment->id);
+                $comments[] = $comment;
+            }
+            return $comments;
+        }
     }
 
-    public static function getComment($id)
+    public static function getComments($post_id)
     {
         $database = DatabaseFactory::getFactory()->getConnection();
-        $resultSet = $database->prepare("SELECT * FROM `Comment` where id=$id");
+        $query = $database->prepare("SELECT * FROM `Comment` LEFT JOIN users ON Comment.user_id = users.user_id WHERE post_id = :post AND comment_id IS NULL");
+        $query->execute(array(
+            ":post" => $post_id
+        ));
 
-        $row = $resultSet->fetch();
-        echo $row[0];
-        echo $row[1];
-        echo $row[2];
-        echo $row[3];
-        echo $row[4];
-        echo $row[5];
-        echo $row[6];
-        echo $row[7];
-
-        /*if($resultSet->num_rows > 0) {
-            while($rows = $resultSet->fetch_assoc()) {
-
+        if($query->rowCount() > 0){
+            $comments = array();
+            while($comment = $query->fetchObject()){
+                $comment->subComments = self::subComment($comment->id);
+                $comments[] = $comment;
             }
-        } else
-            echo "Inga resultat!";*/
+            return $comments;
+        }
     }
 }

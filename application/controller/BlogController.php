@@ -27,8 +27,11 @@ class BlogController extends Controller
 
     public function post($blogid, $postslug){
         if($post = BlogModel::getpost($blogid, $postslug)){
-            echo '<h1>' . $post->title . '</h1>';
-            echo "<p>$post->content</p>";
+            $this->View->render('blog/post',array(
+                'blog' => BlogModel::getBlog($blogid),
+                'post' => $post,
+                'comments' => CommentModel::getComments($post->id)
+            ));
         }else{
             echo '<h1>Post not found!</h1>';
         }
@@ -117,7 +120,8 @@ class BlogController extends Controller
         }
     }
 
-    public function comment($blogid){
-
+    public function comment($post_id){
+        $comment = CommentModel::getComments($post_id);
+        print_r($comment);
     }
 }
