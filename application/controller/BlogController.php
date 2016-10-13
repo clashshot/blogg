@@ -111,13 +111,11 @@ class BlogController extends Controller
                 $this->View->renderJSON(BlogModel::completedRemoveMod($data));
                 break;
             case 'category':
-                if(CategoryModel::showCategory($blogid)){
                     $this->View->render('manage/category', array(
                         'blog' => BlogModel::getBlog($blogid),
                         'category' => CategoryModel::showCategory($blogid),
                         'paginate' => new Paginate("Category WHERE blog_id = :blog_id", [':blog_id' => $blogid], 10)
                     ));
-                }
                 break;
             default:
                 header('HTTP/1.0 404 Not Found', true, 404);
