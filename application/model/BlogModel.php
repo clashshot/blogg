@@ -198,7 +198,7 @@ class BlogModel
     public static function getMods($blog_id){
         $database = DatabaseFactory::getFactory()->getConnection();
 
-        $query = $database->prepare("SELECT user_email FROM Blog_moderator  LEFT JOIN users on users.user_id=Blog_moderator.user_id WHERE blog_id = :blog_id");
+        $query = $database->prepare("SELECT user_email FROM Blog_moderator LEFT JOIN users on users.user_id=Blog_moderator.user_id WHERE blog_id = :blog_id");
         $query->execute(array(':blog_id' => $blog_id));
 
         $mods = array();
@@ -211,6 +211,29 @@ class BlogModel
         }
 
         return $mods;
+    }
+
+    public static function getPage($blogid, $pageslug){
+        $database = DatabaseFactory::getFactory()->getConnection();
+
+        $sql = $database->prepare('SELECT * FROM Pages WHERE slug = :slug AND blog_id = :blog_id');
+        $sql->execute(array(
+            ':slug' => $pageslug,
+            ':blog_id' => $blogid
+        ));
+
+        return $sql->fetchObject();
+    }
+
+    public static function showPages($blogid){
+        $database = DatabaseFactory::getFactory()->getConnection();
+
+        $sql = $database->prepare('SELECT * FROM Pages WHERE blog_id = :blog_id LIMIT 5');
+        $sql->execute(array(
+            ':blog_id' => $blogid
+        ));
+
+        return $sql->fetchAll();
     }
 
 }

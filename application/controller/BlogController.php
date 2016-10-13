@@ -29,8 +29,12 @@ class BlogController extends Controller
         if($post = BlogModel::getpost($blogid, $postslug)){
             echo '<h1>' . $post->title . '</h1>';
             echo "<p>$post->content</p>";
-        }else{
-            echo '<h1>Post not found!</h1>';
+        }elseif(BlogModel::getpage($blogid, $postslug)){
+            $this->View->render('page/index', array(
+                'page' => BlogModel::getPage($blogid, $postslug)
+            ));
+        } else {
+            echo '<h1>Did not find post.</h1>';
         }
     }
 
