@@ -29,3 +29,21 @@ function solvereport(button, id) {
         }
     });
 }
+
+function blogSlugCheck(field) {
+    $.ajax('/blog/ajaxcheck/blog_slug/' + field.value, {
+        success:function (data) {
+            if (field.nextElementSibling){
+                field.nextElementSibling.innerHTML = '/' + data;
+            }else{
+                var slug = document.createElement('span');
+                slug.setAttribute("class", "help-block");
+                slug.innerHTML = data;
+                field.parentNode.appendChild(slug);
+            }
+        },
+        error: function (request, status, error) {
+            alert(error);
+        }
+    });
+}

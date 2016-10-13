@@ -4,7 +4,7 @@
     ?>
     <?php $this->renderFeedbackMessages(); ?>
     <div class="col-md-9">
-        <form method="post" action="<?php echo Config::get('URL'); ?><?= $this->blog->slug ?>/blog_update">
+        <form method="post" action="<?php echo Config::get('URL'); ?><?= $this->blog->slug ?>/manage/blog_update">
             <div class="form-group">
                 <input type="text" name="title" class="form-control" value="<?=$this->blog->title?>" required placeholder="Här skriver du in din titel">
             </div>

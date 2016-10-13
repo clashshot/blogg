@@ -59,6 +59,7 @@
                     <ul class="nav navbar-nav navbar-right">
                         <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#" class="navbar-link"><?php echo $_SESSION['user_name'] ?><span class="caret"></span></a>
                             <ul role="menu" class="dropdown-menu">
+                                <?php if(AdminModel::isAdmin()){?><li><a href="<?=Config::get('URL')?>admin">Admin panel</a></li><?php } ?>
                                 <li><a href="<?php echo Config::get('URL'); ?>user/editAvatar">Ändra din avatar</a></li>
                                 <li><a href="<?php echo Config::get('URL'); ?>user/edituseremail">Ändra e-post</a></li>
                                 <li><a href="<?php echo Config::get('URL'); ?>user/changePassword">Ändra lösenord</a></li>

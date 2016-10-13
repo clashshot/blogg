@@ -117,7 +117,41 @@ class BlogController extends Controller
         }
     }
 
+    public function ajaxcheck($action = 'index', $value = null){
+        switch ($action){
+            case 'blog_slug':
+                $baseSlug = BlogModel::slugify($value);
+                $slug = $baseSlug;
+                for ($i = 0; $i < 5; $i++){
+
+                    if(!BlogModel::blogexists($slug)){
+                        $this->View->renderJSON($slug);
+                        break;
+                    }
+                    $slug = $baseSlug . '-' . $this->generateRandomString(6);
+                }
+                if (BlogModel::blogexists($slug)){
+                    $this->View->renderJSON("Kunde inte skapa en unik slug");
+                }
+                break;
+            default:
+                header('HTTP/1.0 404 Not Found', true, 404);
+                $this->View->render('error/404');
+                break;
+        }
+    }
+
     public function comment($blogid){
 
+    }
+
+    private function generateRandomString($length = 10) {
+        $characters = '0123456789';
+        $charactersLength = strlen($characters);
+        $randomString = '';
+        for ($i = 0; $i < $length; $i++) {
+            $randomString .= $characters[rand(0, $charactersLength - 1)];
+        }
+        return $randomString;
     }
 }
