@@ -2,7 +2,7 @@
 
     <?php $this->renderFeedbackMessages(); ?>
     <div class="panel panel-default">
-        
+
         <div class="panel-heading">Skapa ny blogg</div>
         <div class="panel-body">
     <form method="post" action="<?php echo Config::get('URL'); ?>dashboard/blog_create">
@@ -25,13 +25,8 @@
         </div>
         <div class="form-group">
             <label>Beskrivning om din blogg</label>
-        <textarea name="about" class="form-control" id="editor" required rows="12"></textarea>
+        <textarea name="about" class="form-control" id="editor" rows="12"></textarea>
         </div>
-        <script>
-            CKEDITOR.replace('editor2',{
-                extraPlugins : 'bbcode',
-            });
-        </script>
         <input type="submit" value="Skapa" class ="btn btn-primary pull-right"/>
     </form>
     </div>

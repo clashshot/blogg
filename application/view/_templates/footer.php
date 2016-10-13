@@ -13,5 +13,6 @@
             $("#editor").wysibb();
         })
     </script>
+
 </body>
 </html>
