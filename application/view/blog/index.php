@@ -5,7 +5,7 @@
             <?php
             foreach ($this->posts as $post) {
                 ?>
-                <div class="well">
+                <div class="well well-post">
                     <div class="row">
                         <h2 class="text-center"><?= $post->title ?></h2>
                         <p class="text-center"><?=BlogModel::getCategory($post->category_id)?></p>
@@ -25,16 +25,12 @@
                         <div class="pull-right comment">
                             <p><b>73</b> Comments</p>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="pull-left likebtn">
-                            <input type="submit" class="btn btn-primary" value="Like">
-                        </div>
                         <div class="pull-right like">
                             <p><b>48</b> Likes</p>
                         </div>
                     </div>
                 </div>
+
                 <?php
             }
             $this->paginate->render();
@@ -44,6 +40,9 @@
         </div>
         <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
             <div class="well">
+                <div class="profile-userpic">
+                    <img src="https://scontent-arn2-1.xx.fbcdn.net/v/t1.0-9/12523991_1075837129141264_7524897460062579225_n.jpg?oh=12d1e6829f5a4834197220de5747588e&oe=585F5ADC">
+                </div>
                 <?= $this->blog->description ?>
             </div>
         </div>

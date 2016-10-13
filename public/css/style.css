@@ -15,19 +15,20 @@ footer {
 .time {
     color: rgb(175,175,175);
     border-top: 1px solid rgb(220,220,220);
-    padding: 10px;
+    padding: 15px 15px 0px 15px;
+}
+
+.well-post {
+    padding: 15px 15px 10px 15px;
 }
 
 .readmore {
     margin-right:8px;
 }
-.likebtn {
-    margin-left: 8px;
-}
 
 .short {
     line-height: 1.5;
-    height:9em;
+    max-height:9em;
     overflow: hidden;
     text-overflow: ellipsis;
 }
@@ -39,6 +40,17 @@ footer {
 .like {
     position: relative;
     color: rgb(175,175,175);
+    margin-right: 15px;
+}
+
+.profile-userpic img {
+    float: none;
+    margin: 0 auto;
+    width: 50%;
+    height: 50%;
+    -webkit-border-radius: 50% !important;
+    -moz-border-radius: 50% !important;
+    border-radius: 50% !important;
 }
 
 .glyphicon { margin-right:10px; }
