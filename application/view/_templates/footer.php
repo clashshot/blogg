@@ -42,7 +42,19 @@
                                             title: "Enter image URL",
                                             validation: '^http(s)?://.*?\.(jpg|png|gif|jpeg)$'
                                         },
-                                        {param: "TITLE", title: "Enter image title", type: "div"}
+                                        {
+                                            param: "TITLE",
+                                            title: "Enter image title",
+                                            type: "div"
+                                        },
+                                        {
+                                            param: "WIDTH",
+                                            title: "Enter image width (NUMBERS)"
+                                        },
+                                        {
+                                            param: "HEIGHT",
+                                            title: "Enter image height (NUMBERS)"
+                                        }
                                     ]
                                 }
                             ],
@@ -55,7 +67,7 @@
                             }
                         },
                         transform: {
-                            '<img width="640" height="360" src="{SRC}" title="{TITLE}" />': '[img title={TITLE}]{SRC}[/img]'
+                            '<img width="{WIDTH}" height="{HEIGHT}" src="{SRC}" title="{TITLE}" />': '[img width={WIDTH} height={HEIGHT} title={TITLE}]{SRC}[/img]'
                         }
                     }
 
