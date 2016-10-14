@@ -66,6 +66,8 @@ class BlogModel
         if($posts->rowCount() > 0) {
             $postarray = array();
             while($post = $posts->fetchObject()){
+                $post->comments = CommentModel::getCommentAmount($post->id);
+                $post->likes = self::getPostLikes($post->id);
                 $postarray[] = $post;
             }
             return $postarray;
@@ -261,5 +263,15 @@ class BlogModel
         }else{
             return "Ingen kategori";
         }
+    }
+
+    public static function getPostLikes($post_id){
+        $database = DatabaseFactory::getFactory()->getConnection();
+        $query = $database->prepare("SELECT COUNT(*) as amount FROM Post_like WHERE post_id = :post");
+        $query->execute(array('post' => $post_id));
+        if ($query->rowCount() > 0)
+            return $query->fetchObject()->amount;
+        else
+            return 0;
     }
 }

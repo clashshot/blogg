@@ -81,4 +81,18 @@ class CommentModel
             return $comments;
         }
     }
+
+    public static function getCommentAmount($post_id){
+        $database = DatabaseFactory::getFactory()->getConnection();
+        $query = $database->prepare("SELECT COUNT(*) as amount FROM `Comment` WHERE post_id = :post");
+        $query->execute(array(
+            ":post" => $post_id
+        ));
+
+        if($query->rowCount() > 0){
+            return $query->fetchObject()->amount;
+        }else{
+            return 0;
+        }
+    }
 }

@@ -23,10 +23,10 @@
                             <p><?= $post->created?></p>
                         </div>
                         <div class="pull-right comment">
-                            <p><b>73</b> Comments</p>
+                            <p><b><?=$post->comments?></b> Comments</p>
                         </div>
                         <div class="pull-right like">
-                            <p><b>48</b> Likes</p>
+                            <p><b><?=$post->likes?></b> Likes</p>
                         </div>
                     </div>
                 </div>
