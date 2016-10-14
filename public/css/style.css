@@ -46,8 +46,8 @@ footer {
 .profile-userpic img {
     position: relative;
     margin: auto;
-    width: 50%;
-    height: 50%;
+    width: 14em;
+    height: 14em;
     -webkit-border-radius: 50% !important;
     -moz-border-radius: 50% !important;
     border-radius: 50% !important;

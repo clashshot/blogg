@@ -41,7 +41,10 @@ class BlogController extends Controller
                 Redirect::to(BlogModel::getBlog($blogid)->slug);
             }
         } elseif (BlogModel::getpage($blogid, $postslug)) {
+            $blog = BlogModel::getBlog($blogid);
             $this->View->render('page/index', array(
+                'blog' => $blog,
+                'user' => UserModel::getPublicProfileOfUser($blog->user_id),
                 'page' => BlogModel::getPage($blogid, $postslug)
             ));
         } else {
