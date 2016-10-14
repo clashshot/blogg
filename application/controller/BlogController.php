@@ -80,7 +80,7 @@ class BlogController extends Controller
             case 'deletepost':
                 if (UserModel::getEditPermission($blogid) >= 3) {
                     $post = BlogModel::getpost($blogid, $postslug);
-                    //TODO BlogModel::deletepost($blogid, $postslug);
+                    BlogModel::deletepost($blogid, $postslug);
                     echo 'Should have deleted ' . $post->title;
                 } else {
                     Redirect::to(BlogModel::getBlog($blogid)->slug . '/manage');
@@ -120,7 +120,19 @@ class BlogController extends Controller
                 break;
             case 'remove':
                 break;
-
+            //TODO
+            case 'pages':
+                $this->View->render('manage/pages', array(
+                    'blog' => BlogModel::getBlog($blogid),
+                    'pages' => BlogModel::showPages($blogid)
+                ));
+                break;
+            case 'addpage':
+                break;
+            case 'pageedit':
+                break;
+            case 'pageedit_action':
+                break;
             default:
                 header('HTTP/1.0 404 Not Found', true, 404);
                 $this->View->render('error/404');

@@ -29,9 +29,8 @@
                                 <td><?= $post->created ?></td>
                                 <td class="text-center"><a class='btn btn-info btn-xs'
                                                            href="<?= Config::get("URL") . $this->blog->slug ?>/manage/editpost/<?= $post->slug ?>"><span
-                                            class="glyphicon glyphicon-edit"></span> Ändra</a> <a href="#"
-                                                                                                  class="btn btn-danger btn-xs"><span
-                                            class="glyphicon glyphicon-remove"></span> Del</a></td>
+                                            class="glyphicon glyphicon-edit"></span> Ändra</a> <a href="<?php echo Config::get('URL') . $this->blog->slug; ?>/manage/deletepost/<?php echo $post->slug; ?>" onclick="return confirm('Är du säker på att du vill ta bort detta inlägg?')" class="btn btn-danger btn-xs"><span
+                                            class="glyphicon glyphicon-remove"></span> Ta bort</a></td>
                             </tr>
                             <?php
                         }
