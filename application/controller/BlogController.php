@@ -32,9 +32,11 @@ class BlogController extends Controller
     {
         if ($post = BlogModel::getpost($blogid, $postslug)) {
             if(UserModel::getPermission($blogid) >= $post->visibility){
+                $blog = BlogModel::getBlog($blogid);
                 $this->View->render('blog/post',array(
-                    'blog' => BlogModel::getBlog($blogid),
+                    'blog' => $blog,
                     'post' => $post,
+                    'user' => UserModel::getPublicProfileOfUser($blog->user_id),
                     'comments' => CommentModel::getComments($post->id)
                 ));
             }else{
@@ -82,13 +84,11 @@ class BlogController extends Controller
                 break;
             case 'deletepost':
                 if (UserModel::getEditPermission($blogid) >= 3) {
-                    $post = BlogModel::getpost($blogid, $postslug);
                     BlogModel::deletepost($blogid, $postslug);
-                    echo 'Should have deleted ' . $post->title;
+                    Redirect::to(BlogModel::getBlog($blogid)->slug . '/manage');
                 } else {
                     Redirect::to(BlogModel::getBlog($blogid)->slug . '/manage');
                 }
-                echo '<br>deletepost<br>';
                 break;
             case 'update':
                 $this->View->render('manage/editblog', array(

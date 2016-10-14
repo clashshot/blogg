@@ -415,7 +415,7 @@ class UserModel
         $query->execute(array(':user_id' => Session::get("user_id"),':blog_id' => $blog_id));
         $mod = $query->rowCount();
 
-        $query = $database->prepare("SELECT user_id FROM Blog WHERE blog_id = :blog_id");
+        $query = $database->prepare("SELECT user_id FROM Blog WHERE id = :blog_id");
         $query->execute(array(':blog_id' => $blog_id));
         $blog_owner = $query->fetchObject()->user_id;
 

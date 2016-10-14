@@ -274,4 +274,11 @@ class BlogModel
         else
             return 0;
     }
+
+    public static function deletepost($blogid, $postslug){
+        $database = DatabaseFactory::getFactory()->getConnection();
+
+        $query = $database->prepare("DELETE FROM Post WHERE blog_id = :blog AND slug = :slug");
+        return $query->execute(array(':blog' => $blogid, ':slug' => $postslug));
+    }
 }
