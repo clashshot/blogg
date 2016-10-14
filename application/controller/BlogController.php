@@ -172,9 +172,11 @@ class BlogController extends Controller
         }
     }
 
-    public function comment($blogid)
+    public function comment($blogid, $postslug)
     {
-
+        $blog = BlogModel::getBlog($blogid);
+        CommentModel::postComment(BlogModel::getpost($blogid, $postslug)->id);
+        Redirect::to($blog->slug."/".$postslug);
     }
 
     private function generateRandomString($length = 10)
