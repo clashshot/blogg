@@ -40,7 +40,9 @@ class BlogModel
             ':blog' => $blogid
         ));
         if($post->rowCount() > 0) {
-            return $post->fetchObject();
+            $postrow = $post->fetchObject();
+            $postrow->likes = self::getPostLikes($postrow->id);
+            return $postrow;
         }else{
             return false;
         }
@@ -313,6 +315,22 @@ class BlogModel
         }else{
             return "Ingen kategori";
         }
+    }
+
+    public static function addPostlike($post_id){
+        $post_id = Request::post('post_id');
+        $database = DatabaseFactory::getFactory()->getConnection();
+        try{
+            $add = $database->prepare('INSERT INTO Post_like (user_id, post_id) VALUES (:user_id, :post_id))');
+            return $add->execute(array(
+                ':user_id' => Session::get('user_id'),
+                ':post_id' => $post_id,
+            ));
+        }catch (PDOException $e){
+            echo $e;
+            return false;
+        }
+
     }
 
     public static function getPostLikes($post_id){

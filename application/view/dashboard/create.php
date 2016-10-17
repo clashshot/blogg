@@ -30,14 +30,9 @@
             <label>Kort beskrivning om dig</label>
             <input type="text" name="description" class="form-control" required>
         </div>
-        <div class="form-group" style="max-width:25%;">
-            <label>Synlighet rättigheter</label>
-            <select name="visibility" class="form-control">
-                <option selected disabled>Välj</option>
-                <option value="1">Publik</option>
-                <option value="2">Registrerade & Moderatorer</option>
-                <option value="3">Privat</option>
-            </select>
+        <div class="form-group">
+            <label class="radio-inline"><input type="radio" name="visibility" value="1" checked />Synlig</label>
+            <label class="radio-inline"><input type="radio" name="visibility" value="0" />Ej synlig</label>
         </div>
         <div class="form-group">
             <label>Beskrivning om din blogg</label>

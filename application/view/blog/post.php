@@ -1,5 +1,5 @@
 <?php
-function renderComments($comments)
+function renderComments($blogslug, $postslug, $comments)
 {
     if (!empty($comments)) {
         foreach ($comments as $comment) {
@@ -17,8 +17,18 @@ function renderComments($comments)
                         <small><i>Kommenterades <?= $comment->created ?></i></small>
                     </h4>
                     <p><?= $comment->comment ?></p>
+                    <button type="button" class="btn btn-sm" data-toggle="collapse" data-target="#<?=$comment->id?>">Svara</button>
+                    <div id="<?=$comment->id?>" class="collapse">
+                        <form method="post" action="<?= Config::get("URL") . $blogslug . "/comment/" . $postslug ?>">
+                            <input type="hidden" name="comment_id" value="<?=$comment->id?>"/>
+                            <br/>
+                            <textarea type="text" name="comment" class="form-control"></textarea>
+                            <br/>
+                            <input type="submit" class="btn btn-primary btn-sm" value="Skicka"/>
+                        </form>
+                    </div>
                     <?php
-                    renderComments($comment->subComments);
+                    renderComments($blogslug, $postslug, $comment->subComments);
                     ?>
                 </div>
             </div>
@@ -33,8 +43,19 @@ function renderComments($comments)
     <div class="row">
         <div class="col-md-8">
             <div class="well">
-                <h2 class="text-center"><?= $this->post->title ?></h2>
+                <h1 class="text-center"><?= $this->post->title ?></h1>
                 <?= $this->post->content ?>
+                <div class="time row">
+                    <div class="pull-left">
+                        <p><?= $this->post->created?></p>
+                    </div>
+                    <div class="pull-right">
+                        <a class="btn btn-primary btn-sm">Gilla</a>
+                    </div>
+                    <div class="pull-right like">
+                        <p><b><?=$this->post->likes?></b> Likes</p>
+                    </div>
+                </div>
             </div>
         </div>
         <?php
@@ -45,17 +66,15 @@ function renderComments($comments)
         <div class="col-md-12">
             <div class="well" style="overflow: auto">
                 <div class="col-md-12">
-                    <form method="post"
-                          action="<?= Config::get("URL") . $this->blog->slug . "/comment/" . $this->post->slug ?>">
-                        <textarea type="text" class="form-control" name="comment" placeholder="Write a comment..."
-                                  required></textarea>
+                    <form method="post" action="<?= Config::get("URL") . $this->blog->slug . "/comment/" . $this->post->slug ?>">
+                        <textarea type="text" class="form-control" name="comment" placeholder="Skriv en kommentar..." required></textarea>
                         <br/>
-                        <input type="submit" class="btn-primary"/>
+                        <input type="submit" class="btn btn-primary" value="Skicka"/>
                     </form>
                 </div>
                 <div class="col-md-12">
                     <?php
-                    renderComments($this->comments);
+                    renderComments($this->blog->slug, $this->post->slug, $this->comments);
                     ?>
                 </div>
             </div>
