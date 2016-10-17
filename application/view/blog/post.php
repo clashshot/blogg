@@ -25,9 +25,22 @@ function renderComments($blogslug, $postslug, $comments)
                     <button type="button" class="btn btn-sm" data-toggle="collapse" data-target="#<?= $comment->id ?>">
                         Svara
                     </button>
-                    <input type="submit" class="btn btn-primary btn-sm" value="Gilla"/>
+                    <?php
+                    if (Session::userIsLoggedIn()) {
+                        if (CommentModel::likingcomment($comment->id)) {
+                            ?>
+                            <a onclick="like_comment(this, <?= $comment->id ?>, 0)" class="btn btn-primary btn-sm">Sluta
+                                gilla</a>
+                            <?php
+                        } else {
+                            ?>
+                            <a onclick="like_comment(this, <?= $comment->id ?>, 1)" class="btn btn-primary btn-sm">Gilla</a>
+                            <?php
+                        }
+                    }
+                    ?>
                     <div class="like">
-                        <p><b><?=$comment->likes?></b> Gillningar</p>
+                        <p><b id="comment_likes<?=$comment->id?>"><?=$comment->likes?></b> Gillningar</p>
                     </div>
                     <div id="<?= $comment->id ?>" class="collapse">
                         <form method="post" action="<?= Config::get("URL") . $blogslug . "/comment/" . $postslug ?>">
@@ -60,10 +73,23 @@ function renderComments($blogslug, $postslug, $comments)
                         <p><?= $this->post->created ?></p>
                     </div>
                     <div class="pull-right">
-                        <a class="btn btn-primary btn-sm">Gilla</a>
+                        <?php
+                        if (Session::userIsLoggedIn()) {
+                            if (BlogModel::likingpost($this->post->id)) {
+                                ?>
+                                <a onclick="like_post(this, <?= $this->post->id ?>, 0)" class="btn btn-primary btn-sm">Sluta
+                                    gilla</a>
+                                <?php
+                            } else {
+                                ?>
+                                <a onclick="like_post(this, <?= $this->post->id ?>, 1)" class="btn btn-primary btn-sm">Gilla</a>
+                                <?php
+                            }
+                        }
+                        ?>
                     </div>
                     <div class="pull-right like">
-                        <p><b><?= $this->post->likes ?></b> Gillningar</p>
+                        <p><b id="likes"><?= $this->post->likes ?></b> Likes</p>
                     </div>
                 </div>
             </div>

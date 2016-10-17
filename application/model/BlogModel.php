@@ -382,4 +382,15 @@ class BlogModel
         $query->execute(array(':blog' => $blog, ':visible' => $visiblity));
         return BlogModel::getBlog($blog)->visible;
     }
+
+    public static function likingpost($post){
+        $database = DatabaseFactory::getFactory()->getConnection();
+        $query = $database->prepare("SELECT *FROM Post_like WHERE user_id = :user AND post_id = :post");
+        $query->execute(array(':user' => Session::get('user_id'), ':post' => $post));
+        if($query->rowCount() > 0){
+            return true;
+        }else {
+            return false;
+        }
+    }
 }

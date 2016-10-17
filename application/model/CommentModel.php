@@ -15,32 +15,40 @@ class CommentModel
             $comment_id = Request::post("comment_id");
         }
         if ($user != -1 && $comment_id != -1) {
-            $query = $database->prepare("INSERT INTO `Comment`(`user_id`, `post_id`, `comment_id`, `comment`) VALUES (:user_id,:post_id,:comment_id,:comment)");
+            $query = $database->prepare("INSERT INTO `Comment`(`user_id`, `post_id`, `comment_id`, `comment`,user_agent,ip_adress) VALUES (:user_id,:post_id,:comment_id,:comment,:user_agent,:ip_adress)");
             $query->execute(array(
                 "user_id" => $user,
                 "post_id" => $post_id,
                 "comment_id" => $comment_id,
-                "comment" => Filter::XSSFilter($comment)
+                "comment" => Filter::XSSFilter($comment),
+                "user_agent" => $_SERVER['HTTP_USER_AGENT'],
+                "ip_adress" => $_SERVER['REMOTE_ADDR']
             ));
         } elseif ($user != -1 && $comment_id === -1) {
-            $query = $database->prepare("INSERT INTO `Comment`(`user_id`, `post_id`, `comment`) VALUES (:user_id,:post_id,:comment)");
+            $query = $database->prepare("INSERT INTO `Comment`(`user_id`, `post_id`, `comment`,user_agent,ip_adress) VALUES (:user_id,:post_id,:comment,:user_agent,:ip_adress)");
             $query->execute(array(
                 "user_id" => $user,
                 "post_id" => $post_id,
-                "comment" => Filter::XSSFilter($comment)
+                "comment" => Filter::XSSFilter($comment),
+                "user_agent" => $_SERVER['HTTP_USER_AGENT'],
+                "ip_adress" => $_SERVER['REMOTE_ADDR']
             ));
         } elseif ($user === -1 && $comment_id != -1) {
-            $query = $database->prepare("INSERT INTO `Comment`(`post_id`, `comment_id`, `comment`) VALUES (:post_id,:comment_id,:comment)");
+            $query = $database->prepare("INSERT INTO `Comment`(`post_id`, `comment_id`, `comment`,user_agent,ip_adress) VALUES (:post_id,:comment_id,:comment,:user_agent,:ip_adress)");
             $query->execute(array(
                 "post_id" => $post_id,
                 "comment_id" => $comment_id,
-                "comment" => Filter::XSSFilter($comment)
+                "comment" => Filter::XSSFilter($comment),
+                "user_agent" => $_SERVER['HTTP_USER_AGENT'],
+                "ip_adress" => $_SERVER['REMOTE_ADDR']
             ));
         } elseif ($user === -1 && $comment_id === -1){
-            $query = $database->prepare("INSERT INTO `Comment`(`post_id`, `comment`) VALUES (:post_id,:comment)");
+            $query = $database->prepare("INSERT INTO `Comment`(`post_id`, `comment`,user_agent,ip_adress) VALUES (:post_id,:comment,:user_agent,:ip_adress)");
             $query->execute(array(
                 "post_id" => $post_id,
-                "comment" => Filter::XSSFilter($comment)
+                "comment" => Filter::XSSFilter($comment),
+                "user_agent" => $_SERVER['HTTP_USER_AGENT'],
+                "ip_adress" => $_SERVER['REMOTE_ADDR']
             ));
         }
     }
@@ -131,5 +139,15 @@ class CommentModel
             return $query->fetchObject()->amount;
         else
             return 0;
+    }
+
+    public static function likingcomment($comment_id){
+        $database = DatabaseFactory::getFactory()->getConnection();
+        $query = $database->prepare("SELECT *FROM Comment_like WHERE comment_id = :comment AND user_id = :user");
+        $query->execute(array('comment' => $comment_id, 'user' => Session::get('user_id')));
+        if ($query->rowCount() > 0)
+            return true;
+        else
+            return false;
     }
 }

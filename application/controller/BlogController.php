@@ -183,6 +183,12 @@ class BlogController extends Controller
                     echo "Kunde inte skapa en unik slug";
                 }
                 break;
+            case 'post_likes':
+                echo BlogModel::getPostLikes(Request::post('post_id'));
+                break;
+            case 'comment_likes':
+                echo CommentModel::getCommentLikes(Request::post('comment_id'));
+                break;
             default:
                 header('HTTP/1.0 404 Not Found', true, 404);
                 $this->View->render('error/404');
@@ -210,6 +216,30 @@ class BlogController extends Controller
         $blog = BlogModel::getBlog($blogid);
         CommentModel::postComment(BlogModel::getpost($blogid, $postslug)->id);
         Redirect::to($blog->slug . "/" . $postslug);
+    }
+
+    public function like(){
+        if(Request::post('like') == 1){
+            if(BlogModel::addPostlike()){
+                echo 1;
+            }
+        }else{
+            if(BlogModel::removePostlike()){
+                echo 0;
+            }
+        }
+    }
+
+    public function like_comment(){
+        if(Request::post('like') == 1){
+            if(CommentModel::addCommentlike()){
+                echo 1;
+            }
+        }else{
+            if(CommentModel::removeCommentlike()){
+                echo 0;
+            }
+        }
     }
 
     public function visibility(){
