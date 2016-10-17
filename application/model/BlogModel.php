@@ -96,7 +96,7 @@ class BlogModel
                 ':category_id' => $category,
                 ':user_id' => Session::get('user_id'),
                 ':slug' => $titleslug,
-                ':title' => $title,
+                ':title' => Filter::XSSFilter($title),
                 ':content' => $content,
                 ':visibility' => $visibility,
                 ':created' => date('Y-m-d H:i:s'),
@@ -113,21 +113,21 @@ class BlogModel
     }
 
     public static function blog_create(){
-        $title = Filter::XSSFilter(Request::post('title'));
-        $description = Filter::XSSFilter(Request::post('description'));
+        $title = Request::post('title');
+        $description = Request::post('description');
         $about = Request::post('about');
         $visibility = Request::post('visibility');
         $facebook = null;
         $twitter = null;
         $google = null;
         if(strlen(Request::post('facebook')) > 10){
-            $facebook = Filter::XSSFilter(Request::post('facebook'));
+            $facebook = Request::post('facebook');
         }
         if(strlen(Request::post('twitter')) > 10){
-            $twitter = Filter::XSSFilter(Request::post('twitter'));
+            $twitter = Request::post('twitter');
         }
         if(strlen(Request::post('google')) > 10){
-            $google = Filter::XSSFilter(Request::post('google'));
+            $google = Request::post('google');
         }
         $blogname = self::slugify($title);
 
@@ -137,13 +137,13 @@ class BlogModel
         $success = $blog->execute(array(
             ':user_id' => Session::get("user_id"),
             ':slug' => $blogname,
-            ':title' => $title,
-            ':description' => $description,
+            ':title' => Filter::XSSFilter($title),
+            ':description' => Filter::XSSFilter($description),
             ':about' => $about,
             ':visible' => $visibility,
-            'facebook' => $facebook,
-            'twitter' => $twitter,
-            'google' => $google
+            'facebook' => Filter::XSSFilter($facebook),
+            'twitter' => Filter::XSSFilter($twitter),
+            'google' => Filter::XSSFilter($google)
         ));
         if ($success){
             return self::getBlog($database->lastInsertId());
@@ -154,31 +154,31 @@ class BlogModel
 
     public static function blog_update($blogid){
         $title = Request::post('title');
-        $description = Filter::XSSFilter(Request::post('description'));
+        $description = Request::post('description');
         $about = Request::post('about');
         $facebook = null;
         $twitter = null;
         $google = null;
         if(strlen(Request::post('facebook')) > 10){
-            $facebook = Filter::XSSFilter(Request::post('facebook'));
+            $facebook = Request::post('facebook');
         }
         if(strlen(Request::post('twitter')) > 10){
-            $twitter = Filter::XSSFilter(Request::post('twitter'));
+            $twitter = Request::post('twitter');
         }
         if(strlen(Request::post('google')) > 10){
-            $google = Filter::XSSFilter(Request::post('google'));
+            $google = Request::post('google');
         }
 
         $database = DatabaseFactory::getFactory()->getConnection();
 
         $blog = $database->prepare('UPDATE Blog SET title = :title, description = :description, about = :about, facebook = :facebook, twitter = :twitter, google_plus = :google WHERE id = :blog');
         $success = $blog->execute(array(
-            ':title' => $title,
-            ':description' => $description,
+            ':title' => Filter::XSSFilter($title),
+            ':description' => Filter::XSSFilter($description),
             ':about' => $about,
-            'facebook' => $facebook,
-            'twitter' => $twitter,
-            'google' => $google,
+            'facebook' => Filter::XSSFilter($facebook),
+            'twitter' => Filter::XSSFilter($twitter),
+            'google' => Filter::XSSFilter($google),
             'blog' => $blogid
         ));
         if ($success){
@@ -331,14 +331,14 @@ class BlogModel
         return $sql->fetchAll();
     }
 
-    public static function addPostlike($post_id){
+    public static function addPostlike(){
         $post_id = Request::post('post_id');
         $database = DatabaseFactory::getFactory()->getConnection();
         try{
             $add = $database->prepare('INSERT INTO Post_like (user_id, post_id) VALUES (:user_id, :post_id)');
             return $add->execute(array(
                 ':user_id' => Session::get('user_id'),
-                ':post_id' => $post_id,
+                ':post_id' => $post_id
             ));
         }catch (PDOException $e){
             echo $e;
@@ -346,6 +346,15 @@ class BlogModel
         }
 
     }
+
+   public static function removePostlike(){
+       $database = DatabaseFactory::getFactory()->getConnection();
+       $query = $database->prepare("DELETE FROM Post_like WHERE user_id = :user_id AND post_id = :post_id");
+       return $query->execute(array(
+           ':user_id' => Session::get('user_id'),
+           ':post_id' => Request::post('post_id')
+       ));
+   }
 
     public static function getPostLikes($post_id){
         $database = DatabaseFactory::getFactory()->getConnection();
