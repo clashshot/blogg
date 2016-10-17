@@ -15,44 +15,40 @@ class CommentModel
             $comment_id = Request::post("comment_id");
         }
         if ($user != -1 && $comment_id != -1) {
-            $query = $database->prepare("INSERT INTO `Comment`(`user_id`, `post_id`, `comment_id`, `comment`,user_agent,ip_adress,referer_site) VALUES (:user_id,:post_id,:comment_id,:comment,:user_agent,:ip_adress,:referer_site)");
+            $query = $database->prepare("INSERT INTO `Comment`(`user_id`, `post_id`, `comment_id`, `comment`,user_agent,ip_adress) VALUES (:user_id,:post_id,:comment_id,:comment,:user_agent,:ip_adress)");
             $query->execute(array(
                 "user_id" => $user,
                 "post_id" => $post_id,
                 "comment_id" => $comment_id,
                 "comment" => Filter::XSSFilter($comment),
                 "user_agent" => $_SERVER['HTTP_USER_AGENT'],
-                "ip_adress" => $_SERVER['REMOTE_ADDR'],
-                "referer_site" => $_SERVER['HTTP_REFERER']
+                "ip_adress" => $_SERVER['REMOTE_ADDR']
             ));
         } elseif ($user != -1 && $comment_id === -1) {
-            $query = $database->prepare("INSERT INTO `Comment`(`user_id`, `post_id`, `comment`,user_agent,ip_adress,referer_site) VALUES (:user_id,:post_id,:comment,:user_agent,:ip_adress,:referer_site)");
+            $query = $database->prepare("INSERT INTO `Comment`(`user_id`, `post_id`, `comment`,user_agent,ip_adress) VALUES (:user_id,:post_id,:comment,:user_agent,:ip_adress)");
             $query->execute(array(
                 "user_id" => $user,
                 "post_id" => $post_id,
                 "comment" => Filter::XSSFilter($comment),
                 "user_agent" => $_SERVER['HTTP_USER_AGENT'],
-                "ip_adress" => $_SERVER['REMOTE_ADDR'],
-                "referer_site" => $_SERVER['HTTP_REFERER']
+                "ip_adress" => $_SERVER['REMOTE_ADDR']
             ));
         } elseif ($user === -1 && $comment_id != -1) {
-            $query = $database->prepare("INSERT INTO `Comment`(`post_id`, `comment_id`, `comment`,user_agent,ip_adress,referer_site) VALUES (:post_id,:comment_id,:comment,:user_agent,:ip_adress,:referer_site)");
+            $query = $database->prepare("INSERT INTO `Comment`(`post_id`, `comment_id`, `comment`,user_agent,ip_adress) VALUES (:post_id,:comment_id,:comment,:user_agent,:ip_adress)");
             $query->execute(array(
                 "post_id" => $post_id,
                 "comment_id" => $comment_id,
                 "comment" => Filter::XSSFilter($comment),
                 "user_agent" => $_SERVER['HTTP_USER_AGENT'],
-                "ip_adress" => $_SERVER['REMOTE_ADDR'],
-                "referer_site" => $_SERVER['HTTP_REFERER']
+                "ip_adress" => $_SERVER['REMOTE_ADDR']
             ));
         } elseif ($user === -1 && $comment_id === -1){
-            $query = $database->prepare("INSERT INTO `Comment`(`post_id`, `comment`,user_agent,ip_adress,referer_site) VALUES (:post_id,:comment,:user_agent,:ip_adress,:referer_site)");
+            $query = $database->prepare("INSERT INTO `Comment`(`post_id`, `comment`,user_agent,ip_adress) VALUES (:post_id,:comment,:user_agent,:ip_adress)");
             $query->execute(array(
                 "post_id" => $post_id,
                 "comment" => Filter::XSSFilter($comment),
                 "user_agent" => $_SERVER['HTTP_USER_AGENT'],
-                "ip_adress" => $_SERVER['REMOTE_ADDR'],
-                "referer_site" => $_SERVER['HTTP_REFERER']
+                "ip_adress" => $_SERVER['REMOTE_ADDR']
             ));
         }
     }
