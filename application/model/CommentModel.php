@@ -95,4 +95,39 @@ class CommentModel
             return 0;
         }
     }
+
+    public static function addCommentlike(){
+        $comment_id = Request::post('comment_id');
+        $database = DatabaseFactory::getFactory()->getConnection();
+        try{
+            $add = $database->prepare('INSERT INTO Comment_like (user_id, comment_id) VALUES (:user_id, :comment_id)');
+            return $add->execute(array(
+                ':user_id' => Session::get('user_id'),
+                ':comment_id' => $comment_id
+            ));
+        }catch (PDOException $e){
+            echo $e;
+            return false;
+        }
+
+    }
+
+    public static function removeCommentlike(){
+        $database = DatabaseFactory::getFactory()->getConnection();
+        $query = $database->prepare("DELETE FROM Comment_like WHERE user_id = :user_id AND comment_id = :comment_id");
+        return $query->execute(array(
+            ':user_id' => Session::get('user_id'),
+            ':comment_id' => Request::post('comment_id')
+        ));
+    }
+
+    public static function getPostLikes($comment_id){
+        $database = DatabaseFactory::getFactory()->getConnection();
+        $query = $database->prepare("SELECT COUNT(*) as amount FROM Comment_like WHERE comment_id = :comment");
+        $query->execute(array('comment' => $comment_id));
+        if ($query->rowCount() > 0)
+            return $query->fetchObject()->amount;
+        else
+            return 0;
+    }
 }

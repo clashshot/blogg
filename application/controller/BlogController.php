@@ -32,7 +32,7 @@ class BlogController extends Controller
 
     public function post($blogid, $postslug)
     {
-        if (BlogModel::getBlog($blogid)->visible != 0) {
+        if (BlogModel::getBlog($blogid)->visible != 0 || UserModel::getExtendedPermission($blogid)) {
             if ($post = BlogModel::getpost($blogid, $postslug)) {
                 if (UserModel::getPermission($blogid) >= $post->visibility) {
                     $blog = BlogModel::getBlog($blogid);

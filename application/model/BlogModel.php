@@ -331,14 +331,14 @@ class BlogModel
         return $sql->fetchAll();
     }
 
-    public static function addPostlike($post_id){
+    public static function addPostlike(){
         $post_id = Request::post('post_id');
         $database = DatabaseFactory::getFactory()->getConnection();
         try{
             $add = $database->prepare('INSERT INTO Post_like (user_id, post_id) VALUES (:user_id, :post_id)');
             return $add->execute(array(
                 ':user_id' => Session::get('user_id'),
-                ':post_id' => $post_id,
+                ':post_id' => $post_id
             ));
         }catch (PDOException $e){
             echo $e;
@@ -346,6 +346,15 @@ class BlogModel
         }
 
     }
+
+   public static function removePostlike(){
+       $database = DatabaseFactory::getFactory()->getConnection();
+       $query = $database->prepare("DELETE FROM Post_like WHERE user_id = :user_id AND post_id = :post_id");
+       return $query->execute(array(
+           ':user_id' => Session::get('user_id'),
+           ':post_id' => Request::post('post_id')
+       ));
+   }
 
     public static function getPostLikes($post_id){
         $database = DatabaseFactory::getFactory()->getConnection();
