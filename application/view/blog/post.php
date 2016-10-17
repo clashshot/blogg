@@ -43,8 +43,17 @@ function renderComments($blogslug, $postslug, $comments)
     <div class="row">
         <div class="col-md-8">
             <div class="well">
-                <h2 class="text-center"><?= $this->post->title ?></h2>
+                <h1 class="text-center"><?= $this->post->title ?></h1>
                 <?= $this->post->content ?>
+                <div class="time row">
+                    <div class="pull-left">
+                        <p><?= $this->post->created?></p>
+                    </div>
+
+                    <div class="pull-right like">
+                        <p><b><?=$this->post->likes?></b> Likes</p>
+                    </div>
+                </div>
             </div>
         </div>
         <?php

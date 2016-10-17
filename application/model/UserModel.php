@@ -419,7 +419,7 @@ class UserModel
         $query->execute(array(':blog_id' => $blog_id));
         $blog_owner = $query->fetchObject()->user_id;
 
-        if ($account_type>=1 or $mod>=1 or Session::get("user_id")==$blog_owner){
+        if ($account_type>=3 or $mod>=1 or Session::get("user_id")==$blog_owner){
             return true;
         }else{
             return false;

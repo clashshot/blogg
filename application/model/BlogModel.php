@@ -40,7 +40,9 @@ class BlogModel
             ':blog' => $blogid
         ));
         if($post->rowCount() > 0) {
-            return $post->fetchObject();
+            $postrow = $post->fetchObject();
+            $postrow->likes = self::getPostLikes($postrow->id);
+            return $postrow;
         }else{
             return false;
         }
