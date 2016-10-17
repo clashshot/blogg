@@ -383,7 +383,6 @@ class BlogModel
         return BlogModel::getBlog($blog)->visible;
     }
 
-<<<<<<< HEAD
     public static function likingpost($post){
         $database = DatabaseFactory::getFactory()->getConnection();
         $query = $database->prepare("SELECT *FROM Post_like WHERE user_id = :user AND post_id = :post");
@@ -394,7 +393,7 @@ class BlogModel
             return false;
         }
     }
-=======
+
     public static function editpost($blogid, $postslug){
         $category = Request::post('category');
         $title = Request::post('title');
@@ -454,6 +453,4 @@ class BlogModel
         }
         return false;
     }
-
->>>>>>> 2ecca260793708092f2d5bd05c9962d8a871a99e
 }
