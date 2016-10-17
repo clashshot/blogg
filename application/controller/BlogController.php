@@ -75,7 +75,10 @@ class BlogController extends Controller
                 break;
             case 'editpost':
                 $post = BlogModel::getpost($blogid, $postslug);
-                $this->View->render('manage/editpost', array('post' => $post));
+                $this->View->render('manage/editpost', array(
+                    'post' => $post,
+                    'category' => BlogModel::Category($blogid)
+                ));
                 break;
             case 'deletepost':
                 if (UserModel::getEditPermission($blogid) >= 3) {

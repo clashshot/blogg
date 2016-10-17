@@ -34,10 +34,11 @@ class BlogModel
     public static function getpost($blogid, $postslug)
     {
         $database = DatabaseFactory::getFactory()->getConnection();
-        $post = $database->prepare('SELECT * FROM Post WHERE slug = :slug AND blog_id = :blog');
+        $post = $database->prepare('SELECT * FROM Post WHERE slug = :slug AND blog_id = :blog AND user_id = :user_id');
         $post->execute(array(
             ':slug' => $postslug,
-            ':blog' => $blogid
+            ':blog' => $blogid,
+            ':user_id' => Session::get('user_id')
         ));
         if($post->rowCount() > 0) {
             return $post->fetchObject();
@@ -261,5 +262,15 @@ class BlogModel
         }else{
             return "Ingen kategori";
         }
+    }
+
+    public static function Category($blogid){
+        $database = DatabaseFactory::getFactory()->getConnection();
+        $sql = $database->prepare('SELECT * FROM Category WHERE blog_id = :blog_id');
+        $sql->execute(array(
+            ':blog_id' => $blogid
+        ));
+
+        return $sql->fetchAll();
     }
 }
