@@ -49,7 +49,9 @@ function renderComments($blogslug, $postslug, $comments)
                     <div class="pull-left">
                         <p><?= $this->post->created?></p>
                     </div>
-
+                    <div class="pull-right">
+                        <a class="btn btn-primary btn-sm">Gilla</a>
+                    </div>
                     <div class="pull-right like">
                         <p><b><?=$this->post->likes?></b> Likes</p>
                     </div>
