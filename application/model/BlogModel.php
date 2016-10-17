@@ -96,7 +96,7 @@ class BlogModel
                 ':category_id' => $category,
                 ':user_id' => Session::get('user_id'),
                 ':slug' => $titleslug,
-                ':title' => $title,
+                ':title' => Filter::XSSFilter($title),
                 ':content' => $content,
                 ':visibility' => $visibility,
                 ':created' => date('Y-m-d H:i:s'),
@@ -113,21 +113,21 @@ class BlogModel
     }
 
     public static function blog_create(){
-        $title = Filter::XSSFilter(Request::post('title'));
-        $description = Filter::XSSFilter(Request::post('description'));
+        $title = Request::post('title');
+        $description = Request::post('description');
         $about = Request::post('about');
         $visibility = Request::post('visibility');
         $facebook = null;
         $twitter = null;
         $google = null;
         if(strlen(Request::post('facebook')) > 10){
-            $facebook = Filter::XSSFilter(Request::post('facebook'));
+            $facebook = Request::post('facebook');
         }
         if(strlen(Request::post('twitter')) > 10){
-            $twitter = Filter::XSSFilter(Request::post('twitter'));
+            $twitter = Request::post('twitter');
         }
         if(strlen(Request::post('google')) > 10){
-            $google = Filter::XSSFilter(Request::post('google'));
+            $google = Request::post('google');
         }
         $blogname = self::slugify($title);
 
@@ -137,13 +137,13 @@ class BlogModel
         $success = $blog->execute(array(
             ':user_id' => Session::get("user_id"),
             ':slug' => $blogname,
-            ':title' => $title,
-            ':description' => $description,
+            ':title' => Filter::XSSFilter($title),
+            ':description' => Filter::XSSFilter($description),
             ':about' => $about,
             ':visible' => $visibility,
-            'facebook' => $facebook,
-            'twitter' => $twitter,
-            'google' => $google
+            'facebook' => Filter::XSSFilter($facebook),
+            'twitter' => Filter::XSSFilter($twitter),
+            'google' => Filter::XSSFilter($google)
         ));
         if ($success){
             return self::getBlog($database->lastInsertId());
@@ -154,31 +154,31 @@ class BlogModel
 
     public static function blog_update($blogid){
         $title = Request::post('title');
-        $description = Filter::XSSFilter(Request::post('description'));
+        $description = Request::post('description');
         $about = Request::post('about');
         $facebook = null;
         $twitter = null;
         $google = null;
         if(strlen(Request::post('facebook')) > 10){
-            $facebook = Filter::XSSFilter(Request::post('facebook'));
+            $facebook = Request::post('facebook');
         }
         if(strlen(Request::post('twitter')) > 10){
-            $twitter = Filter::XSSFilter(Request::post('twitter'));
+            $twitter = Request::post('twitter');
         }
         if(strlen(Request::post('google')) > 10){
-            $google = Filter::XSSFilter(Request::post('google'));
+            $google = Request::post('google');
         }
 
         $database = DatabaseFactory::getFactory()->getConnection();
 
         $blog = $database->prepare('UPDATE Blog SET title = :title, description = :description, about = :about, facebook = :facebook, twitter = :twitter, google_plus = :google WHERE id = :blog');
         $success = $blog->execute(array(
-            ':title' => $title,
-            ':description' => $description,
+            ':title' => Filter::XSSFilter($title),
+            ':description' => Filter::XSSFilter($description),
             ':about' => $about,
-            'facebook' => $facebook,
-            'twitter' => $twitter,
-            'google' => $google,
+            'facebook' => Filter::XSSFilter($facebook),
+            'twitter' => Filter::XSSFilter($twitter),
+            'google' => Filter::XSSFilter($google),
             'blog' => $blogid
         ));
         if ($success){
