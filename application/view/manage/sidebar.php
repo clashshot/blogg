@@ -16,6 +16,11 @@
                         </tr>
                         <tr>
                             <td>
+                                <span class="glyphicon glyphicon-pencil text-primary"></span><a href="<?php echo Config::get('URL') . $this->blog->slug;?>/manage/pages">Sidor</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
                                 <span class="glyphicon glyphicon-file text-info"></span><a href="<?php echo Config::get('URL') . $this->blog->slug;?>/manage/category">Kategori</a>
                             </td>
                         </tr>
@@ -31,8 +36,6 @@
                         </tr>
                     </table>
                 </div>
-
-
         </div>
     </div>
 </div>

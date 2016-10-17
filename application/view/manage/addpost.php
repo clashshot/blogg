@@ -20,9 +20,14 @@
                             <option value="2">Bilar</option>
                         </select>
                     </div>
-                    <div class="form-group">
-                        <label class="radio-inline"><input type="radio" name="visibility" value="1" checked />Synlig</label>
-                        <label class="radio-inline"><input type="radio" name="visibility" value="0" />Ej synlig</label>
+                    <div class="form-group" style="max-width:25%;">
+                        <label>Synlighet rättigheter</label>
+                        <select name="visibility" class="form-control">
+                            <option selected disabled>Välj</option>
+                            <option value="1">Publik</option>
+                            <option value="2">Registrerade användare</option>
+                            <option value="3">Privat</option>
+                        </select>
                     </div>
                     <div class="form-group">
                         <label class="radio-inline"><input type="radio" name="comment" value="1" checked />Tillåt kommentarer</label>
