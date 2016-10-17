@@ -95,6 +95,10 @@ class BlogController extends Controller
                     "blog" => BlogModel::getBlog($blogid)
                 ));
                 break;
+            case 'blog_update':
+                BlogModel::blog_update($blogid);
+                Redirect::to(BlogModel::getBlog($blogid)->slug . '/manage');
+                break;
             case 'history':
                 echo 'history';
                 break;

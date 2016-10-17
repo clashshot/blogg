@@ -10,6 +10,22 @@
             <label>Bloggnamn</label>
             <input type="text" onkeyup="blogSlugCheck(this)" name ="title" class="form-control" required>
         </div>
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-4">
+                    <input type="text" name="facebook" class="form-control"
+                           placeholder="Här skriver du in din facebook sida">
+                </div>
+                <div class="col-md-4">
+                    <input type="text" name="twitter" class="form-control"
+                           placeholder="Här skriver du in din twitter profil">
+                </div>
+                <div class="col-md-4">
+                    <input type="text" name="google" class="form-control"
+                           placeholder="Här skriver du in din google+ profil">
+                </div>
+            </div>
+        </div>
         <div class = "form-group">
             <label>Kort beskrivning om dig</label>
             <input type="text" name="description" class="form-control" required>

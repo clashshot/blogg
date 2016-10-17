@@ -109,23 +109,73 @@ class BlogModel
     }
 
     public static function blog_create(){
-
         $title = Request::post('title');
         $description = Request::post('description');
         $about = Request::post('about');
         $visibility = Request::post('visibility');
+        $facebook = null;
+        $twitter = null;
+        $google = null;
+        if(strlen(Request::post('facebook')) > 10){
+            $facebook = Request::post('facebook');
+        }
+        if(strlen(Request::post('twitter')) > 10){
+            $twitter = Request::post('twitter');
+        }
+        if(strlen(Request::post('google')) > 10){
+            $google = Request::post('google');
+        }
         $blogname = self::slugify($title);
 
         $database = DatabaseFactory::getFactory()->getConnection();
 
-        $blog = $database->prepare('INSERT INTO Blog (user_id, slug, title, description, about, visible) VALUES(:user_id, :slug, :title, :description, :about, :visible)');
+        $blog = $database->prepare('INSERT INTO Blog (user_id, slug, title, description, about, visible, facebook, twitter, google_plus) VALUES(:user_id, :slug, :title, :description, :about, :visible, :facebook, :twitter, :google)');
         $success = $blog->execute(array(
             ':user_id' => Session::get("user_id"),
             ':slug' => $blogname,
             ':title' => $title,
             ':description' => $description,
             ':about' => $about,
-            ':visible' => $visibility
+            ':visible' => $visibility,
+            'facebook' => $facebook,
+            'twitter' => $twitter,
+            'google' => $google
+        ));
+        if ($success){
+            return self::getBlog($database->lastInsertId());
+        }else{
+            return false;
+        }
+    }
+
+    public static function blog_update($blogid){
+        $title = Request::post('title');
+        $description = Request::post('description');
+        $about = Request::post('about');
+        $facebook = null;
+        $twitter = null;
+        $google = null;
+        if(strlen(Request::post('facebook')) > 10){
+            $facebook = Request::post('facebook');
+        }
+        if(strlen(Request::post('twitter')) > 10){
+            $twitter = Request::post('twitter');
+        }
+        if(strlen(Request::post('google')) > 10){
+            $google = Request::post('google');
+        }
+
+        $database = DatabaseFactory::getFactory()->getConnection();
+
+        $blog = $database->prepare('UPDATE Blog SET title = :title, description = :description, about = :about, facebook = :facebook, twitter = :twitter, google_plus = :google WHERE id = :blog');
+        $success = $blog->execute(array(
+            ':title' => $title,
+            ':description' => $description,
+            ':about' => $about,
+            'facebook' => $facebook,
+            'twitter' => $twitter,
+            'google' => $google,
+            'blog' => $blogid
         ));
         if ($success){
             return self::getBlog($database->lastInsertId());

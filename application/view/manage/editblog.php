@@ -6,14 +6,33 @@
     <div class="col-md-9">
         <form method="post" action="<?php echo Config::get('URL'); ?><?= $this->blog->slug ?>/manage/blog_update">
             <div class="form-group">
-                <input type="text" name="title" class="form-control" value="<?=$this->blog->title?>" required placeholder="Här skriver du in din titel">
+                <input type="text" name="title" class="form-control" value="<?= $this->blog->title ?>" required
+                       placeholder="Här skriver du in din titel">
             </div>
             <div class="form-group">
-                <input type="text" name="description" class="form-control" value="<?=$this->blog->description?>" required
+                <div class="row">
+                    <div class="col-md-4">
+                        <input type="text" name="facebook" value="<?=$this->blog->facebook?>" class="form-control"
+                               placeholder="Här skriver du in din facebook sida">
+                    </div>
+                    <div class="col-md-4">
+                        <input type="text" name="twitter" value="<?=$this->blog->twitter?>" class="form-control"
+                               placeholder="Här skriver du in din twitter profil">
+                    </div>
+                    <div class="col-md-4">
+                        <input type="text" name="google" value="<?=$this->blog->google_plus?>" class="form-control"
+                               placeholder="Här skriver du in din google+ profil">
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="text" name="description" class="form-control" value="<?= $this->blog->description ?>"
+                       required
                        placeholder="Skriv en beskriving om bloggen">
             </div>
             <div class="form-group">
-                <textarea name="about" class="form-control" id="editor1"><?=$this->blog->about?></textarea>
+
+                <textarea name="about" class="form-control" id="editor1"><?= $this->blog->about ?></textarea>
             </div>
             <script>
                 CKEDITOR.replace('editor1', {
