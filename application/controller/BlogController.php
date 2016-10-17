@@ -20,37 +20,41 @@ class BlogController extends Controller
     public function index($blogid)
     {
         $blog = BlogModel::getBlog($blogid);
-        $this->View->render('blog/index', array(
-            'blog' => $blog,
-            'user' => UserModel::getPublicProfileOfUser($blog->user_id),
-            'posts' => BlogModel::getPosts($blogid, Request::get('page')),
-            'paginate' => new Paginate("Post WHERE blog_id = :blog_id AND visibility <= :permission", [':blog_id' => $blogid, ':permission' => UserModel::getPermission($blogid)], 5)
-        ));
+        if ($blog->visible != 0 || UserModel::getExtendedPermission($blogid)) {
+            $this->View->render('blog/index', array(
+                'blog' => $blog,
+                'user' => UserModel::getPublicProfileOfUser($blog->user_id),
+                'posts' => BlogModel::getPosts($blogid, Request::get('page')),
+                'paginate' => new Paginate("Post WHERE blog_id = :blog_id AND visibility <= :permission", [':blog_id' => $blogid, ':permission' => UserModel::getPermission($blogid)], 5)
+            ));
+        }
     }
 
     public function post($blogid, $postslug)
     {
-        if ($post = BlogModel::getpost($blogid, $postslug)) {
-            if(UserModel::getPermission($blogid) >= $post->visibility){
+        if (BlogModel::getBlog($blogid)->visible != 0) {
+            if ($post = BlogModel::getpost($blogid, $postslug)) {
+                if (UserModel::getPermission($blogid) >= $post->visibility) {
+                    $blog = BlogModel::getBlog($blogid);
+                    $this->View->render('blog/post', array(
+                        'blog' => $blog,
+                        'post' => $post,
+                        'user' => UserModel::getPublicProfileOfUser($blog->user_id),
+                        'comments' => CommentModel::getComments($post->id)
+                    ));
+                } else {
+                    Redirect::to(BlogModel::getBlog($blogid)->slug);
+                }
+            } elseif (BlogModel::getpage($blogid, $postslug)) {
                 $blog = BlogModel::getBlog($blogid);
-                $this->View->render('blog/post',array(
+                $this->View->render('page/index', array(
                     'blog' => $blog,
-                    'post' => $post,
                     'user' => UserModel::getPublicProfileOfUser($blog->user_id),
-                    'comments' => CommentModel::getComments($post->id)
+                    'page' => BlogModel::getPage($blogid, $postslug)
                 ));
-            }else{
-                Redirect::to(BlogModel::getBlog($blogid)->slug);
+            } else {
+                echo '<h1>Did not find post.</h1>';
             }
-        } elseif (BlogModel::getpage($blogid, $postslug)) {
-            $blog = BlogModel::getBlog($blogid);
-            $this->View->render('page/index', array(
-                'blog' => $blog,
-                'user' => UserModel::getPublicProfileOfUser($blog->user_id),
-                'page' => BlogModel::getPage($blogid, $postslug)
-            ));
-        } else {
-            echo '<h1>Did not find post.</h1>';
         }
     }
 
@@ -222,7 +226,7 @@ class BlogController extends Controller
     {
         $blog = BlogModel::getBlog($blogid);
         CommentModel::postComment(BlogModel::getpost($blogid, $postslug)->id);
-        Redirect::to($blog->slug."/".$postslug);
+        Redirect::to($blog->slug . "/" . $postslug);
     }
 
     private function generateRandomString($length = 10)

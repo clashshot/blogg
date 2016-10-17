@@ -113,21 +113,21 @@ class BlogModel
     }
 
     public static function blog_create(){
-        $title = Request::post('title');
-        $description = Request::post('description');
+        $title = Filter::XSSFilter(Request::post('title'));
+        $description = Filter::XSSFilter(Request::post('description'));
         $about = Request::post('about');
         $visibility = Request::post('visibility');
         $facebook = null;
         $twitter = null;
         $google = null;
         if(strlen(Request::post('facebook')) > 10){
-            $facebook = Request::post('facebook');
+            $facebook = Filter::XSSFilter(Request::post('facebook'));
         }
         if(strlen(Request::post('twitter')) > 10){
-            $twitter = Request::post('twitter');
+            $twitter = Filter::XSSFilter(Request::post('twitter'));
         }
         if(strlen(Request::post('google')) > 10){
-            $google = Request::post('google');
+            $google = Filter::XSSFilter(Request::post('google'));
         }
         $blogname = self::slugify($title);
 
@@ -154,19 +154,19 @@ class BlogModel
 
     public static function blog_update($blogid){
         $title = Request::post('title');
-        $description = Request::post('description');
+        $description = Filter::XSSFilter(Request::post('description'));
         $about = Request::post('about');
         $facebook = null;
         $twitter = null;
         $google = null;
         if(strlen(Request::post('facebook')) > 10){
-            $facebook = Request::post('facebook');
+            $facebook = Filter::XSSFilter(Request::post('facebook'));
         }
         if(strlen(Request::post('twitter')) > 10){
-            $twitter = Request::post('twitter');
+            $twitter = Filter::XSSFilter(Request::post('twitter'));
         }
         if(strlen(Request::post('google')) > 10){
-            $google = Request::post('google');
+            $google = Filter::XSSFilter(Request::post('google'));
         }
 
         $database = DatabaseFactory::getFactory()->getConnection();

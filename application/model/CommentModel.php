@@ -20,27 +20,27 @@ class CommentModel
                 "user_id" => $user,
                 "post_id" => $post_id,
                 "comment_id" => $comment_id,
-                "comment" => $comment
+                "comment" => Filter::XSSFilter($comment)
             ));
         } elseif ($user != -1 && $comment_id === -1) {
             $query = $database->prepare("INSERT INTO `Comment`(`user_id`, `post_id`, `comment`) VALUES (:user_id,:post_id,:comment)");
             $query->execute(array(
                 "user_id" => $user,
                 "post_id" => $post_id,
-                "comment" => $comment
+                "comment" => Filter::XSSFilter($comment)
             ));
         } elseif ($user === -1 && $comment_id != -1) {
             $query = $database->prepare("INSERT INTO `Comment`(`post_id`, `comment_id`, `comment`) VALUES (:post_id,:comment_id,:comment)");
             $query->execute(array(
                 "post_id" => $post_id,
                 "comment_id" => $comment_id,
-                "comment" => $comment
+                "comment" => Filter::XSSFilter($comment)
             ));
         } elseif ($user === -1 && $comment_id === -1){
             $query = $database->prepare("INSERT INTO `Comment`(`post_id`, `comment`) VALUES (:post_id,:comment)");
             $query->execute(array(
                 "post_id" => $post_id,
-                "comment" => $comment
+                "comment" => Filter::XSSFilter($comment)
             ));
         }
     }
