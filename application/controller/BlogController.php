@@ -104,7 +104,7 @@ class BlogController extends Controller
                     echo 'history';
                     break;
                 case 'mods':
-                    if(UserModel::getAddModPermission($blogid)) {
+                    if(UserModel::getExtendedPermission($blogid)) {
                         $this->View->render('manage/mods', array(
                             'blog' => BlogModel::getBlog($blogid),
                             'mods' => BlogModel::getMods($blogid)
