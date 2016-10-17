@@ -2,12 +2,13 @@
 
 class CategoryModel
 {
-    public static function showCategory($blogid)
+    public static function showCategory($blogid, $exclude)
     {
         $database = DatabaseFactory::getFactory()->getConnection();
-        $sql = $database->prepare('SELECT id, blog_id, name FROM Category WHERE blog_id = :blogid');
+        $sql = $database->prepare('SELECT * FROM Category WHERE id != :exclude AND blog_id = :blogid');
         $sql->execute(array(
-            ':blogid' => $blogid
+            ':blogid' => $blogid,
+            ':exclude' => $exclude
         ));
 
         return $sql->fetchAll();
@@ -30,5 +31,13 @@ class CategoryModel
             ':id' => Request::post('category'),
             ':blog' => $blogid
         ));
+    }
+
+    public static function getnamebyid($tablename, $columnname, $value){
+        $database = DatabaseFactory::getFactory()->getConnection();
+        $query = $database->prepare("SELECT * FROM $tablename WHERE $columnname = $value");
+        $query->execute();
+
+        return $query->fetchObject();
     }
 }

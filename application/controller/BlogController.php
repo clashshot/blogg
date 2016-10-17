@@ -86,7 +86,23 @@ class BlogController extends Controller
                     break;
                 case 'editpost':
                     $post = BlogModel::getpost($blogid, $postslug);
-                    $this->View->render('manage/editpost', array('post' => $post));
+                    $exclude = $post->category_id;
+                    $category = CategoryModel::showCategory($blogid, $exclude);
+                    $this->View->render('manage/editpost', array(
+                        'blog' => BlogModel::getBlog($blogid),
+                        'post' => $post,
+                        'category' => $category
+                    ));
+                    break;
+                case 'editpost_action':
+                    $editpost = BlogModel::editpost($blogid, $postslug);
+                    if($editpost){
+                        Session::add('feedback_positive', 'Ditt inlägg har uppdaterats.');
+                        Redirect::to(BlogModel::getBlog($blogid)->slug . '/manage/index');
+                    } else {
+                        Session::add('feedback_negative', 'Ditt inlägg kunde ej uppdatera.');
+                        Redirect::to(BlogModel::getBlog($blogid)->slug . '/manage/editpost/'.$postslug);
+                    }
                     break;
                 case 'deletepost':
                     if (UserModel::getEditPermission($blogid)) {
