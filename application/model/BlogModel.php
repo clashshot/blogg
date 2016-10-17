@@ -371,6 +371,15 @@ class BlogModel
 
         $query = $database->prepare("DELETE FROM Post WHERE blog_id = :blog AND slug = :slug");
         return $query->execute(array(':blog' => $blogid, ':slug' => $postslug));
+    }
 
+    public static function switchVisible(){
+        $blog = Request::post('blog_id');
+        $visiblity = Request::post('visible');
+
+        $database = DatabaseFactory::getFactory()->getConnection();
+        $query = $database->prepare("UPDATE Blog SET visible = :visible WHERE id = :blog");
+        $query->execute(array(':blog' => $blog, ':visible' => $visiblity));
+        return BlogModel::getBlog($blog)->visible;
     }
 }

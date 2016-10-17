@@ -212,6 +212,10 @@ class BlogController extends Controller
         Redirect::to($blog->slug . "/" . $postslug);
     }
 
+    public function visibility(){
+        echo BlogModel::switchVisible();
+    }
+
     private function generateRandomString($length = 10)
     {
         $characters = '0123456789';

@@ -106,3 +106,24 @@ function addCategory(bid) {
         }
     });
 }
+
+function setVisibility(button, bid, visibility) {
+    $.ajax('/blog/visibility/',{
+        data: {format: "json", blog_id: bid, visible: visibility},
+        dataType: 'json',
+        type: "POST",
+        success:function (data) {
+            var parent = button.parentNode;
+            parent.innerHTML = '';
+            if(data == 1){
+                $('<i class="-alt fa fa-2x fa-eye fa-fw" onclick="setVisibility(this, ' + bid + ', 0)"></i>').appendTo(parent);
+            }else if(data == 0){
+                $('<i class="-alt fa fa-2x fa-fw fa-eye-slash" onclick="setVisibility(this,' + bid + ', 1)"></i>').appendTo(parent);
+            }
+        },
+        error:function (request, status, error) {
+            var manage = document.getElementsByClassName("col-md-9")[0];
+            $('<div class="alert alert-danger fade in"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>' + error + '</div>').prependTo(manage);
+        }
+    });
+}
