@@ -27,9 +27,9 @@ class BlogModel
         ));
         $blogr = $blog->fetchObject();
         if($blog->rowCount() > 0) {
-            if($blogr->visible>=1 or UserModel::getExtendedPermission()) {
-                return $blogr;
-            }
+
+            return $blogr;
+
         }
     }
 
