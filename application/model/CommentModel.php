@@ -58,6 +58,7 @@ class CommentModel
             $comments = array();
             while($comment = $query->fetchObject()){
                 $comment->subComments = self::subComment($comment->id);
+                $comment->likes = self::getCommentLikes($comment->id);
                 $comments[] = $comment;
             }
             return $comments;
@@ -76,6 +77,7 @@ class CommentModel
             $comments = array();
             while($comment = $query->fetchObject()){
                 $comment->subComments = self::subComment($comment->id);
+                $comment->likes = self::getCommentLikes($comment->id);
                 $comments[] = $comment;
             }
             return $comments;
@@ -121,7 +123,7 @@ class CommentModel
         ));
     }
 
-    public static function getPostLikes($comment_id){
+    public static function getCommentLikes($comment_id){
         $database = DatabaseFactory::getFactory()->getConnection();
         $query = $database->prepare("SELECT COUNT(*) as amount FROM Comment_like WHERE comment_id = :comment");
         $query->execute(array('comment' => $comment_id));

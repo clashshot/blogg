@@ -26,6 +26,9 @@ function renderComments($blogslug, $postslug, $comments)
                         Svara
                     </button>
                     <input type="submit" class="btn btn-primary btn-sm" value="Gilla"/>
+                    <div class="like">
+                        <p><b><?=$comment->likes?></b> Gillningar</p>
+                    </div>
                     <div id="<?= $comment->id ?>" class="collapse">
                         <form method="post" action="<?= Config::get("URL") . $blogslug . "/comment/" . $postslug ?>">
                             <input type="hidden" name="comment_id" value="<?= $comment->id ?>"/>
@@ -60,7 +63,7 @@ function renderComments($blogslug, $postslug, $comments)
                         <a class="btn btn-primary btn-sm">Gilla</a>
                     </div>
                     <div class="pull-right like">
-                        <p><b><?= $this->post->likes ?></b> Likes</p>
+                        <p><b><?= $this->post->likes ?></b> Gillningar</p>
                     </div>
                 </div>
             </div>
