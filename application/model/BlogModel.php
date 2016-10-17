@@ -383,6 +383,7 @@ class BlogModel
         return BlogModel::getBlog($blog)->visible;
     }
 
+<<<<<<< HEAD
     public static function likingpost($post){
         $database = DatabaseFactory::getFactory()->getConnection();
         $query = $database->prepare("SELECT *FROM Post_like WHERE user_id = :user AND post_id = :post");
@@ -393,4 +394,66 @@ class BlogModel
             return false;
         }
     }
+=======
+    public static function editpost($blogid, $postslug){
+        $category = Request::post('category');
+        $title = Request::post('title');
+        $content = Request::post('content');
+        $visibility = Request::post('visibility');
+        $allowcomments = Request::post('comment');
+
+        if(empty($category) && empty($title) && empty($content) && empty($visibility) && empty($allowcomments)){
+            return false;
+        }
+
+        if(self::createposthistory($blogid, $postslug)){
+            $database = DatabaseFactory::getFactory()->getConnection();
+                $edit = $database->prepare("
+            UPDATE Post 
+            SET category_id = :category_id, title = :title, content = :content, visibility = :visibility, allow_comments = :allow_comments, updated = :updated 
+            WHERE blog_id = :blog_id AND slug = :slug");
+
+                $edit->execute(array(
+                    ':category_id' => $category,
+                    ':title' => $title,
+                    ':content' => $content,
+                    ':visibility' => $visibility,
+                    ':allow_comments' => $allowcomments,
+                    ':updated' => date('Y-m-d H:i:s'),
+                    ':blog_id' => $blogid,
+                    ':slug' => $postslug
+                ));
+            if($edit){
+                return true;
+            }
+
+        }
+        return false;
+    }
+
+    public static function createposthistory($blogid, $postslug){
+
+        $database = DatabaseFactory::getFactory()->getConnection();
+
+        $get = $database->prepare('SELECT * FROM Post WHERE blog_id = :blogid AND slug = :postslug');
+        $get->execute(array(
+            ':blogid' => $blogid,
+            ':postslug' => $postslug
+        ));
+        $getr = $get->fetchObject();
+
+        $insert = $database->prepare('INSERT INTO Post_history(post_id, title, content, created) VALUES (:post_id, :title, :content, :created)');
+        $insert->execute(array(
+            ':post_id' => $getr->id,
+            ':title' => $getr->title,
+            ':content' => $getr->content,
+            ':created' => date('Y-m-d H:i:s')
+        ));
+        if($insert){
+            return true;
+        }
+        return false;
+    }
+
+>>>>>>> 2ecca260793708092f2d5bd05c9962d8a871a99e
 }

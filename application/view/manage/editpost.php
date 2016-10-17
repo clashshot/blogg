@@ -11,7 +11,7 @@
                 Ändra inlägg
             </div>
             <div class="panel-body">
-                <form method="post" action="<?php echo Config::get('URL'); echo $this->blog->slug; ?>/manage/editpost_action">
+                <form method="post" action="<?php echo Config::get('URL'); echo $this->blog->slug; ?>/manage/editpost_action/<?php echo $this->post->slug; ?>">
 
                     <div class="form-group">
                         <input type="text" name="title" class="form-control" placeholder="Titel" value="<?= $this->post->title ?>"/>
@@ -19,7 +19,7 @@
                     <div class="form-group">
                         <select name="category" class="form-control">
                             <?php
-                            echo '<option value="'.$this->post->category_id.'"></option>';
+                            echo '<option value="'.$this->post->category_id.'" selected>'.CategoryModel::getnamebyid('Category', 'id', $this->post->category_id)->name.'</option>';
                             ?>
                             <?php
                             foreach($this->category as $key => $value){
