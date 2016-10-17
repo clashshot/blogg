@@ -36,11 +36,10 @@ class BlogModel
     public static function getpost($blogid, $postslug)
     {
         $database = DatabaseFactory::getFactory()->getConnection();
-        $post = $database->prepare('SELECT * FROM Post WHERE slug = :slug AND blog_id = :blog AND user_id = :user_id');
+        $post = $database->prepare('SELECT * FROM Post WHERE slug = :slug AND blog_id = :blog');
         $post->execute(array(
             ':slug' => $postslug,
-            ':blog' => $blogid,
-            ':user_id' => Session::get('user_id')
+            ':blog' => $blogid
         ));
         if($post->rowCount() > 0) {
             $postrow = $post->fetchObject();
