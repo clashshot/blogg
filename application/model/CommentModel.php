@@ -12,7 +12,7 @@ class CommentModel
             $user = Session::get("user_id");
         }
         if (isset($_POST['comment_id'])) {
-            $comment_id = Request::get("comment_id");
+            $comment_id = Request::post("comment_id");
         }
         if ($user != -1 && $comment_id != -1) {
             $query = $database->prepare("INSERT INTO `Comment`(`user_id`, `post_id`, `comment_id`, `comment`) VALUES (:user_id,:post_id,:comment_id,:comment)");
