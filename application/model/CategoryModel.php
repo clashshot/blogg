@@ -14,11 +14,12 @@ class CategoryModel
     }
 
     public static function addCategory($blogid){
+        $name = Request::post('name');
         $database = DatabaseFactory::getFactory()->getConnection();
         $query = $database->prepare("INSERT INTO Category(blog_id, `name`) VALUES(:blog, :name)");
         return $query->execute(array(
             ':blog' => $blogid,
-            ':name' => Filter::XSSFilter(Request::post('name'))
+            ':name' => Filter::XSSFilter($name)
         ));
     }
 

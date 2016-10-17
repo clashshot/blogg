@@ -71,7 +71,8 @@ class BlogController extends Controller
                     break;
                 case 'addpost':
                     $this->View->render('manage/addpost', array(
-                        'blog' => BlogModel::getBlog($blogid)
+                        'blog' => BlogModel::getBlog($blogid),
+                        'category' => CategoryModel::showCategory($blogid)
                     ));
                     break;
                 case 'addpost_action':
@@ -132,6 +133,7 @@ class BlogController extends Controller
                     ));
                     break;
                 case 'addcategory':
+
                     break;
                 case 'remove':
                     break;
@@ -180,6 +182,21 @@ class BlogController extends Controller
                 if (BlogModel::blogexists($slug)) {
                     echo "Kunde inte skapa en unik slug";
                 }
+                break;
+            default:
+                header('HTTP/1.0 404 Not Found', true, 404);
+                $this->View->render('error/404');
+                break;
+        }
+    }
+
+    public function ajaxAdd($blogid, $action = 'index'){
+        switch (strtolower($action)){
+            case 'index':
+                break;
+            case 'addcategory':
+                CategoryModel::addCategory($blogid);
+                $this->View->renderJSON(CategoryModel::showCategory($blogid));
                 break;
             default:
                 header('HTTP/1.0 404 Not Found', true, 404);
