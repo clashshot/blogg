@@ -56,7 +56,7 @@ class BlogController extends Controller
 
     public function manage($blogid, $method = 'index', $postslug = '')
     {
-        if (UserModel::getEditPermission($blogid) >= 3) {
+        if (UserModel::getEditPermission($blogid)) {
             switch (strtolower($method)) {
                 case 'index':
                     $this->View->render('manage/index', array(
@@ -84,7 +84,7 @@ class BlogController extends Controller
                     $this->View->render('manage/editpost', array('post' => $post));
                     break;
                 case 'deletepost':
-                    if (UserModel::getEditPermission($blogid) >= 3) {
+                    if (UserModel::getEditPermission($blogid)) {
                         BlogModel::deletepost($blogid, $postslug);
                         Redirect::to(BlogModel::getBlog($blogid)->slug . '/manage');
                     } else {
@@ -100,10 +100,14 @@ class BlogController extends Controller
                     echo 'history';
                     break;
                 case 'mods':
-                    $this->View->render('manage/mods', array(
-                        'blog' => BlogModel::getBlog($blogid),
-                        'mods' => BlogModel::getMods($blogid)
-                    ));
+                    if(UserModel::getAddModPermission($blogid)) {
+                        $this->View->render('manage/mods', array(
+                            'blog' => BlogModel::getBlog($blogid),
+                            'mods' => BlogModel::getMods($blogid)
+                        ));
+                    }else{
+                        Redirect::to(BlogModel::getBlog($blogid)->slug . '/manage/');
+                    }
                     break;
                 case 'addmod_action':
                     if (BlogModel::addMod($blogid)) {
