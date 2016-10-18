@@ -94,7 +94,7 @@ class BlogModel
                 ':category_id' => $category,
                 ':user_id' => Session::get('user_id'),
                 ':slug' => $titleslug,
-                ':title' => $title,
+                ':title' => Filter::XSSFilter($title),
                 ':content' => $content,
                 ':visibility' => $visibility,
                 ':created' => date('Y-m-d H:i:s'),
@@ -135,13 +135,13 @@ class BlogModel
         $success = $blog->execute(array(
             ':user_id' => Session::get("user_id"),
             ':slug' => $blogname,
-            ':title' => $title,
-            ':description' => $description,
+            ':title' => Filter::XSSFilter($title),
+            ':description' => Filter::XSSFilter($description),
             ':about' => $about,
             ':visible' => $visibility,
-            'facebook' => $facebook,
-            'twitter' => $twitter,
-            'google' => $google
+            'facebook' => Filter::XSSFilter($facebook),
+            'twitter' => Filter::XSSFilter($twitter),
+            'google' => Filter::XSSFilter($google)
         ));
         if ($success){
             return self::getBlog($database->lastInsertId());
@@ -171,12 +171,12 @@ class BlogModel
 
         $blog = $database->prepare('UPDATE Blog SET title = :title, description = :description, about = :about, facebook = :facebook, twitter = :twitter, google_plus = :google WHERE id = :blog');
         $success = $blog->execute(array(
-            ':title' => $title,
-            ':description' => $description,
+            ':title' => Filter::XSSFilter($title),
+            ':description' => Filter::XSSFilter($description),
             ':about' => $about,
-            'facebook' => $facebook,
-            'twitter' => $twitter,
-            'google' => $google,
+            'facebook' => Filter::XSSFilter($facebook),
+            'twitter' => Filter::XSSFilter($twitter),
+            'google' => Filter::XSSFilter($google),
             'blog' => $blogid
         ));
         if ($success){
@@ -317,21 +317,42 @@ class BlogModel
         }
     }
 
-    public static function addPostlike($post_id){
+    public static function Category($blogid)
+    {
+        $database = DatabaseFactory::getFactory()->getConnection();
+        $sql = $database->prepare('SELECT * FROM Category WHERE blog_id = :blog_id');
+        $sql->execute(array(
+            ':blog_id' => $blogid
+        ));
+
+        return $sql->fetchAll();
+    }
+
+    public static function addPostlike(){
         $post_id = Request::post('post_id');
         $database = DatabaseFactory::getFactory()->getConnection();
-        try{
-            $add = $database->prepare('INSERT INTO Post_like (user_id, post_id) VALUES (:user_id, :post_id))');
-            return $add->execute(array(
-                ':user_id' => Session::get('user_id'),
-                ':post_id' => $post_id,
-            ));
-        }catch (PDOException $e){
-            echo $e;
-            return false;
+        if (!self::likingpost($post_id)){
+            try{
+                $add = $database->prepare('INSERT INTO Post_like (user_id, post_id) VALUES (:user_id, :post_id)');
+                return $add->execute(array(
+                    ':user_id' => Session::get('user_id'),
+                    ':post_id' => $post_id
+                ));
+            }catch (PDOException $e){
+                echo $e;
+                return false;
+            }
         }
-
     }
+
+   public static function removePostlike(){
+       $database = DatabaseFactory::getFactory()->getConnection();
+       $query = $database->prepare("DELETE FROM Post_like WHERE user_id = :user_id AND post_id = :post_id");
+       return $query->execute(array(
+           ':user_id' => Session::get('user_id'),
+           ':post_id' => Request::post('post_id')
+       ));
+   }
 
     public static function getPostLikes($post_id){
         $database = DatabaseFactory::getFactory()->getConnection();
@@ -348,5 +369,86 @@ class BlogModel
 
         $query = $database->prepare("DELETE FROM Post WHERE blog_id = :blog AND slug = :slug");
         return $query->execute(array(':blog' => $blogid, ':slug' => $postslug));
+    }
+
+    public static function switchVisible(){
+        $blog = Request::post('blog_id');
+        $visiblity = Request::post('visible');
+
+        $database = DatabaseFactory::getFactory()->getConnection();
+        $query = $database->prepare("UPDATE Blog SET visible = :visible WHERE id = :blog");
+        $query->execute(array(':blog' => $blog, ':visible' => $visiblity));
+        return BlogModel::getBlog($blog)->visible;
+    }
+
+    public static function likingpost($post){
+        $database = DatabaseFactory::getFactory()->getConnection();
+        $query = $database->prepare("SELECT *FROM Post_like WHERE user_id = :user AND post_id = :post");
+        $query->execute(array(':user' => Session::get('user_id'), ':post' => $post));
+        if($query->rowCount() > 0){
+            return true;
+        }else {
+            return false;
+        }
+    }
+
+    public static function editpost($blogid, $postslug){
+        $category = Request::post('category');
+        $title = Request::post('title');
+        $content = Request::post('content');
+        $visibility = Request::post('visibility');
+        $allowcomments = Request::post('comment');
+
+        if(empty($category) && empty($title) && empty($content) && empty($visibility) && empty($allowcomments)){
+            return false;
+        }
+
+        if(self::createposthistory($blogid, $postslug)){
+            $database = DatabaseFactory::getFactory()->getConnection();
+                $edit = $database->prepare("
+            UPDATE Post 
+            SET category_id = :category_id, title = :title, content = :content, visibility = :visibility, allow_comments = :allow_comments, updated = :updated 
+            WHERE blog_id = :blog_id AND slug = :slug");
+
+                $edit->execute(array(
+                    ':category_id' => $category,
+                    ':title' => $title,
+                    ':content' => $content,
+                    ':visibility' => $visibility,
+                    ':allow_comments' => $allowcomments,
+                    ':updated' => date('Y-m-d H:i:s'),
+                    ':blog_id' => $blogid,
+                    ':slug' => $postslug
+                ));
+            if($edit){
+                return true;
+            }
+
+        }
+        return false;
+    }
+
+    public static function createposthistory($blogid, $postslug){
+
+        $database = DatabaseFactory::getFactory()->getConnection();
+
+        $get = $database->prepare('SELECT * FROM Post WHERE blog_id = :blogid AND slug = :postslug');
+        $get->execute(array(
+            ':blogid' => $blogid,
+            ':postslug' => $postslug
+        ));
+        $getr = $get->fetchObject();
+
+        $insert = $database->prepare('INSERT INTO Post_history(post_id, title, content, created) VALUES (:post_id, :title, :content, :created)');
+        $insert->execute(array(
+            ':post_id' => $getr->id,
+            ':title' => $getr->title,
+            ':content' => $getr->content,
+            ':created' => date('Y-m-d H:i:s')
+        ));
+        if($insert){
+            return true;
+        }
+        return false;
     }
 }

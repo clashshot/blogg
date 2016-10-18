@@ -5,7 +5,7 @@
     <div class="col-md-9">
         <?php $this->renderFeedbackMessages(); ?>
         <a href="<?php echo Config::get('URL');
-        echo $this->blog->slug; ?>/manage/addpost" class="btn btn-primary btn-xs pull-right"
+        echo $this->blog->slug; ?>/manage/addcategory" class="btn btn-primary btn-xs pull-right"
            style="margin:8px 8px 0px 0px">Skapa ny kategori</a>
         <div class="panel panel-default">
             <div class="panel-heading">Dina kategorier</div>

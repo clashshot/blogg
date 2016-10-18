@@ -30,8 +30,20 @@ class BlogController extends Controller
 
     public function post($blogid, $postslug)
     {
-        if ($post = BlogModel::getpost($blogid, $postslug)) {
-            if(UserModel::getPermission($blogid) >= $post->visibility){
+        if (BlogModel::getBlog($blogid)->visible != 0 || UserModel::getExtendedPermission($blogid)) {
+            if ($post = BlogModel::getpost($blogid, $postslug)) {
+                if (UserModel::getPermission($blogid) >= $post->visibility) {
+                    $blog = BlogModel::getBlog($blogid);
+                    $this->View->render('blog/post', array(
+                        'blog' => $blog,
+                        'post' => $post,
+                        'user' => UserModel::getPublicProfileOfUser($blog->user_id),
+                        'comments' => CommentModel::getComments($post->id)
+                    ));
+                } else {
+                    Redirect::to(BlogModel::getBlog($blogid)->slug);
+                }
+            } elseif (BlogModel::getpage($blogid, $postslug)) {
                 $blog = BlogModel::getBlog($blogid);
                 $this->View->render('blog/post',array(
                     'blog' => $blog,
@@ -67,7 +79,8 @@ class BlogController extends Controller
                     break;
                 case 'addpost':
                     $this->View->render('manage/addpost', array(
-                        'blog' => BlogModel::getBlog($blogid)
+                        'blog' => BlogModel::getBlog($blogid),
+                        'category' => CategoryModel::showCategory($blogid)
                     ));
                     break;
                 case 'addpost_action':
@@ -82,6 +95,23 @@ class BlogController extends Controller
                 case 'editpost':
                     $post = BlogModel::getpost($blogid, $postslug);
                     $this->View->render('manage/editpost', array('post' => $post));
+                    $exclude = $post->category_id;
+                    $category = CategoryModel::showCategory($blogid, $exclude);
+                    $this->View->render('manage/editpost', array(
+                        'blog' => BlogModel::getBlog($blogid),
+                        'post' => $post,
+                        'category' => $category
+                    ));
+                    break;
+                case 'editpost_action':
+                    $editpost = BlogModel::editpost($blogid, $postslug);
+                    if($editpost){
+                        Session::add('feedback_positive', 'Ditt inlägg har uppdaterats.');
+                        Redirect::to(BlogModel::getBlog($blogid)->slug . '/manage/index');
+                    } else {
+                        Session::add('feedback_negative', 'Ditt inlägg kunde ej uppdatera.');
+                        Redirect::to(BlogModel::getBlog($blogid)->slug . '/manage/editpost/'.$postslug);
+                    }
                     break;
                 case 'deletepost':
                     if (UserModel::getEditPermission($blogid)) {
@@ -104,12 +134,12 @@ class BlogController extends Controller
                     echo 'history';
                     break;
                 case 'mods':
-                    if(UserModel::getAddModPermission($blogid)) {
+                    if (UserModel::getExtendedPermission($blogid)) {
                         $this->View->render('manage/mods', array(
                             'blog' => BlogModel::getBlog($blogid),
                             'mods' => BlogModel::getMods($blogid)
                         ));
-                    }else{
+                    } else {
                         Redirect::to(BlogModel::getBlog($blogid)->slug . '/manage/');
                     }
                     break;
@@ -149,9 +179,10 @@ class BlogController extends Controller
                     $this->View->render('error/404');
                     break;
             }
-        }else{
+        } else {
             Redirect::to(BlogModel::getBlog($blogid)->slug);
         }
+
     }
 
     public function removeMod($blog_id)
@@ -176,6 +207,27 @@ class BlogController extends Controller
                     echo "Kunde inte skapa en unik slug";
                 }
                 break;
+            case 'post_likes':
+                echo BlogModel::getPostLikes(Request::post('post_id'));
+                break;
+            case 'comment_likes':
+                echo CommentModel::getCommentLikes(Request::post('comment_id'));
+                break;
+            default:
+                header('HTTP/1.0 404 Not Found', true, 404);
+                $this->View->render('error/404');
+                break;
+        }
+    }
+
+    public function ajaxAdd($blogid, $action = 'index'){
+        switch (strtolower($action)){
+            case 'index':
+                break;
+            case 'addcategory':
+                CategoryModel::addCategory($blogid);
+                $this->View->renderJSON(CategoryModel::showCategory($blogid));
+                break;
             default:
                 header('HTTP/1.0 404 Not Found', true, 404);
                 $this->View->render('error/404');
@@ -188,6 +240,34 @@ class BlogController extends Controller
         $blog = BlogModel::getBlog($blogid);
         CommentModel::postComment(BlogModel::getpost($blogid, $postslug)->id);
         Redirect::to($blog->slug."/".$postslug);
+    }
+
+    public function like(){
+        if(Request::post('like') == 1){
+            if(BlogModel::addPostlike()){
+                echo 1;
+            }
+        }else{
+            if(BlogModel::removePostlike()){
+                echo 0;
+            }
+        }
+    }
+
+    public function like_comment(){
+        if(Request::post('like') == 1){
+            if(CommentModel::addCommentlike()){
+                echo 1;
+            }
+        }else{
+            if(CommentModel::removeCommentlike()){
+                echo 0;
+            }
+        }
+    }
+
+    public function visibility(){
+        echo BlogModel::switchVisible();
     }
 
     private function generateRandomString($length = 10)

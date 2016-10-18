@@ -14,11 +14,39 @@
                         <input type="text" name="title" class="form-control" placeholder="Titel" />
                     </div>
                     <div class="form-group">
-                        <select name="category" class="form-control">
-                            <option disabled selected>Välj kategori</option>
-                            <option value="1">Vardag</option>
-                            <option value="2">Bilar</option>
-                        </select>
+                        <div class="col-md-11">
+                            <select name="category" id="cat_select" class="form-control">
+                                <option disabled selected>Välj kategori</option>
+                                <?php
+                                foreach ($this->category as $category){
+                                    ?>
+                                    <option value="<?=$category->id?>"><?=$category->name?></option>
+                                    <?php
+                                }
+                                ?>
+                            </select>
+                        </div>
+                        <div class="col-md-1">
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Lägg till</button>
+                        </div>
+                        <div class="modal fade" id="myModal" role="dialog">
+                            <div class="modal-dialog">
+                                <!-- Modal content-->
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        <h4 class="modal-title">Lägg till en ny kategori</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <input type="text" name="new_category" id="new_category">
+                                        <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="addCategory(<?=$this->blog->id?>)">Lägg till</button>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Stäng</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="form-group" style="max-width:25%;">
                         <label>Synlighet rättigheter</label>

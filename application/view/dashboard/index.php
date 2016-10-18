@@ -11,7 +11,7 @@
             foreach($this->listblogs as $key => $value){ ?>
                 <tr>
                     <td>
-                        <a href="#"><i class="<? if($value->visible == 1){ echo '-alt fa fa-2x fa-eye fa-fw'; } else { echo 'fa fa-2x fa-fw fa-eye-slash'; } ?>"></i></a>
+                        <a href=""><i class="<?php if($value->visible == 1){ echo '-alt fa fa-2x fa-eye fa-fw"'; echo 'onclick="setVisibility(this, ' . $value->id . ', 0)"'; } else { echo 'fa fa-2x fa-fw fa-eye-slash"'; echo 'onclick="setVisibility(this, ' . $value->id . ', 1)"'; } ?>></i></a>
                     </td>
                     <td>
                         <h4>

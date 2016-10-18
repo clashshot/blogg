@@ -77,7 +77,99 @@ function blogSlugCheck(field) {
         },
         error: function (request, status, error) {
             alert(error);
+        }
+    });
+}
 
+function addCategory(bid) {
+    var category = document.getElementById("new_category"),
+        cat_select = document.getElementById("cat_select");
+    $.ajax("/blog/ajaxAdd/" + bid + "/addcategory",{
+        data: {format: "json", name: category.value},
+        dataType: 'json',
+        type: "POST",
+        success:function (data) {
+            cat_select.innerHTML = "";
+            $('<option disabled >Välj kategori</option>').appendTo(cat_select);
+            for(var i = 0; i < data.length; i++){
+                if(category.value == data[i].name){
+                    $('<option selected value="' + data[i].id + '">' + data[i].name + '</option>').appendTo(cat_select);
+                }else{
+                    $('<option value="' + data[i].id + '">' + data[i].name + '</option>').appendTo(cat_select);
+                }
+            }
+            category.value = '';
+        },
+        error:function (request, status, error) {
+            var manage = document.getElementsByClassName("col-md-9")[0];
+            $('<div class="alert alert-danger fade in"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>' + error + '</div>').prependTo(manage);
+        }
+    });
+}
+
+function setVisibility(button, bid, visibility) {
+    $.ajax('/blog/visibility/',{
+        data: {format: "json", blog_id: bid, visible: visibility},
+        dataType: 'json',
+        type: "POST",
+        success:function (data) {
+            var parent = button.parentNode;
+            parent.innerHTML = '';
+            if(data == 1){
+                $('<i class="-alt fa fa-2x fa-eye fa-fw" onclick="setVisibility(this, ' + bid + ', 0)"></i>').appendTo(parent);
+            }else if(data == 0){
+                $('<i class="-alt fa fa-2x fa-fw fa-eye-slash" onclick="setVisibility(this,' + bid + ', 1)"></i>').appendTo(parent);
+            }
+        },
+        error:function (request, status, error) {
+            var manage = document.getElementsByClassName("col-md-9")[0];
+            $('<div class="alert alert-danger fade in"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>' + error + '</div>').prependTo(manage);
+        }
+    });
+}
+
+function like_post(button, post, like) {
+    $.ajax('/blog/like/',{
+        data: {format: "json", post_id: post, like: like},
+        dataType: 'json',
+        type: "POST",
+        success:function (data) {
+            var parent = button.parentNode;
+            parent.innerHTML = '';
+            if(data == 1){
+                $('<a onclick="like_post(this, ' + post + ', 0)" class="btn btn-primary btn-sm">Sluta gilla</a>').appendTo(parent);
+            }else if(data == 0){
+                $('<a onclick="like_post(this, ' + post + ', 1)" class="btn btn-primary btn-sm">Gilla</a>').appendTo(parent);
+            }
+            $("#likes").load("/blog/ajaxcheck/post_likes", {post_id: post});
+        },
+        error:function (request, status, error) {
+            var manage = document.getElementsByClassName("col-md-9")[0];
+            $('<div class="alert alert-danger fade in"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>' + error + '</div>').prependTo(manage);
+        }
+    });
+}
+
+function like_comment(button, comment, like) {
+    $.ajax('/blog/like_comment/',{
+        data: {format: "json", comment_id: comment, like: like},
+        dataType: 'json',
+        type: "POST",
+        success:function (data) {
+            if(data == 1){
+                button.setAttribute('onclick', 'like_comment(this, ' + comment + ', 0)');
+                button.setAttribute('class', "btn btn-primary btn-sm");
+                button.innerHTML = "Sluta gilla"
+            }else if(data == 0){
+                button.setAttribute('onclick', 'like_comment(this, ' + comment + ', 1)');
+                button.setAttribute('class', "btn btn-primary btn-sm");
+                button.innerHTML = "Gilla"
+            }
+            $("#comment_likes" + comment).load("/blog/ajaxcheck/comment_likes", {comment_id: comment});
+        },
+        error:function (request, status, error) {
+            var manage = document.getElementsByClassName("col-md-9")[0];
+            $('<div class="alert alert-danger fade in"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>' + error + '</div>').prependTo(manage);
         }
     });
 }
