@@ -2,6 +2,7 @@
 
     <?php
     include 'sidebar.php';
+    Session::get('user_id');
     ?>
 
     <div class="col-md-9">

@@ -10,6 +10,7 @@ return array(
     'Webmozart\\Assert\\' => array($vendorDir . '/webmozart/assert/src'),
     'Symfony\\Component\\Yaml\\' => array($vendorDir . '/symfony/yaml'),
     'Gregwar\\Captcha\\' => array($vendorDir . '/gregwar/captcha'),
+    'Golonka\\BBCode\\' => array($vendorDir . '/golonka/bbcodeparser/src'),
     'Doctrine\\Instantiator\\' => array($vendorDir . '/doctrine/instantiator/src/Doctrine/Instantiator'),
     '' => array($baseDir . '/application/core', $baseDir . '/application/model'),
 );

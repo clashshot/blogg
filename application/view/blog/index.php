@@ -3,6 +3,7 @@
         <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
 
             <?php
+            $bbcode = new Golonka\BBCode\BBCodeParser;
             foreach ($this->posts as $post) {
                 ?>
                 <div class="well well-post">
@@ -10,7 +11,7 @@
                         <h2 class="text-center"><?= $post->title ?></h2>
                         <p class="text-center"><?=BlogModel::getCategory($post->category_id)?></p>
                         <div class="col-md-12">
-                            <h4 class="short"><?= $post->content ?></h4>
+                            <h4 class="short"><?= $bbcode->parse($post->content) ?></h4>
                         </div>
                     </div>
                     <div class="row">
