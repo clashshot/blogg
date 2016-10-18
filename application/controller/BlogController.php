@@ -189,7 +189,7 @@ class BlogController extends Controller
                 $baseSlug = BlogModel::slugify($value);
                 $slug = $baseSlug;
                 for ($i = 0; $i < 5; $i++) {
-                    if (!BlogModel::blogexists($slug)) {
+                    if (!BlogModel::blogexists($slug) && !Blacklist::contains($slug)) {
                         echo $slug;
                         break;
                     }

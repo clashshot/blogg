@@ -210,6 +210,10 @@ class BlogModel
         // lowercase
         $blogname = strtolower($blogname);
 
+        if (Blacklist::contains($blogname)){
+            return 'n-a';
+        }
+
         if (empty($blogname)) {
             return 'n-a';
         }
