@@ -22,7 +22,18 @@ function renderComments($blogslug, $postslug, $comments)
                         <small><i>Kommenterades <?= $comment->created ?></i></small>
                     </h4>
                     <p><?= $comment->comment ?></p>
-                    <button type="button" class="btn btn-sm" data-toggle="collapse" data-target="#<?= $comment->id ?>">
+                    <?php
+                    if (Session::get("user_id") == $comment->user_id) {
+                        ?>
+                        <button type="button" class="btn btn-sm" data-toggle="collapse" href="#cha_<?= $comment->id ?>"
+                                data-parent="#accordion<?= $comment->id ?>">
+                            Ändra
+                        </button>
+                        <?php
+                    }
+                    ?>
+                    <button type="button" class="btn btn-sm" data-toggle="collapse" href="#ans_<?= $comment->id ?>"
+                            data-parent="#accordion<?= $comment->id ?>">
                         Svara
                     </button>
                     <?php
@@ -34,22 +45,47 @@ function renderComments($blogslug, $postslug, $comments)
                             <?php
                         } else {
                             ?>
-                            <a onclick="like_comment(this, <?= $comment->id ?>, 1)" class="btn btn-primary btn-sm">Gilla</a>
+                            <a onclick="like_comment(this, <?= $comment->id ?>, 1)"
+                               class="btn btn-primary btn-sm">Gilla</a>
                             <?php
                         }
                     }
                     ?>
                     <div class="like">
-                        <p><b id="comment_likes<?=$comment->id?>"><?=$comment->likes?></b> Gillningar</p>
+                        <p><b id="comment_likes<?= $comment->id ?>"><?= $comment->likes ?></b> Gillningar</p>
                     </div>
-                    <div id="<?= $comment->id ?>" class="collapse">
-                        <form method="post" action="<?= Config::get("URL") . $blogslug . "/comment/" . $postslug ?>">
-                            <input type="hidden" name="comment_id" value="<?= $comment->id ?>"/>
-                            <br/>
-                            <textarea type="text" name="comment" class="form-control"></textarea>
-                            <br/>
-                            <input type="submit" class="btn btn-primary btn-sm" value="Skicka"/>
-                        </form>
+                    <div id="accordion<?= $comment->id ?>">
+                        <?php
+                        if (Session::get("user_id") == $comment->user_id) {
+                            ?>
+                            <div class="panel">
+                                <div id="cha_<?= $comment->id ?>" class="collapse">
+                                    <form method="post"
+                                          action="<?= Config::get("URL") . $blogslug . "/comment/" . $postslug ?>">
+                                        <input type="hidden" value="<?= $comment->id ?>"/>
+                                        <br/>
+                                        <textarea type="text" name="comment"
+                                                  class="form-control"><?= $comment->comment ?></textarea>
+                                        <br/>
+                                        <input type="submit" class="btn btn-primary btn-sm" value="Ändra"/>
+                                    </form>
+                                </div>
+                            </div>
+                            <?php
+                        }
+                        ?>
+                        <div class="panel">
+                            <div id="ans_<?= $comment->id ?>" class="collapse">
+                                <form method="post"
+                                      action="<?= Config::get("URL") . $blogslug . "/comment/" . $postslug ?>">
+                                    <input type="hidden" name="comment_id" value="<?= $comment->id ?>"/>
+                                    <br/>
+                                    <textarea type="text" name="comment" class="form-control"></textarea>
+                                    <br/>
+                                    <input type="submit" class="btn btn-primary btn-sm" value="Skicka"/>
+                                </form>
+                            </div>
+                        </div>
                     </div>
                     <?php
                     renderComments($blogslug, $postslug, $comment->subComments);
