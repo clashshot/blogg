@@ -425,15 +425,12 @@ class UserModel
             return false;
         }
     }
-    public static function getExtendedPermission($blog_id){
+    public static function getAddModPermission($blog_id){
         $database = DatabaseFactory::getFactory()->getConnection();
 
-        $account_type = 0;
-        if(Session::userIsLoggedIn()){
-            $query = $database->prepare("SELECT user_account_type FROM users WHERE user_id = :user_id");
-            $query->execute(array(':user_id' => Session::get("user_id")));
-            $account_type = $query->fetchObject()->user_account_type;
-        }
+        $query = $database->prepare("SELECT user_account_type FROM users WHERE user_id = :user_id");
+        $query->execute(array(':user_id' => Session::get("user_id")));
+        $account_type = $query->fetchObject()->user_account_type;
 
         $query = $database->prepare("SELECT user_id FROM Blog WHERE id = :blog_id");
         $query->execute(array(':blog_id' => $blog_id));

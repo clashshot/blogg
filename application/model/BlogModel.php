@@ -27,9 +27,7 @@ class BlogModel
         ));
         $blogr = $blog->fetchObject();
         if($blog->rowCount() > 0) {
-
             return $blogr;
-
         }
     }
 
@@ -323,7 +321,6 @@ class BlogModel
         }
     }
 
-
     public static function Category($blogid)
     {
         $database = DatabaseFactory::getFactory()->getConnection();
@@ -350,8 +347,6 @@ class BlogModel
                 return false;
             }
         }
-
-
     }
 
    public static function removePostlike(){

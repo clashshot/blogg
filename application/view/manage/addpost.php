@@ -1,6 +1,6 @@
-<div class="container-fluid">
-    <?php include 'sidebar.php'; ?>
-    <div class="col-md-9">
+<div class="container">
+
+    <div class="col-md-10 col-md-offset-1">
         <?php $this->renderFeedbackMessages(); ?>
         <div class="panel panel-default">
 
@@ -62,7 +62,7 @@
                         <label class="radio-inline"><input type="radio" name="comment" value="0" />Tillåt ej kommentarer</label>
                     </div>
                     <div class="form-group">
-                        <textarea name="content" class="form-control" id="editor" rows="15"></textarea>
+                        <textarea name="content" class="form-control" id="editor"></textarea>
                     </div>
 
             </div>

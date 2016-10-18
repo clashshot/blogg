@@ -63,7 +63,7 @@ class ReportModel
         $user = Session::get('user_id');
         $type = Request::post('type');
         $reported_id = Request::post('reported_id');
-        $reason = Filter::XSSFilter(Request::post('reason'));
+        $reason = Request::post('reason');
         $priority = 1;
         if(isset($_POST['prio'])){
             $priority = Request::post('prio');

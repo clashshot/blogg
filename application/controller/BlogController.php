@@ -20,14 +20,12 @@ class BlogController extends Controller
     public function index($blogid)
     {
         $blog = BlogModel::getBlog($blogid);
-        if ($blog->visible != 0 || UserModel::getExtendedPermission($blogid)) {
-            $this->View->render('blog/index', array(
-                'blog' => $blog,
-                'user' => UserModel::getPublicProfileOfUser($blog->user_id),
-                'posts' => BlogModel::getPosts($blogid, Request::get('page')),
-                'paginate' => new Paginate("Post WHERE blog_id = :blog_id AND visibility <= :permission", [':blog_id' => $blogid, ':permission' => UserModel::getPermission($blogid)], 5)
-            ));
-        }
+        $this->View->render('blog/index', array(
+            'blog' => $blog,
+            'user' => UserModel::getPublicProfileOfUser($blog->user_id),
+            'posts' => BlogModel::getPosts($blogid, Request::get('page')),
+            'paginate' => new Paginate("Post WHERE blog_id = :blog_id AND visibility <= :permission", [':blog_id' => $blogid, ':permission' => UserModel::getPermission($blogid)], 5)
+        ));
     }
 
     public function post($blogid, $postslug)
@@ -47,14 +45,24 @@ class BlogController extends Controller
                 }
             } elseif (BlogModel::getpage($blogid, $postslug)) {
                 $blog = BlogModel::getBlog($blogid);
-                $this->View->render('page/index', array(
+                $this->View->render('blog/post',array(
                     'blog' => $blog,
+                    'post' => $post,
                     'user' => UserModel::getPublicProfileOfUser($blog->user_id),
-                    'page' => BlogModel::getPage($blogid, $postslug)
+                    'comments' => CommentModel::getComments($post->id)
                 ));
-            } else {
-                echo '<h1>Did not find post.</h1>';
+            }else{
+                Redirect::to(BlogModel::getBlog($blogid)->slug);
             }
+        } elseif (BlogModel::getpage($blogid, $postslug)) {
+            $blog = BlogModel::getBlog($blogid);
+            $this->View->render('page/index', array(
+                'blog' => $blog,
+                'user' => UserModel::getPublicProfileOfUser($blog->user_id),
+                'page' => BlogModel::getPage($blogid, $postslug)
+            ));
+        } else {
+            echo '<h1>Did not find post.</h1>';
         }
     }
 
@@ -86,6 +94,7 @@ class BlogController extends Controller
                     break;
                 case 'editpost':
                     $post = BlogModel::getpost($blogid, $postslug);
+                    $this->View->render('manage/editpost', array('post' => $post));
                     $exclude = $post->category_id;
                     $category = CategoryModel::showCategory($blogid, $exclude);
                     $this->View->render('manage/editpost', array(
@@ -149,7 +158,6 @@ class BlogController extends Controller
                     ));
                     break;
                 case 'addcategory':
-
                     break;
                 case 'remove':
                     break;
@@ -231,7 +239,7 @@ class BlogController extends Controller
     {
         $blog = BlogModel::getBlog($blogid);
         CommentModel::postComment(BlogModel::getpost($blogid, $postslug)->id);
-        Redirect::to($blog->slug . "/" . $postslug);
+        Redirect::to($blog->slug."/".$postslug);
     }
 
     public function like(){

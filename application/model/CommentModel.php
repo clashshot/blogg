@@ -109,15 +109,17 @@ class CommentModel
     public static function addCommentlike(){
         $comment_id = Request::post('comment_id');
         $database = DatabaseFactory::getFactory()->getConnection();
-        try{
-            $add = $database->prepare('INSERT INTO Comment_like (user_id, comment_id) VALUES (:user_id, :comment_id)');
-            return $add->execute(array(
-                ':user_id' => Session::get('user_id'),
-                ':comment_id' => $comment_id
-            ));
-        }catch (PDOException $e){
-            echo $e;
-            return false;
+        if (!self::likingcomment($comment_id)){
+            try{
+                $add = $database->prepare('INSERT INTO Comment_like (user_id, comment_id) VALUES (:user_id, :comment_id)');
+                return $add->execute(array(
+                    ':user_id' => Session::get('user_id'),
+                    ':comment_id' => $comment_id
+                ));
+            }catch (PDOException $e){
+                echo $e;
+                return false;
+            }
         }
 
     }

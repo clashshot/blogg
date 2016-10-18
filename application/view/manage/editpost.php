@@ -62,7 +62,5 @@
         <input type="submit" class="btn btn-primary pull-right" style="margin-bottom:30px;" value="Ändra" />
 
         </form>
-
     </div>
-
 </div>
