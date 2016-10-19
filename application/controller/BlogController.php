@@ -94,7 +94,6 @@ class BlogController extends Controller
                     break;
                 case 'editpost':
                     $post = BlogModel::getpost($blogid, $postslug);
-                    $this->View->render('manage/editpost', array('post' => $post));
                     $exclude = $post->category_id;
                     $category = CategoryModel::showCategory($blogid, $exclude);
                     $this->View->render('manage/editpost', array(
