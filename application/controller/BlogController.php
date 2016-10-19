@@ -143,8 +143,15 @@ class BlogController extends Controller
                         Redirect::to(BlogModel::getBlog($blogid)->slug . '/manage/');
                     }
                     break;
-                case 'addmod_action':
-                    if (BlogModel::addMod($blogid)) {
+                case 'addmodemail_action':
+                    if (BlogModel::addModEmail($blogid)) {
+                        Redirect::to(BlogModel::getBlog($blogid)->slug . '/manage/mods');
+                    } else {
+                        Redirect::to(BlogModel::getBlog($blogid)->slug . '/manage/mods');
+                    }
+                    break;
+                case 'addmodusername_action':
+                    if (BlogModel::addModUsername($blogid)) {
                         Redirect::to(BlogModel::getBlog($blogid)->slug . '/manage/mods');
                     } else {
                         Redirect::to(BlogModel::getBlog($blogid)->slug . '/manage/mods');
