@@ -74,9 +74,9 @@ class BBCodeParser
             'content' => '$2'
         ],
         'image' => [
-            'pattern' => '/\[img\](.*?)\[\/img\]/s',
-            'replace' => '<img src="$1">',
-            'content' => '$1'
+            'pattern' => '/\[img([A-Za-z=\d" ]*)\](.*?)\[\/img\]/s',
+            'replace' => '<img $1 src="$2">',
+            'content' => '$2'
         ],
         'orderedlistnumerical' => [
             'pattern' => '/\[list=1\](.*?)\[\/list\]/s',

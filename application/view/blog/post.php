@@ -106,7 +106,7 @@ $bbcode = new Golonka\BBCode\BBCodeParser;
         <div class="col-md-8">
             <div class="well">
                 <h1 class="text-center"><?= $this->post->title ?></h1>
-                <?= $bbcode->parse($this->post->content) ?>
+                <?= $bbcode->parse($this->post->content, true) ?>
                 <div class="time row">
                     <div class="pull-left">
                         <p><?= $this->post->created ?></p>
