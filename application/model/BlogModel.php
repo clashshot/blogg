@@ -304,7 +304,6 @@ class BlogModel
         return $mod->execute(array('blog_id' => $blog_id, 'user_id' => $user_id));
     }
 
-<<<<<<< HEAD
     public static function addPage($blogid){
         $title = Request::post('title');
         $content = Request::post('content');
@@ -332,10 +331,6 @@ class BlogModel
     }
 
     public static function getPage($blogid, $pageslug){
-=======
-    public static function getPage($blogid, $pageslug)
-    {
->>>>>>> origin/master
         $database = DatabaseFactory::getFactory()->getConnection();
 
         $sql = $database->prepare('SELECT * FROM Pages WHERE slug = :slug AND blog_id = :blog_id');
@@ -359,7 +354,6 @@ class BlogModel
         return $sql->fetchAll();
     }
 
-<<<<<<< HEAD
     public static function editPages($blogid){
         $title = Request::post('title');
         $content = Request::post('content');
@@ -389,10 +383,6 @@ class BlogModel
     }
 
     public static function getCategory($id){
-=======
-    public static function getCategory($id)
-    {
->>>>>>> origin/master
         $database = DatabaseFactory::getFactory()->getConnection();
         $query = $database->prepare("SELECT * FROM Category WHERE id = :id");
         $query->execute(array(':id' => $id));
