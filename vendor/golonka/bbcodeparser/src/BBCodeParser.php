@@ -23,13 +23,18 @@ class BBCodeParser
             'replace' => '<u>$1</u>',
             'content' => '$1'
         ],
+      	'font' => [
+        	'pattern' => '/\[font\=(.*?)\](.*?)\[\/font\]/s',
+          	'replace' => '<span style="font-family:\'$1\'">$2</span>',
+          	'content' => '$2'
+        ],
         'linethrough' => [
             'pattern' => '/\[s\](.*?)\[\/s\]/s',
             'replace' => '<strike>$1</strike>',
             'content' => '$1'
         ],
         'size' => [
-            'pattern' => '/\[size\=([1-7])\](.*?)\[\/size\]/s',
+            'pattern' => '/\[size\=(\d*)\](.*?)\[\/size\]/s',
             'replace' => '<font size="$1">$2</font>',
             'content' => '$2'
         ],

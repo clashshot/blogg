@@ -93,12 +93,14 @@ class BlogController extends Controller
                     break;
                 case 'editpost':
                     $post = BlogModel::getpost($blogid, $postslug);
-                    $exclude = $post->category_id;
-                    $category = CategoryModel::showCategory($blogid, $exclude);
+                    $excludecat = $post->category_id;
+                    $category = CategoryModel::showCategory($blogid, $excludecat);
+
                     $this->View->render('manage/editpost', array(
                         'blog' => BlogModel::getBlog($blogid),
                         'post' => $post,
-                        'category' => $category
+                        'category' => $category,
+                        'posthistory' => BlogModel::getposthistory($post->id)
                     ));
                     break;
                 case 'editpost_action':
@@ -235,6 +237,9 @@ class BlogController extends Controller
                 break;
             case 'comment_likes':
                 echo CommentModel::getCommentLikes(Request::post('comment_id'));
+                break;
+            case 'posthistory':
+                $this->View->renderJSON(BlogModel::getposthistoryrow(Request::post('post_id')));
                 break;
             default:
                 header('HTTP/1.0 404 Not Found', true, 404);

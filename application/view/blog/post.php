@@ -1,5 +1,5 @@
 <?php
-function renderComments($blogslug, $postslug, $comments)
+function renderComments($blog_id, $blogslug, $postslug, $comments)
 {
     if (!empty($comments)) {
         foreach ($comments as $comment) {
@@ -8,11 +8,11 @@ function renderComments($blogslug, $postslug, $comments)
             <div data-comment="<?= $comment->id ?>" class="media">
                 <div class="media-left">
                     <?php if (isset($comment->user_avatar_link)) { ?>
-                        <img src="<?= $comment->user_avatar_link ?>"/>
+                        <img src="<?= $comment->user_avatar_link ?>" height="44px" width="44px"/>
                     <?php } ?>
                 </div>
                 <div class="media-body">
-                    <h4 class="medua-heading">
+                    <h4 class="media-heading">
                         <?php
                         if (!empty($comment->user_name))
                             echo $comment->user_name;
@@ -26,16 +26,31 @@ function renderComments($blogslug, $postslug, $comments)
                     </h4>
                     <p><?= $comment->comment ?></p>
                     <?php
-                    if (Session::get("user_id") == $comment->user_id) {
+                    if (UserModel::getEditPermission($blog_id))//(Session::get("user_id") == $comment->user_id && !empty($comment->user_id))
+                    {
                         ?>
-                        <button type="button" class="btn btn-sm" data-toggle="collapse" href="#cha_<?= $comment->id ?>"
-                                data-parent="#accordion<?= $comment->id ?>">
-                            Ändra
-                        </button>
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown">
+                                <!--<button type="button" class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown"> -->
+                                Ändra
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a data-toggle="collapse" href="#cha_<?= $comment->id ?>"
+                                       data-parent="#accordion<?= $comment->id ?>">Ändra</a></li>
+                                <li><a>Ta bort</a></li>
+                                <li class="disabled"><a>Censurera</a></li>
+                            </ul>
+                            <!--  <button type="button" class="btn btn-xs" data-toggle="collapse" href="#cha_<?= $comment->id ?>"
+                                                                                                                                            data-parent="#accordion<?= $comment->id ?>">
+                                        Ändra
+                                    </button>
+                                    <button type="submit" class="btn btn-danger btn-xs">Ta bort</button> -->
+                        </div>
                         <?php
                     }
                     ?>
-                    <button type="button" class="btn btn-sm" data-toggle="collapse" href="#ans_<?= $comment->id ?>"
+                    <button type="button" class="btn btn-xs" data-toggle="collapse" href="#ans_<?= $comment->id ?>"
                             data-parent="#accordion<?= $comment->id ?>">
                         Svara
                     </button>
@@ -43,13 +58,13 @@ function renderComments($blogslug, $postslug, $comments)
                     if (Session::userIsLoggedIn()) {
                         if (CommentModel::likingcomment($comment->id)) {
                             ?>
-                            <a onclick="like_comment(this, <?= $comment->id ?>, 0)" class="btn btn-primary btn-sm">Sluta
+                            <a onclick="like_comment(this, <?= $comment->id ?>, 0)" class="btn btn-primary btn-xs">Sluta
                                 gilla</a>
                             <?php
                         } else {
                             ?>
                             <a onclick="like_comment(this, <?= $comment->id ?>, 1)"
-                               class="btn btn-primary btn-sm">Gilla</a>
+                               class="btn btn-primary btn-xs">Gilla</a>
                             <?php
                         }
                     }
@@ -91,7 +106,7 @@ function renderComments($blogslug, $postslug, $comments)
                         </div>
                     </div>
                     <?php
-                    renderComments($blogslug, $postslug, $comment->subComments);
+                    renderComments($blog_id, $blogslug, $postslug, $comment->subComments);
                     ?>
                 </div>
             </div>
@@ -99,6 +114,7 @@ function renderComments($blogslug, $postslug, $comments)
         }
     }
 }
+
 $bbcode = new Golonka\BBCode\BBCodeParser;
 ?>
 <div class="container">
@@ -151,7 +167,7 @@ $bbcode = new Golonka\BBCode\BBCodeParser;
                 </div>
                 <div class="col-md-12">
                     <?php
-                    renderComments($this->blog->slug, $this->post->slug, $this->comments);
+                    renderComments($this->blog->id, $this->blog->slug, $this->post->slug, $this->comments);
                     ?>
                 </div>
             </div>

@@ -6,7 +6,7 @@
         <?php $this->renderFeedbackMessages(); ?>
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h2>Dina moderatorer:</h2>
+                Dina moderatorer:
             </div>
             <div class="panel-body">
 
@@ -35,15 +35,13 @@
                     } ?>
                     </tbody>
                 </table>
-                Lägg till mod:</br>
+                Lägg till mod (email eller användarnamn):</br>
                 <form method="post" action="<?php echo Config::get('URL'); echo $this->blog->slug; ?>/manage/addmod_action">
-                    <input type="text" class="form-control" name="user_email" placeholder="email address (a real address)" required />
+                    <input type="text" class="form-control" name="user_identity" placeholder="Email eller användarnamn" required />
                     <input type="submit" class="btn btn-primary" value="lägg till" />
                 </form>
-
             </div>
         </div>
     </div>
-
 </div>
 
