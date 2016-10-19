@@ -39,21 +39,21 @@
                                     input: [ //List of form fields
                                         {
                                             param: "SRC",
-                                            title: "Enter image URL",
+                                            title: "Bildlänk:",
                                             validation: '^http(s)?://.*?\.(jpg|png|gif|jpeg)$'
                                         },
                                         {
                                             param: "TITLE",
-                                            title: "Enter image title",
+                                            title: "Bildtitel:",
                                             type: "div"
                                         },
                                         {
                                             param: "WIDTH",
-                                            title: "Enter image width (NUMBERS)"
+                                            title: "Bildbredd(lämna en av dessa blank för att behålla proportionerna)"
                                         },
                                         {
                                             param: "HEIGHT",
-                                            title: "Enter image height (NUMBERS)"
+                                            title: "Bildhöjd(lämna en av dessa blank för att behålla proportionerna)"
                                         }
                                     ]
                                 }

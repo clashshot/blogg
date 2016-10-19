@@ -19,7 +19,10 @@ function renderComments($blogslug, $postslug, $comments)
                         else
                             echo "Anonym";
                         ?>
-                        <small><i>Kommenterades <?= $comment->created ?></i></small>
+                        <small><i>Kommenterades <?= $comment->created ?>
+                                <?php if (isset($comment->updated)) {
+                                    echo " | Redigerad: " . $comment->updated . "";
+                                } ?></i></small>
                     </h4>
                     <p><?= $comment->comment ?></p>
                     <?php
@@ -61,8 +64,8 @@ function renderComments($blogslug, $postslug, $comments)
                             <div class="panel">
                                 <div id="cha_<?= $comment->id ?>" class="collapse">
                                     <form method="post"
-                                          action="<?= Config::get("URL") . $blogslug . "/comment/" . $postslug ?>">
-                                        <input type="hidden" value="<?= $comment->id ?>"/>
+                                          action="<?= Config::get("URL") . $blogslug . "/update_comment/" . $postslug ?>">
+                                        <input type="hidden" name="comment_id" value="<?= $comment->id ?>"/>
                                         <br/>
                                         <textarea type="text" name="comment"
                                                   class="form-control"><?= $comment->comment ?></textarea>

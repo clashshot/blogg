@@ -242,6 +242,13 @@ class BlogController extends Controller
         Redirect::to($blog->slug."/".$postslug);
     }
 
+    public function update_comment($blogid, $postslug)
+    {
+        $blog = BlogModel::getBlog($blogid);
+        CommentModel::updateComment(BlogModel::getpost($blogid, $postslug)->id);
+        Redirect::to($blog->slug."/".$postslug);
+    }
+
     public function like(){
         if(Request::post('like') == 1){
             if(BlogModel::addPostlike()){
