@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Bloggnamn</title>
+    <title><?php if(isset($this->blog)){ echo $this->blog->title.' - BlogNation';} else { echo 'BlogNation'; }?></title>
     <!-- META -->
     <meta charset="utf-8">
     <!-- send empty favicon fallback to prevent user's browser hitting the server for lots of favicon requests resulting in 404s -->
@@ -32,7 +32,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="<?=Config::get('URL')?><?=$this->blog->slug?>"><?php if(isset($this->blog)){ echo $this->blog->title;}?></a>
+                    <a class="navbar-brand" href="<?=Config::get('URL')?><?=$this->blog->slug?>"><?php if(isset($this->blog)){ echo $this->blog->title;} else { echo 'BlogNation'; }?></a>
                 </div>
                 <div id="navbar" class="collapse navbar-collapse">
                     <ul class="nav navbar-nav navbar-right">
@@ -43,6 +43,9 @@
                             }
                             };
                         ?>
+                        <?php if(Session::userIsLoggedIn()): ?>
+                            <li style="background:#37a1ff;"><a href="<?php echo Config::get('URL'); ?>">Startsida</a></li>
+                        <?php endif; ?>
                     </ul>
                 </div><!-- /.nav-collapse -->
             </div><!-- /.container -->

@@ -48,23 +48,26 @@
                     <div class="form-group" style="max-width:25%;">
                         <label>Synlighet rättigheter</label>
                         <select name="visibility" class="form-control" required>
-                            <option value="1" selected>Publik</option>
+                            <?php
+                            switch ($this->post->visibility){
+                                case '1':
+                                    echo '<option value="1" selected>Publik</option>
                             <option value="2">Registrerade användare</option>
-                            <option value="3">Privat</option>
+                            <option value="3">Privat</option>';
+                                    break;
+                                case '2':
+                                    echo '<option value="1">Publik</option>
+                            <option value="2" selected>Registrerade användare</option>
+                            <option value="3">Privat</option>';
+                                    break;
+                                case '3':
+                                    echo '<option value="1">Publik</option>
+                            <option value="2">Registrerade användare</option>
+                            <option value="3" selected>Privat</option>';
+                                    break;
+                            }
+                            ?>
                         </select>
-                    </div>
-
-                    <div class="form-group">
-                        <?php
-                        if($this->post->visibility == 1) {
-                            echo '<label class="radio-inline"><input type="radio" name="visibility" value="1" checked />Synlig</label>
-                                  <label class="radio-inline"><input type="radio" name="visibility" value="0" />Ej synlig</label>';
-                        } elseif($this->post->visibility == 0){
-                            echo '<label class="radio-inline"><input type="radio" name="visibility" value="1" />Synlig</label>
-                                 <label class="radio-inline"><input type="radio" name="visibility" value="0" checked/>Ej synlig</label>';
-                        }
-
-                        ?>
                     </div>
 
                     <div class="form-group">

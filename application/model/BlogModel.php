@@ -229,15 +229,22 @@ class BlogModel
     {
         $database = DatabaseFactory::getFactory()->getConnection();
 
-        $user_email = strip_tags(Request::post('user_email'));
+        $user = strip_tags(Request::post('user_identity'));
 
         $query = $database->prepare("SELECT user_id FROM users WHERE user_email = :email");
-        $query->execute(array(':email' => $user_email));
-        $user_id = $query->fetchobject()->user_id;
+        $query->execute(array(':email' => $user));
+        if($query->rowCount()>=1){
+            $user_id = $query->fetchobject()->user_id;
+        }else{
+            $query = $database->prepare("SELECT user_id FROM users WHERE user_name = :user_name");
+            $query->execute(array(':user_name' => $user));
+            $user_id = $query->fetchobject()->user_id;
+        }
+
 
         $query = $database->prepare("SELECT * FROM Blog_moderator WHERE user_id = :user_id AND blog_id = :blog_id");
         $query->execute(array(':user_id' => $user_id, 'blog_id' => $blog_id));
-        if (!$query->rowCount() >= 1) {
+        if (!$query->rowCount() >= 1 and Session::get("user_id")!=$user_id){
             $query = $database->prepare("INSERT INTO Blog_moderator (user_id,blog_id) VALUES (:user_id,:blog_id)");
 
             if ($query->execute(array(':user_id' => $user_id, 'blog_id' => $blog_id))) {
@@ -250,8 +257,7 @@ class BlogModel
         }
     }
 
-    public static function removeMod($blog_id)
-    {
+    public static function removeMod($blog_id){
         $database = DatabaseFactory::getFactory()->getConnection();
 
         $user_id = strip_tags(Request::post('user_id'));
