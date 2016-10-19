@@ -168,6 +168,18 @@ class BlogController extends Controller
                     ));
                     break;
                 case 'addpage':
+                    $this->View->render('manage/addpage', array(
+                        'blog' => BlogModel::getBlog($blogid)
+                    ));
+                    break;
+                case 'addpage_action':
+                    if (BlogModel::addpost($blogid)) {
+                        Session::add('feedback_positive', 'Sidan skapades.');
+                        Redirect::to(BlogModel::getBlog($blogid)->slug . '/manage/index');
+                    } else {
+                        Session::add('feedback_negative', 'Sidan kunde ej skapas, försök igen.');
+                        Redirect::to(BlogModel::getBlog($blogid)->slug . '/manage/addpage');
+                    }
                     break;
                 case 'pageedit':
                     break;

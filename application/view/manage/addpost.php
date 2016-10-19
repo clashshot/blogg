@@ -11,7 +11,7 @@
                 <form method="post" action="<?php echo Config::get('URL'); echo $this->blog->slug; ?>/manage/addpost_action">
 
                     <div class="form-group">
-                        <input type="text" name="title" class="form-control" placeholder="Titel" />
+                        <input type="text" name="title" class="form-control" placeholder="Titel " required/>
                     </div>
                     <div class="form-group">
                         <div class="col-md-11">
