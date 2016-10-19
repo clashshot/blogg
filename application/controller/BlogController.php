@@ -45,11 +45,10 @@ class BlogController extends Controller
                 }
             } elseif (BlogModel::getpage($blogid, $postslug)) {
                 $blog = BlogModel::getBlog($blogid);
-                $this->View->render('blog/post',array(
+                $this->View->render('page/index',array(
                     'blog' => $blog,
-                    'post' => $post,
                     'user' => UserModel::getPublicProfileOfUser($blog->user_id),
-                    'comments' => CommentModel::getComments($post->id)
+                    'page' => BlogModel::getPage($blogid, $postslug)
                 ));
             }else{
                 Redirect::to(BlogModel::getBlog($blogid)->slug);
@@ -173,7 +172,7 @@ class BlogController extends Controller
                     ));
                     break;
                 case 'addpage_action':
-                    if (BlogModel::addpost($blogid)) {
+                    if (BlogModel::addpage($blogid)) {
                         Session::add('feedback_positive', 'Sidan skapades.');
                         Redirect::to(BlogModel::getBlog($blogid)->slug . '/manage/index');
                     } else {
@@ -181,9 +180,22 @@ class BlogController extends Controller
                         Redirect::to(BlogModel::getBlog($blogid)->slug . '/manage/addpage');
                     }
                     break;
-                case 'pageedit':
+                case 'editpage':
+                    $page = BlogModel::getPage($blogid, $postslug);
+                    $this->View->render('manage/editpage', array(
+                        'blog' => BlogModel::getBlog($blogid),
+                        'page' => $page,
+                    ));
                     break;
                 case 'pageedit_action':
+                    $editpage = BlogModel::editpage($blogid);
+                    if($editpage){
+                        Session::add('feedback_positive', 'Din sida har uppdaterats.');
+                        Redirect::to(BlogModel::getBlog($blogid)->slug . '/manage/index');
+                    } else {
+                        Session::add('feedback_negative', 'Din sida kunde ej uppdateras.');
+                        Redirect::to(BlogModel::getBlog($blogid)->slug . '/manage/editpage/');
+                    }
                     break;
                 default:
                     header('HTTP/1.0 404 Not Found', true, 404);
