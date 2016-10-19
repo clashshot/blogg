@@ -99,7 +99,8 @@ class BlogController extends Controller
                     $this->View->render('manage/editpost', array(
                         'blog' => BlogModel::getBlog($blogid),
                         'post' => $post,
-                        'category' => $category
+                        'category' => $category,
+                        'posthistory' => BlogModel::getposthistory($blogid, $postslug)
                     ));
                     break;
                 case 'editpost_action':

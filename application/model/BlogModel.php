@@ -455,4 +455,17 @@ class BlogModel
         }
         return false;
     }
+
+    public static function getposthistory($blogid, $postslug){
+
+        $database = DatabaseFactory::getFactory()->getConnection();
+
+        $get = $database->prepare('SELECT * FROM Post WHERE blog_id = :blogid AND slug = :postslug');
+        $get->execute(array(
+            ':blogid' => $blogid,
+            ':postslug' => $postslug
+        ));
+        return $getr = $get->fetchAll();
+    }
+
 }
