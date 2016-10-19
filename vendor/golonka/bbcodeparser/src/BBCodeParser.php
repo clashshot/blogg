@@ -23,13 +23,18 @@ class BBCodeParser
             'replace' => '<u>$1</u>',
             'content' => '$1'
         ],
+      	'font' => [
+        	'pattern' => '/\[font\=(.*?)\](.*?)\[\/font\]/s',
+          	'replace' => '<span style="font-family:\'$1\'">$2</span>',
+          	'content' => '$2'
+        ],
         'linethrough' => [
             'pattern' => '/\[s\](.*?)\[\/s\]/s',
             'replace' => '<strike>$1</strike>',
             'content' => '$1'
         ],
         'size' => [
-            'pattern' => '/\[size\=([1-7])\](.*?)\[\/size\]/s',
+            'pattern' => '/\[size\=(\d*)\](.*?)\[\/size\]/s',
             'replace' => '<font size="$1">$2</font>',
             'content' => '$2'
         ],
@@ -74,9 +79,9 @@ class BBCodeParser
             'content' => '$2'
         ],
         'image' => [
-            'pattern' => '/\[img\](.*?)\[\/img\]/s',
-            'replace' => '<img src="$1">',
-            'content' => '$1'
+            'pattern' => '/\[img([A-Za-z=\d" ]*)\](.*?)\[\/img\]/s',
+            'replace' => '<img $1 src="$2">',
+            'content' => '$2'
         ],
         'orderedlistnumerical' => [
             'pattern' => '/\[list=1\](.*?)\[\/list\]/s',

@@ -94,13 +94,14 @@ class BlogController extends Controller
                     break;
                 case 'editpost':
                     $post = BlogModel::getpost($blogid, $postslug);
-                    $this->View->render('manage/editpost', array('post' => $post));
-                    $exclude = $post->category_id;
-                    $category = CategoryModel::showCategory($blogid, $exclude);
+                    $excludecat = $post->category_id;
+                    $category = CategoryModel::showCategory($blogid, $excludecat);
+
                     $this->View->render('manage/editpost', array(
                         'blog' => BlogModel::getBlog($blogid),
                         'post' => $post,
-                        'category' => $category
+                        'category' => $category,
+                        'posthistory' => BlogModel::getposthistory($post->id)
                     ));
                     break;
                 case 'editpost_action':
@@ -169,6 +170,18 @@ class BlogController extends Controller
                     ));
                     break;
                 case 'addpage':
+                    $this->View->render('manage/addpage', array(
+                        'blog' => BlogModel::getBlog($blogid)
+                    ));
+                    break;
+                case 'addpage_action':
+                    if (BlogModel::addpost($blogid)) {
+                        Session::add('feedback_positive', 'Sidan skapades.');
+                        Redirect::to(BlogModel::getBlog($blogid)->slug . '/manage/index');
+                    } else {
+                        Session::add('feedback_negative', 'Sidan kunde ej skapas, försök igen.');
+                        Redirect::to(BlogModel::getBlog($blogid)->slug . '/manage/addpage');
+                    }
                     break;
                 case 'pageedit':
                     break;
@@ -212,6 +225,9 @@ class BlogController extends Controller
                 break;
             case 'comment_likes':
                 echo CommentModel::getCommentLikes(Request::post('comment_id'));
+                break;
+            case 'posthistory':
+                $this->View->renderJSON(BlogModel::getposthistoryrow(Request::post('post_id')));
                 break;
             default:
                 header('HTTP/1.0 404 Not Found', true, 404);

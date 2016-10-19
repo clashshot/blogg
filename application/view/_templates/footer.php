@@ -26,13 +26,13 @@
 
         $(function() {
             var wbbOpt = {
-                buttons: "bold,italic,underline,strike,|,myimg,video,link,|,fontcolor,fontsize,fontfamily,|,justifyleft,justifycenter,justifyright,|,quote,|,bullist,numlist",
+                buttons: "bold,italic,underline,strike,|,bild,video,link,|,fontcolor,fontsize,fontfamily,|,justifyleft,justifycenter,justifyright,|,quote,|,bullist,numlist",
                 allButtons: {
-                    myimg: {
-                        title: "Inserting a picture with the parameters",
-                        buttonText: "myimg",
+                    bild: {
+                        title: "Lägg in bild",
+                        buttonText: "Bild",
                         modal: { //Description of modal window
-                            title: "Modal title",
+                            title: "Bild",
                             width: "600px",
                             tabs: [
                                 {
@@ -46,14 +46,6 @@
                                             param: "TITLE",
                                             title: "Bildtitel:",
                                             type: "div"
-                                        },
-                                        {
-                                            param: "WIDTH",
-                                            title: "Bildbredd(lämna en av dessa blank för att behålla proportionerna)"
-                                        },
-                                        {
-                                            param: "HEIGHT",
-                                            title: "Bildhöjd(lämna en av dessa blank för att behålla proportionerna)"
                                         }
                                     ]
                                 }
@@ -67,7 +59,7 @@
                             }
                         },
                         transform: {
-                            '<img width="{WIDTH}" height="{HEIGHT}" src="{SRC}" title="{TITLE}" />': '[img width={WIDTH} height={HEIGHT} title={TITLE}]{SRC}[/img]'
+                            '<img width="100%" src="{SRC}" title="{TITLE}" />': '[img width=100% title={TITLE}]{SRC}[/img]'
                         }
                     }
 
@@ -76,6 +68,5 @@
             $("#editor").wysibb(wbbOpt);
         })
     </script>
-
 </body>
 </html>

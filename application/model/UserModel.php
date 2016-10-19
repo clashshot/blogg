@@ -425,7 +425,7 @@ class UserModel
             return false;
         }
     }
-    public static function getAddModPermission($blog_id){
+    public static function getExtendedPermission($blog_id){
         $database = DatabaseFactory::getFactory()->getConnection();
 
         $query = $database->prepare("SELECT user_account_type FROM users WHERE user_id = :user_id");
@@ -442,4 +442,6 @@ class UserModel
             return false;
         }
     }
+
+
 }

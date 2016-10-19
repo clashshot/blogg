@@ -173,3 +173,27 @@ function like_comment(button, comment, like) {
         }
     });
 }
+
+function postHistory(historyid) {
+    console.log(historyid);
+    $.ajax('/blog/ajaxCheck/posthistory/',{
+        data: {format: "json", post_id: historyid},
+        dataType: 'json',
+        type: "POST",
+        success:function (data) {
+            document.getElementById("title").value = data.title;
+            var parent = $(".btn-inner")[$(".btn-inner").length - 1].parentNode;
+            if(parent.getAttribute("class").includes("on")){
+                $("#editor").bbcode(data.content);
+            }else{
+                $(".btn-inner").click();
+                $("#editor").bbcode(data.content);
+                $(".btn-inner").click();
+            }
+        },
+        error:function (request, status, error) {
+            var manage = document.getElementsByClassName("col-md-9")[0];
+            $('<div class="alert alert-danger fade in"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>' + error + '</div>').prependTo(manage);
+        }
+    });
+}
