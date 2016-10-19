@@ -100,7 +100,7 @@ class BlogController extends Controller
                         'blog' => BlogModel::getBlog($blogid),
                         'post' => $post,
                         'category' => $category,
-                        'posthistory' => BlogModel::getposthistory($blogid, $postslug)
+                        'posthistory' => BlogModel::getposthistory($post->id)
                     ));
                     break;
                 case 'editpost_action':
@@ -224,6 +224,9 @@ class BlogController extends Controller
                 break;
             case 'comment_likes':
                 echo CommentModel::getCommentLikes(Request::post('comment_id'));
+                break;
+            case 'posthistory':
+                $this->View->renderJSON(BlogModel::getposthistoryrow(Request::post('post_id')));
                 break;
             default:
                 header('HTTP/1.0 404 Not Found', true, 404);

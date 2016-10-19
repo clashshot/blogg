@@ -6,7 +6,7 @@
         <?php $this->renderFeedbackMessages(); ?>
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h2>Dina moderatorer:</h2>
+                Dina moderatorer:
             </div>
             <div class="panel-body">
 

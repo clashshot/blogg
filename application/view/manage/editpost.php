@@ -15,7 +15,7 @@
 
                     <div class="form-group">
                         <label>Titel</label>
-                        <input type="text" name="title" class="form-control" placeholder="Titel" value="<?= $this->post->title ?>"/>
+                        <input type="text" id="title" name="title" class="form-control" placeholder="Titel" value="<?= $this->post->title ?>"/>
                     </div>
                     <div class="form-group">
                         <label>Kategori</label>
@@ -33,7 +33,7 @@
 
                     <div class="form-group">
                         <label>Hämta från historik (Valfritt)</label>
-                        <select name="posthistory" id="posthistory" class="form-control">
+                        <select onchange="postHistory(this.value)" name="posthistory" id="posthistory" class="form-control">
                             <option selected disabled>Välj historik</option>
                             <?php
                             if(!empty($this->posthistory)){
