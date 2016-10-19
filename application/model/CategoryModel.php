@@ -2,7 +2,7 @@
 
 class CategoryModel
 {
-    public static function showCategory($blogid, $exclude)
+    public static function showCategory($blogid, $exclude = null)
     {
         $database = DatabaseFactory::getFactory()->getConnection();
         $sql = $database->prepare('SELECT * FROM Category WHERE id != :exclude AND blog_id = :blogid');
