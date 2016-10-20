@@ -11,7 +11,7 @@
                         <h2 class="text-center"><?= $post->title ?></h2>
                         <p class="text-center"><?=BlogModel::getCategory($post->category_id)?></p>
                         <div class="col-md-12">
-                            <div class="short"><?= $bbcode->parse($post->content, true) ?></div>
+                            <div class="short"><?= $bbcode->parse(Filter::XSSFilter($post->content), true) ?></div>
                         </div>
                     </div>
                     <div class="row">

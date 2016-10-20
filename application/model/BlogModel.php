@@ -99,7 +99,7 @@ class BlogModel
                 ':user_id' => Session::get('user_id'),
                 ':slug' => $titleslug,
                 ':title' => Filter::XSSFilter($title),
-                ':content' => $content,
+                ':content' => Filter::XSSFilter($content),
                 ':visibility' => $visibility,
                 ':created' => date('Y-m-d H:i:s'),
                 ':allow_comments' => $comment
