@@ -157,7 +157,12 @@ class BlogController extends Controller
                         'paginate' => new Paginate("Category WHERE blog_id = :blog_id", [':blog_id' => $blogid], 10)
                     ));
                     break;
-                case 'addcategory':
+                case 'editcategory':
+                    CategoryModel::editCategory($blogid);
+                    Redirect::to(BlogModel::getBlog($blogid)->slug . '/manage/category');
+                    break;
+                case 'removecategory':
+                    echo CategoryModel::removeCategory($blogid);
                     break;
                 case 'remove':
                     break;

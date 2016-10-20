@@ -4,9 +4,6 @@
 
     <div class="col-md-9">
         <?php $this->renderFeedbackMessages(); ?>
-        <a href="<?php echo Config::get('URL');
-        echo $this->blog->slug; ?>/manage/addcategory" class="btn btn-primary btn-xs pull-right"
-           style="margin:8px 8px 0px 0px">Skapa ny kategori</a>
         <div class="panel panel-default">
             <div class="panel-heading">Dina kategorier</div>
             <div class="panel-body">
@@ -22,12 +19,34 @@
                         <?php foreach ($this->category as $post) { ?>
                             <tr>
                                 <td><?= $post->name ?></td>
-                                <td class="text-center"><a class='btn btn-info btn-xs'
-                                                           href="<?= Config::get("URL") . $this->blog->slug ?>/manage/editcategory/<?= $post->id ?>"><span
-                                            class="glyphicon glyphicon-edit"></span> Ändra</a> <a href="<?= Config::get("URL") . $this->blog->slug ?>/manage/removecategory/<?= $post->id ?>"
+                                <td class="text-center"><a class='btn btn-info btn-xs' type="button" data-toggle="modal" data-target="#myModal<?=$post->id?>"><span
+                                            class="glyphicon glyphicon-edit"></span> Ändra</a> <a onclick="removecategory(this, <?=$this->blog->id?>, <?=$post->id?>)"
                                                                                                   class="btn btn-danger btn-xs"><span
                                             class="glyphicon glyphicon-remove"></span> Del</a></td>
                             </tr>
+                            <div class="modal fade" id="myModal<?=$post->id?>" role="dialog">
+                                <div class="modal-dialog">
+                                    <!-- Modal content-->
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                            <h4 class="modal-title">Ändra <?=$post->name?></h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form method="post" action="<?= Config::get("URL") . $this->blog->slug ?>/manage/editcategory">
+                                                <div class="form-group">
+                                                    <input type="text" value="<?=$post->name?>" name="new_category" class="form-control">
+                                                </div>
+                                                <input type="hidden" value="<?=$post->id?>" name="category">
+                                                <input type="submit" class="btn btn-primary">Lägg till</input>
+                                            </form>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Stäng</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             <?php
                         }
                         ?>

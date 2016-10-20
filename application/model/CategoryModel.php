@@ -43,6 +43,16 @@ class CategoryModel
         ));
     }
 
+    public static function editCategory($blogid){
+        $database = DatabaseFactory::getFactory()->getConnection();
+        $query = $database->prepare("UPDATE Category SET name = :cate WHERE id = :id AND blog_id = :blog");
+        return $query->execute(array(
+            ':cate' => Request::post('new_category'),
+            ':id' => Request::post('category'),
+            ':blog' => $blogid
+        ));
+    }
+
     public static function getnamebyid($tablename, $columnname, $value){
         $database = DatabaseFactory::getFactory()->getConnection();
         $query = $database->prepare("SELECT * FROM $tablename WHERE $columnname = $value");
