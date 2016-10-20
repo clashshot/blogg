@@ -278,7 +278,14 @@ class BlogController extends Controller
     public function update_comment($blogid, $postslug)
     {
         $blog = BlogModel::getBlog($blogid);
-        CommentModel::updateComment(BlogModel::getpost($blogid, $postslug)->id);
+        CommentModel::updateComment();
+        Redirect::to($blog->slug."/".$postslug);
+    }
+
+    public function remove_comment($blogid, $postslug)
+    {
+        $blog = BlogModel::getBlog($blogid);
+        CommentModel::removeComment();
         Redirect::to($blog->slug."/".$postslug);
     }
 

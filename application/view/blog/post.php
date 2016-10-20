@@ -24,8 +24,13 @@ function renderComments($blog_id, $blogslug, $postslug, $comments)
                                     echo " | Redigerad: " . $comment->updated . "";
                                 } ?></i></small>
                     </h4>
-                    <p><?= $comment->comment ?></p>
                     <?php
+                    if ($comment->deleted == 0) {
+                        ?><p><?= $comment->comment ?></p>
+                        <?php
+                    } else {
+                        echo "<p><i style='color: gray'>Den här kommentaren är bortagen</i></p>";
+                    }
                     if (UserModel::getEditPermission($blog_id))//(Session::get("user_id") == $comment->user_id && !empty($comment->user_id))
                     {
                         ?>
@@ -38,7 +43,8 @@ function renderComments($blog_id, $blogslug, $postslug, $comments)
                             <ul class="dropdown-menu" role="menu">
                                 <li><a data-toggle="collapse" href="#cha_<?= $comment->id ?>"
                                        data-parent="#accordion<?= $comment->id ?>">Ändra</a></li>
-                                <li><a>Ta bort</a></li>
+                                <li><a href="<?= Config::get('URL') . "/remove_comment/" . $comment->id ?>">Ta bort</a>
+                                </li>
                                 <li class="disabled"><a>Censurera</a></li>
                             </ul>
                             <!--  <button type="button" class="btn btn-xs" data-toggle="collapse" href="#cha_<?= $comment->id ?>"
