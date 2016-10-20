@@ -61,6 +61,44 @@
                         transform: {
                             '<img width="100%" src="{SRC}" title="{TITLE}" />': '[img width=100% title={TITLE}]{SRC}[/img]'
                         }
+                    },
+                    video: {
+                        title: "Lägg till youtubelänk",
+                        buttonHTML: '<span class="fonticon ve-tlb-video1">\uE008</span>',
+                        modal: {
+                            title: "Lägg till youtubelänk",
+                            width: "600px",
+                            tabs: [
+                                {
+                                    title: "Lägg till länk:",
+                                    input: [
+                                        {param: "SRC",title:CURLANG.modal_video_text}
+                                    ]
+                                }
+                            ],
+                            onSubmit: function(cmd,opt,queryState) {
+                                var url = this.$modal.find('input[name="SRC"]').val();
+                                if (url) {
+                                    url = url.replace(/^\s+/,"").replace(/\s+$/,"");
+                                }
+                                var a;
+                                if (url.indexOf("youtu.be")!=-1) {
+                                    a = url.match(/^http[s]*:\/\/youtu\.be\/([a-z0-9_-]+)/i);
+                                }else{
+                                    a = url.match(/^http[s]*:\/\/www\.youtube\.com\/watch\?.*?v=([a-z0-9_-]+)/i);
+                                }
+                                if (a && a.length==2) {
+                                    var code = a[1];
+                                    this.insertAtCursor(this.getCodeByCommand(cmd,{src:code}));
+                                }
+                                this.closeModal();
+                                this.updateUI();
+                                return false;
+                            }
+                        },
+                        transform: {
+                            '<iframe src="http://www.youtube.com/embed/{SRC}" width="640" height="480" frameborder="0"></iframe>':'[youtube]{SRC}[/youtube]'
+                        }
                     }
 
                 }
