@@ -16,9 +16,9 @@
                     <div class="form-group">
                         <textarea name="content" class="form-control" id="editor"></textarea>
                     </div>
+                    <input type="submit" class="btn btn-primary pull-right" value="Skapa" />
                 </form>
             </div>
         </div>
-        <input type="submit" class="btn btn-primary pull-right" style="margin-bottom:30px;" value="Skapa" />
     </div>
 </div>

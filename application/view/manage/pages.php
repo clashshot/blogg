@@ -15,7 +15,6 @@
                         <thead>
                         <tr>
                             <th>Titel</th>
-                            <th>Synlighet</th>
                             <th>Skapade</th>
                             <th class="text-center">Action</th>
                         </tr>
@@ -24,13 +23,12 @@
                         <?php foreach ($this->pages as $page) { ?>
                             <tr>
                                 <td><?= $page->title ?></td>
-                                <td><?= $page->visibility ?></td>
                                 <td><?= $page->created ?></td>
-                                <td class="text-center"><a class='btn btn-info btn-xs'
-                                                           href="<?= Config::get("URL") . $this->blog->slug ?>/manage/editpage/<?= $page->slug ?>"><span
-                                            class="glyphicon glyphicon-edit"></span> Ändra</a> <a href="#"
-                                                                                                  class="btn btn-danger btn-xs"><span
-                                            class="glyphicon glyphicon-remove"></span> Del</a></td>
+                                <td class="text-center">
+                                    <a class='btn btn-info btn-xs'href="<?= Config::get("URL") . $this->blog->slug ?>/manage/editpage/<?= $page->slug ?>">
+                                        <span class="glyphicon glyphicon-edit"></span> Ändra</a>
+                                    <a href="#" class="btn btn-danger btn-xs">
+                                        <span class="glyphicon glyphicon-remove"></span> Del</a></td>
                             </tr>
                             <?php
                         }
@@ -38,9 +36,6 @@
                         </tbody>
                     </table>
                     <?php
-                    $this->paginate->render();
-                }else {
-                    echo 'Du har inga sidor';
                 }
                 ?>
             </div>

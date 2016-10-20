@@ -304,8 +304,33 @@ class BlogModel
         return $mod->execute(array('blog_id' => $blog_id, 'user_id' => $user_id));
     }
 
-    public static function getPage($blogid, $pageslug)
-    {
+    public static function addPage($blogid){
+        $title = Request::post('title');
+        $content = Request::post('content');
+        $titleslug = self::slugify($title);
+        $database = DatabaseFactory::getFactory()->getConnection();
+        try {
+            $add = $database->prepare("INSERT INTO Pages(user_id,blog_id,title,slug,content,created) 
+            VALUES (:user_id,:blog_id,:title,:slug,:content,:created)");
+            $add->execute(array(
+                ':blog_id' => $blogid,
+                ':user_id' => Session::get('user_id'),
+                ':slug' => $titleslug,
+                ':title' => Filter::XSSFilter($title),
+                ':content' => $content,
+                ':created' => date('Y-m-d H:i:s'),
+            ));
+            if($add){
+                return true;
+            }
+        } catch (PDOException $e){
+            echo $e;
+            return false;
+        }
+
+    }
+
+    public static function getPage($blogid, $pageslug){
         $database = DatabaseFactory::getFactory()->getConnection();
 
         $sql = $database->prepare('SELECT * FROM Pages WHERE slug = :slug AND blog_id = :blog_id');
@@ -329,8 +354,35 @@ class BlogModel
         return $sql->fetchAll();
     }
 
-    public static function getCategory($id)
-    {
+    public static function editPages($blogid){
+        $title = Request::post('title');
+        $content = Request::post('content');
+
+        if(empty($title) && empty($content)){
+            return false;
+        }
+
+        if(self::createpagehistory($blogid, $pageslug)){
+            $database = DatabaseFactory::getFactory()->getConnection();
+            $edit = $database->prepare("
+            UPDATE Post SET title = :title, content = :content, updated = :updated WHERE blog_id = :blog_id AND slug = :slug");
+
+            $edit->execute(array(
+                ':title' => $title,
+                ':content' => $content,
+                ':updated' => date('Y-m-d H:i:s'),
+                ':blog_id' => $blogid,
+                ':slug' => $pageslug
+            ));
+            if($edit){
+                return true;
+            }
+
+        }
+        return false;
+    }
+
+    public static function getCategory($id){
         $database = DatabaseFactory::getFactory()->getConnection();
         $query = $database->prepare("SELECT * FROM Category WHERE id = :id");
         $query->execute(array(':id' => $id));
