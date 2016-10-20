@@ -15,7 +15,7 @@
                         <thead>
                         <tr>
                             <th>Titel</th>
-                            <th>Skapade</th>
+                            <th>Skapad</th>
                             <th class="text-center">Action</th>
                         </tr>
                         </thead>
