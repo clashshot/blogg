@@ -225,7 +225,7 @@ function favoritepost(button, post, favorite) {
         success:function (data) {
             if(data == 1){
                 button.setAttribute('onclick', 'favoritepost(this, ' + post + ', 0)');
-                button.setAttribute('class', "btn btn-primary btn-sm");
+                button.setAttribute('class', "btn btn-primary btn-sm glyphicon glyphicon-star");
             }else if(data == 0){
                 button.setAttribute('onclick', 'favoritepost(this, ' + post + ', 1)');
                 button.setAttribute('class', "btn btn-primary btn-sm glyphicon glyphicon-star-empty");
