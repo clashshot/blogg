@@ -30,8 +30,7 @@ function renderComments($post, $blog_id, $blogslug, $postslug, $comments)
                         </h4>
                         <?php
                         if ($comment->deleted == 0) {
-                            ?><p><?= $comment->comment ?></p>
-                            <?php
+                            ?><p><?= $comment->comment ?></p><?php
                         } else {
                             echo "<p><i style='color: gray'>Den här kommentaren är bortagen</i></p>";
                         }
