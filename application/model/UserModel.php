@@ -19,7 +19,7 @@ class UserModel
     {
         $database = DatabaseFactory::getFactory()->getConnection();
 
-        $sql = "SELECT user_id, user_name, user_email, user_active, user_has_avatar, user_deleted FROM users";
+        $sql = "SELECT user_id, user_name, user_email, user_active, user_has_avatar, user_deleted,user_suspension_timestamp FROM users";
         $query = $database->prepare($sql);
         $query->execute();
 
@@ -39,6 +39,7 @@ class UserModel
             $all_users_profiles[$user->user_id]->user_active = $user->user_active;
             $all_users_profiles[$user->user_id]->user_deleted = $user->user_deleted;
             $all_users_profiles[$user->user_id]->user_avatar_link = (Config::get('USE_GRAVATAR') ? AvatarModel::getGravatarLinkByEmail($user->user_email) : AvatarModel::getPublicAvatarFilePathOfUser($user->user_has_avatar, $user->user_id));
+            $all_users_profiles[$user->user_id]->user_suspension_timestamp = $user->user_suspension_timestamp;
         }
 
         return $all_users_profiles;
