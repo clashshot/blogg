@@ -17,7 +17,7 @@
                     <div class="form-group">
                         <div class="row">
                         <div class="col-md-10">
-                            <label>Kategori</label>
+                            <label>Kategori (Ämnestaggar)</label>
                             <select name="category" id="cat_select" class="form-control">
                                 <option disabled selected>Välj kategori</option>
                                 <?php
