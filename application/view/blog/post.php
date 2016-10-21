@@ -159,7 +159,7 @@ $bbcode = new Golonka\BBCode\BBCodeParser;
                         ?>
                     </div>
                     <div class="pull-right like">
-                        <p><b id="likes"><?= $this->post->likes ?></b> Likes</p>
+                        <p><b id="likes"><?= $this->post->likes ?></b> Gillningar</p>
                     </div>
                 </div>
             </div>
