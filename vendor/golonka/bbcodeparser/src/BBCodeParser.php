@@ -34,8 +34,8 @@ class BBCodeParser
             'content' => '$1'
         ],
         'size' => [
-            'pattern' => '/\[size\=(\d*)\](.*?)\[\/size\]/s',
-            'replace' => '<font size="$1">$2</font>',
+            'pattern' => '/\[size\=([\dpxemPX]*)\](.*?)\[\/size\]/s',
+            'replace' => '<span style="font-size:$1">$2</font>',
             'content' => '$2'
         ],
         'color' => [
@@ -99,7 +99,7 @@ class BBCodeParser
             'content' => '$1'
         ],
         'listitem' => [
-            'pattern' => '/\[\*\](.*)/',
+            'pattern' => '/\[\*\](.*?)\[\/\*\]/',
             'replace' => '<li>$1</li>',
             'content' => '$1'
         ],

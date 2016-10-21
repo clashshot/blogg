@@ -1,8 +1,11 @@
+<?php
+$bbcode = new Golonka\BBCode\BBCodeParser;
+?>
 <div class="container">
     <div class="well">
         <h1 class="text-center"><?= $this->page->title;?></h1>
         <p class="text-center"><?= $this->user->user_name?></p>
-        <h4><?= $this->page->content;?></h4>
+        <div><?= $bbcode->parse($this->page->content)?></div>
         <div class="profile-userpic text-center">
             <img src="<?= $this->user->user_avatar_link?>">
         </div>

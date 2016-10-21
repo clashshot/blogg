@@ -195,13 +195,13 @@ class BlogController extends Controller
                     ));
                     break;
                 case 'pageedit_action':
-                    $editpage = BlogModel::editPages($blogid, $postslug);
+                    $editpage = BlogModel::editpage($blogid);
                     if($editpage){
                         Session::add('feedback_positive', 'Din sida har uppdaterats.');
-                        Redirect::to(BlogModel::getBlog($blogid)->slug . '/manage/pages');
+                        Redirect::to(BlogModel::getBlog($blogid)->slug . '/manage/index');
                     } else {
                         Session::add('feedback_negative', 'Din sida kunde ej uppdateras.');
-                        Redirect::to(BlogModel::getBlog($blogid)->slug . '/manage/editpage/' . $postslug);
+                        Redirect::to(BlogModel::getBlog($blogid)->slug . '/manage/editpage/');
                     }
                     break;
                 default:
@@ -278,14 +278,7 @@ class BlogController extends Controller
     public function update_comment($blogid, $postslug)
     {
         $blog = BlogModel::getBlog($blogid);
-        CommentModel::updateComment();
-        Redirect::to($blog->slug."/".$postslug);
-    }
-
-    public function remove_comment($blogid, $postslug)
-    {
-        $blog = BlogModel::getBlog($blogid);
-        CommentModel::removeComment();
+        CommentModel::updateComment(BlogModel::getpost($blogid, $postslug)->id);
         Redirect::to($blog->slug."/".$postslug);
     }
 
