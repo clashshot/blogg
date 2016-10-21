@@ -13,16 +13,19 @@
         <div class="form-group">
             <div class="row">
                 <div class="col-md-4">
+                    <i style="font-size:24px" class="fa">&#xf082;</i>
                     <input type="text" name="facebook" class="form-control"
-                           placeholder="Här skriver du in din facebook sida">
+                           placeholder="/facebookusername">
                 </div>
                 <div class="col-md-4">
+                    <i style="font-size:24px" class="fa">&#xf081;</i>
                     <input type="text" name="twitter" class="form-control"
-                           placeholder="Här skriver du in din twitter profil">
+                           placeholder="/twitterusername">
                 </div>
                 <div class="col-md-4">
+                    <i style="font-size:24px" class="fa">&#xf0d4;</i>
                     <input type="text" name="google" class="form-control"
-                           placeholder="Här skriver du in din google+ profil">
+                           placeholder="/u/0/1234567890">
                 </div>
             </div>
         </div>

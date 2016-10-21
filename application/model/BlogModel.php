@@ -150,13 +150,13 @@ class BlogModel
         $facebook = null;
         $twitter = null;
         $google = null;
-        if (strlen(Request::post('facebook')) > 10) {
+        if (strlen(Request::post('facebook')) > 1) {
             $facebook = Request::post('facebook');
         }
-        if (strlen(Request::post('twitter')) > 10) {
+        if (strlen(Request::post('twitter')) > 1) {
             $twitter = Request::post('twitter');
         }
-        if (strlen(Request::post('google')) > 10) {
+        if (strlen(Request::post('google')) > 1) {
             $google = Request::post('google');
         }
         $blogname = self::slugify($title);
@@ -201,13 +201,13 @@ class BlogModel
         $facebook = null;
         $twitter = null;
         $google = null;
-        if (strlen(Request::post('facebook')) > 10) {
+        if (strlen(Request::post('facebook')) > 1) {
             $facebook = Request::post('facebook');
         }
-        if (strlen(Request::post('twitter')) > 10) {
+        if (strlen(Request::post('twitter')) > 1) {
             $twitter = Request::post('twitter');
         }
-        if (strlen(Request::post('google')) > 10) {
+        if (strlen(Request::post('google')) > 1) {
             $google = Request::post('google');
         }
 
