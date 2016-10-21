@@ -107,7 +107,7 @@ class BlogModel
 
         $slug = $titleslug;
         for ($i = 0; $i < 5; $i++) {
-            if (!self::postexists($blogid, $slug) && !Blacklist::contains($slug)) {
+            if (!self::postexists($blogid, $slug) && !self::pageexists($blogid, $slug) && !Blacklist::contains($slug)) {
                 break;
             }
             $slug = $titleslug . '-' . Text::generateRandomString(6);
@@ -353,6 +353,18 @@ class BlogModel
         $title = Request::post('title');
         $content = Request::post('content');
         $titleslug = self::slugify($title);
+
+        $slug = $titleslug;
+        for ($i = 0; $i < 5; $i++) {
+            if (!self::pageexists($blogid, $slug) && !self::postexists($blogid, $slug) && !Blacklist::contains($slug)) {
+                break;
+            }
+            $slug = $titleslug . '-' . Text::generateRandomString(6);
+        }
+        if(self::pageexists($blogid, $slug)){
+            return false;
+        }
+
         $database = DatabaseFactory::getFactory()->getConnection();
         try {
             $add = $database->prepare("INSERT INTO Pages(user_id,blog_id,title,slug,content,created) 
@@ -360,7 +372,7 @@ class BlogModel
             $add->execute(array(
                 ':blog_id' => $blogid,
                 ':user_id' => Session::get('user_id'),
-                ':slug' => $titleslug,
+                ':slug' => $slug,
                 ':title' => Filter::XSSFilter($title),
                 ':content' => $content,
                 ':created' => date('Y-m-d H:i:s'),
@@ -424,6 +436,22 @@ class BlogModel
 
         return false;
     }
+
+    public static function pageexists($blog, $slug){
+        $database = DatabaseFactory::getFactory()->getConnection();
+        $post = $database->prepare('SELECT * FROM Pages WHERE slug = :slug AND blog_id = :blog');
+        $post->execute(array(
+            ':slug' => $slug,
+            ':blog' => $blog
+        ));
+        $postr = $post->fetchObject();
+        if ($post->rowCount() > 0) {
+            return $postr->id;
+        } else {
+            return false;
+        }
+    }
+
 
     public static function getCategory($id){
         $database = DatabaseFactory::getFactory()->getConnection();
