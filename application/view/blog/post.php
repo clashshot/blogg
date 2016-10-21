@@ -57,7 +57,6 @@ function renderComments($post, $blog_id, $blogslug, $postslug, $comments)
                                         Ändra
                                     </button>
                                     <button type="submit" class="btn btn-danger btn-xs">Ta bort</button> -->
-                </div>
                 <?php
                 }
                 }
@@ -191,8 +190,7 @@ $bbcode = new Golonka\BBCode\BBCodeParser;
                     <form method="post"
                           action="<?= Config::get("URL") . $this->blog->slug . "/comment/" . $this->post->slug ?>">
                         <textarea type="text" class="form-control" name="comment"
-                                  placeholder="
-                            <?php if ($this->post->allow_comments == 1)
+                                  placeholder="<?php if ($this->post->allow_comments == 1)
                                       echo "Skriv en kommentar...";
                                   else
                                       echo "Kommentarer har blivit avstängd"; ?>"
