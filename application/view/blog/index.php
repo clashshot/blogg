@@ -15,8 +15,8 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="form-group pull-right readmore">
-                            <a class="btn btn-primary" href="<?=Config::get('URL')?><?=$this->blog->slug?>/<?=$post->slug?>">Läs mer</a>
+                        <div class="form-group text-center readmore">
+                            <a class="btn btn-primary">Se hela posten</a>
                         </div>
                     </div>
                     <div class="time row">
@@ -24,7 +24,7 @@
                             <p><?= $post->created?></p>
                         </div>
                         <div class="pull-right comment">
-                            <p><b><?=$post->comments?></b> Kommentarer</p>
+                            <p class="commentlink"><b><?=$post->comments?></b><a class="commentlink" href="<?=Config::get('URL')?><?=$this->blog->slug?>/<?=$post->slug?>" > Kommentarer</a></p>
                         </div>
                         <div class="pull-right like">
                             <p><b><?=$post->likes?></b> Gillningar</p>

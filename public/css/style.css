@@ -2,13 +2,16 @@ html,
 body {
     overflow-x: hidden; /* Prevent scroll on narrow devices */
 }
+
 body {
     padding-top: 70px;
     background-color: #fafafa;
 }
+
 footer {
     padding: 30px 0;
 }
+
 .well {
     background-color: #ffffff;
 }
@@ -33,14 +36,33 @@ footer {
     text-overflow: ellipsis;
 }
 
-.comment {
+.like {
     position: relative;
 }
 
-.like {
+.comment {
     position: relative;
     color: rgb(175,175,175);
-    margin-right: 15px;
+}
+
+.commentlink {
+    color: rgb(175,175,175);
+    text-decoration: underline;
+}
+
+.commentlink a:link {
+    color: rgb(175,175,175);
+    text-decoration: underline;
+}
+
+.commentlink a:visited {
+    color: rgb(175,175,175);
+    text-decoration: underline;
+}
+
+.commentlink a:hover {
+    color: rgb(175,175,175);
+    text-decoration: underline;
 }
 
 .profile-userpic img {
@@ -52,12 +74,14 @@ footer {
     -moz-border-radius: 50% !important;
     border-radius: 50% !important;
 }
+
 ul.social-network {
     list-style: none;
     display: inline;
     margin-left:0 !important;
     padding: 0;
 }
+
 ul.social-network li {
     display: inline;
     margin: 0 5px;
@@ -68,25 +92,32 @@ ul.social-network li {
 .social-network a.icoRss:hover {
     background-color: #F56505;
 }
+
 .social-network a.icoFacebook:hover {
     background-color:#3B5998;
 }
+
 .social-network a.icoTwitter:hover {
     background-color:#33ccff;
 }
+
 .social-network a.icoGoogle:hover {
     background-color:#BD3518;
 }
+
 .social-network a.icoVimeo:hover {
     background-color:#0590B8;
 }
+
 .social-network a.icoLinkedin:hover {
     background-color:#007bb7;
 }
+
 .social-network a.icoRss:hover i, .social-network a.icoFacebook:hover i, .social-network a.icoTwitter:hover i,
 .social-network a.icoGoogle:hover i, .social-network a.icoVimeo:hover i, .social-network a.icoLinkedin:hover i {
     color:#fafafa;
 }
+
 a.socialIcon:hover, .socialHoverClass {
     color:#44BCDD;
 }
