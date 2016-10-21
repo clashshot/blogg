@@ -427,7 +427,7 @@ class BlogModel
         if ($query->rowCount() == 1) {
             return $query->fetchObject()->name;
         } else {
-            return "Ingen kategori";
+            return false;
         }
     }
 
