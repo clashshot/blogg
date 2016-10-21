@@ -31,7 +31,7 @@ class DashboardController extends Controller
     }
 
     public function favorite() {
-        $this->view->render('dashboard/favorite');
+        $this->View->render('dashboard/favorite');
 
     }
 
