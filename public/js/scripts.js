@@ -219,7 +219,7 @@ function postHistory(historyid) {
 
 function favoritepost(button, post, favorite) {
     $.ajax('/blog/favorite/',{
-        data: {format: "json", post_id: post, favorite: favorite},
+        data: {format: "json", postid: post, favorite: favorite},
         dataType: 'json',
         type: "POST",
         success:function (data) {
