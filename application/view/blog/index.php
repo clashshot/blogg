@@ -11,10 +11,7 @@
                     <div class="well well-post">
                         <div class="row">
                             <h2 class="text-center"><?= $post->title ?></h2>
-                            <?php
-                            if(!empty($post->category_id)){?>
                                 <p class="text-center"><?= BlogModel::getCategory($post->category_id) ?></p>
-                            <?php } ?>
                             <div class="col-md-12">
                                 <div id="post<?=$post->id?>" class="collapse post"><?= $bbcode->parse(Filter::XSSFilter($post->content), true) ?></div>
                             </div>

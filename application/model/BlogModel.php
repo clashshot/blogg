@@ -140,6 +140,13 @@ class BlogModel
         }
 
     }
+    public static function deletepage($blogid, $postslug) {
+        $database = DatabaseFactory::getFactory()->getConnection();
+
+        $query = $database->prepare("DELETE FROM Pages WHERE blog_id = :blog AND slug = :slug");
+        return $query->execute(array(':blog' => $blogid, ':slug' => $postslug));
+     }
+
 
     public static function blog_create()
     {
@@ -392,7 +399,7 @@ class BlogModel
         return $sql->fetchAll();
     }
 
-    public static function editPages($blogid){
+    public static function editPages($blogid, $postslug){
         $title = Request::post('title');
         $content = Request::post('content');
 
@@ -400,23 +407,21 @@ class BlogModel
             return false;
         }
 
-        if(self::createpagehistory($blogid, $pageslug)){
             $database = DatabaseFactory::getFactory()->getConnection();
             $edit = $database->prepare("
-            UPDATE Post SET title = :title, content = :content, updated = :updated WHERE blog_id = :blog_id AND slug = :slug");
+            UPDATE Pages SET title = :title, content = :content, updated = :updated WHERE blog_id = :blog_id AND slug = :slug");
 
             $edit->execute(array(
                 ':title' => $title,
                 ':content' => $content,
                 ':updated' => date('Y-m-d H:i:s'),
                 ':blog_id' => $blogid,
-                ':slug' => $pageslug
+                ':slug' => $postslug
             ));
             if($edit){
                 return true;
             }
 
-        }
         return false;
     }
 
@@ -427,7 +432,7 @@ class BlogModel
         if ($query->rowCount() == 1) {
             return $query->fetchObject()->name;
         } else {
-            return "Ingen kategori";
+            return false;
         }
     }
 

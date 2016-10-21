@@ -114,7 +114,7 @@ function renderComments($blog_id, $blogslug, $postslug, $comments)
                                         <br/>
                                         <textarea type="text" name="comment" class="form-control"></textarea>
                                         <br/>
-                                        <input type="submit" class="btn btn-primary btn-sm" value="Skicka"/>
+                                        <input type="submit" class="btn btn-primary btn-sm pull-right" value="Skicka"/>
                                     </form>
                                 </div>
                             </div>
@@ -137,6 +137,7 @@ $bbcode = new Golonka\BBCode\BBCodeParser;
         <div class="col-md-8">
             <div class="well">
                 <h1 class="text-center"><?= $this->post->title ?></h1>
+                <p class="text-center"><?= BlogModel::getCategory($this->post->category_id) ?></p>
                 <?= $bbcode->parse($this->post->content, true) ?>
                 <div class="time row">
                     <div class="pull-left">
@@ -189,7 +190,7 @@ $bbcode = new Golonka\BBCode\BBCodeParser;
                         <textarea type="text" class="form-control" name="comment" placeholder="Skriv en kommentar..."
                                   required></textarea>
                         <br/>
-                        <input type="submit" class="btn btn-primary" value="Skicka"/>
+                        <input type="submit" class="btn btn-primary pull-right" value="Skicka"/>
                     </form>
                 </div>
                 <div class="col-md-12">

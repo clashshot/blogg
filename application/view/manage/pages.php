@@ -8,7 +8,7 @@
         echo $this->blog->slug; ?>/manage/addpage" class="btn btn-primary btn-xs pull-right"
            style="margin:8px 8px 0px 0px">Lägg till sida</a>
         <div class="panel panel-default">
-            <div class="panel-heading">Dina inlägg</div>
+            <div class="panel-heading">Dina sidor</div>
             <div class="panel-body">
                 <?php if (!empty($this->pages)) { ?>
                     <table class="table table-striped">
