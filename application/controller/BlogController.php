@@ -231,7 +231,7 @@ class BlogController extends Controller
                         echo $slug;
                         break;
                     }
-                    $slug = $baseSlug . '-' . $this->generateRandomString(6);
+                    $slug = $baseSlug . '-' . Text::generateRandomString(6);
                 }
                 if (BlogModel::blogexists($slug)) {
                     echo "Kunde inte skapa en unik slug";
@@ -308,16 +308,5 @@ class BlogController extends Controller
 
     public function visibility(){
         echo BlogModel::switchVisible();
-    }
-
-    private function generateRandomString($length = 10)
-    {
-        $characters = '0123456789';
-        $charactersLength = strlen($characters);
-        $randomString = '';
-        for ($i = 0; $i < $length; $i++) {
-            $randomString .= $characters[rand(0, $charactersLength - 1)];
-        }
-        return $randomString;
     }
 }
