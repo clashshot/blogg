@@ -18,7 +18,7 @@ class FavoriteModel
     {
         $database = DatabaseFactory::getFactory()->getConnection();
 
-        $query = $database->prepare("DELETE FROM Favorite WHERE user_id = :id, post_id = :postid ");
+        $query = $database->prepare("DELETE FROM Favorite WHERE user_id = :id AND post_id = :postid");
         return $query->execute(array(
             ':id' => Session::get('user_id'),
             ':postid' => Request::post('postid')
