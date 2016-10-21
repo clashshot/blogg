@@ -145,8 +145,10 @@ class BlogController extends Controller
                     break;
                 case 'addmod_action':
                     if (BlogModel::addMod($blogid)) {
+                        Session::add('feedback_positive', 'Moderator lades till');
                         Redirect::to(BlogModel::getBlog($blogid)->slug . '/manage/mods');
                     } else {
+                        Session::add('feedback_negative', 'Moderator kunde inte läggas till, var vänlig försök igen');
                         Redirect::to(BlogModel::getBlog($blogid)->slug . '/manage/mods');
                     }
                     break;
@@ -202,6 +204,14 @@ class BlogController extends Controller
                     } else {
                         Session::add('feedback_negative', 'Din sida kunde ej uppdateras.');
                         Redirect::to(BlogModel::getBlog($blogid)->slug . '/manage/editpage/');
+                    }
+                    break;
+                case 'deletepage':
+                    if (UserModel::getEditPermission($blogid)) {
+                        BlogModel::deletepage($blogid, $postslug);
+                        Redirect::to(BlogModel::getBlog($blogid)->slug . '/manage/pages');
+                    } else {
+                        Redirect::to(BlogModel::getBlog($blogid)->slug . '/manage/pages');
                     }
                     break;
                 default:
@@ -308,5 +318,17 @@ class BlogController extends Controller
 
     public function visibility(){
         echo BlogModel::switchVisible();
+    }
+
+    public function favorite(){
+        if(Request::post('favorite') == 1){
+            if(FavoriteModel::addfavorite()){
+                echo 1;
+            }
+        }else {
+            if(FavoriteModel::removefavorite()){
+                echo 0;
+            }
+        }
     }
 }

@@ -39,4 +39,21 @@ class FavoriteModel
             return $posts;
         }
     }
+    public static function checkfavorite ($post_id)
+    {
+        $database = DatabaseFactory::getFactory()->getConnection();
+
+        $query = $database->prepare("SELECT * FROM Favorite WHERE post_id = :postid AND user_id = :userid");
+        $query->execute(array(
+            ':postid' => $post_id,
+            ':userid' => Session::get('user_id')
+        ));
+        if($query->rowCount() > 0){
+            return true;
+        }
+        else {
+            return false;
+        }
+
+    }
 }

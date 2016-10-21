@@ -30,7 +30,13 @@ class DashboardController extends Controller
         $this->View->render('dashboard/create');
     }
 
+    public function favorite() {
+        $this->view->render('dashboard/favorite');
+
+    }
+
     public function blog_create(){
+        // Brolaugh was here <3 lol
         if($blog = BlogModel::blog_create()){
             Session::add('feedback_positive', 'Bloggen har skapats');
             Redirect::to($blog->slug . "/manage" );

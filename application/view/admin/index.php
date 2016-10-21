@@ -26,6 +26,7 @@
                                 <td>Activated ?</td>
                                 <td>Link to user's profile</td>
                                 <td>suspension Time in days</td>
+                                <td>Day when suspension ends</td>
                                 <td>Soft delete</td>
                                 <td>Submit</td>
                             </tr>
@@ -46,6 +47,13 @@
                                     </td>
                                     <form action="<?= config::get("URL"); ?>admin/actionAccountSettings" method="post">
                                         <td><input type="number" name="suspension"/></td>
+                                        <td>
+                                            <?php
+                                            if (isset($user->user_suspension_timestamp)) {
+                                                echo date('d-m-Y h:i A', $user->user_suspension_timestamp);
+                                            }
+                                            ?>
+                                        </td>
                                         <td><input type="checkbox"
                                                    name="softDelete" <?php if ($user->user_deleted) { ?> checked <?php } ?> />
                                         </td>

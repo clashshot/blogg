@@ -12,14 +12,17 @@
             <div class="form-group">
                 <div class="row">
                     <div class="col-md-4">
+                        <i style="font-size:24px" class="fa">&#xf082;</i>
                         <input type="text" name="facebook" value="<?=$this->blog->facebook?>" class="form-control"
                                placeholder="Här skriver du in din facebook sida">
                     </div>
                     <div class="col-md-4">
+                        <i style="font-size:24px" class="fa">&#xf081;</i>
                         <input type="text" name="twitter" value="<?=$this->blog->twitter?>" class="form-control"
                                placeholder="Här skriver du in din twitter profil">
                     </div>
                     <div class="col-md-4">
+                        <i style="font-size:24px" class="fa">&#xf0d4;</i>
                         <input type="text" name="google" value="<?=$this->blog->google_plus?>" class="form-control"
                                placeholder="Här skriver du in din google+ profil">
                     </div>
