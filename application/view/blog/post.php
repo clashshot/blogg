@@ -102,6 +102,7 @@ function renderComments($post, $blog_id, $blogslug, $postslug, $comments)
                                                   class="form-control"><?= $comment->comment ?></textarea>
                                         <br/>
                                         <input type="submit" class="btn btn-primary btn-sm" value="Ändra"/>
+                                        <input type="submit" class="btn btn-primary btn-sm pull-right" value="Skicka"/>
                                     </form>
                                 </div>
                             </div>
@@ -140,6 +141,7 @@ $bbcode = new Golonka\BBCode\BBCodeParser;
         <div class="col-md-8">
             <div class="well">
                 <h1 class="text-center"><?= $this->post->title ?></h1>
+                <p class="text-center"><?= BlogModel::getCategory($this->post->category_id) ?></p>
                 <?= $bbcode->parse($this->post->content, true) ?>
                 <div class="time row">
                     <div class="pull-left">
@@ -203,6 +205,7 @@ $bbcode = new Golonka\BBCode\BBCodeParser;
                         <input type="submit" class="btn btn-primary"
                                value="Skicka" <?php if ($this->post->allow_comments == 1)
                             echo "disabled"; ?>/>
+                        <input type="submit" class="btn btn-primary pull-right" value="Skicka"/>
                     </form>
                 </div>
                 <div class="col-md-12">

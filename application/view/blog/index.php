@@ -11,17 +11,14 @@
                     <div class="well well-post">
                         <div class="row">
                             <h2 class="text-center"><?= $post->title ?></h2>
-                            <?php
-                            if(!empty($post->category_id)){?>
                                 <p class="text-center"><?= BlogModel::getCategory($post->category_id) ?></p>
-                            <?php } ?>
                             <div class="col-md-12">
-                                <div class="short"><?= $bbcode->parse(Filter::XSSFilter($post->content), true) ?></div>
+                                <div id="post<?=$post->id?>" class="collapse post"><?= $bbcode->parse(Filter::XSSFilter($post->content), true) ?></div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="form-group text-center readmore">
-                                <a class="btn btn-primary">Se hela posten</a>
+                                <a type="button" data-target="#post<?=$post->id?>" class="btn btn-primary post-collapse">Se hela posten</a>
                             </div>
                         </div>
                         <div class="time row">

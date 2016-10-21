@@ -31,8 +31,10 @@ class DashboardController extends Controller
     }
 
     public function favorite() {
-        $this->View->render('dashboard/favorite');
-
+        $this->View->render('dashboard/favorite', array(
+            'posts' => FavoriteModel::favoritelist(),
+            'paginate' => new Paginate("Favorite WHERE Favorite.user_id = :userid", array('userid' => Session::get('user_id')), 10)
+        ));
     }
 
     public function blog_create(){

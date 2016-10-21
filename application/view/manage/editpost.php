@@ -18,7 +18,7 @@
                         <input type="text" id="title" name="title" class="form-control" placeholder="Titel" value="<?= $this->post->title ?>"/>
                     </div>
                     <div class="form-group">
-                        <label>Kategori</label>
+                        <label>Kategori (Ämnestaggar)</label>
                         <select name="category" class="form-control">
                             <?php
                             echo '<option value="'.$this->post->category_id.'" selected>'.CategoryModel::getnamebyid('Category', 'id', $this->post->category_id)->name.'</option>';
