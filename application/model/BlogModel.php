@@ -140,6 +140,13 @@ class BlogModel
         }
 
     }
+    public static function deletepage($blogid, $postslug) {
+        $database = DatabaseFactory::getFactory()->getConnection();
+
+        $query = $database->prepare("DELETE FROM Pages WHERE blog_id = :blog AND slug = :slug");
+        return $query->execute(array(':blog' => $blogid, ':slug' => $postslug));
+     }
+
 
     public static function blog_create()
     {
