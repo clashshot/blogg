@@ -12,17 +12,17 @@
                 <?php
                 if(isset($this->blog->facebook)){
                     ?>
-                    <li><a href="<?=$this->blog->facebook?>" class="icoFacebook" title="Facebook"><i class="fa fa-facebook"></i></a></li>
+                    <li><a href="https://www.facebook.com<?=$this->blog->facebook?>" class="icoFacebook" title="Facebook"><i class="fa fa-facebook"></i></a></li>
                 <?php
                 }
                 if(isset($this->blog->twitter)){
                     ?>
-                    <li><a href="<?=$this->blog->twitter?>" class="icoTwitter" title="Twitter"><i class="fa fa-twitter"></i></a></li>
+                    <li><a href="https://twitter.com<?=$this->blog->twitter?>" class="icoTwitter" title="Twitter"><i class="fa fa-twitter"></i></a></li>
                     <?php
                 }
                 if(isset($this->blog->google_plus)){
                     ?>
-                    <li><a href="<?=$this->blog->google_plus?>" class="icoGoogle" title="Google +"><i class="fa fa-google-plus"></i></a></li>
+                    <li><a href="https://plus.google.com<?=$this->blog->google_plus?>" class="icoGoogle" title="Google +"><i class="fa fa-google-plus"></i></a></li>
                     <?php
                 }
                 ?>
