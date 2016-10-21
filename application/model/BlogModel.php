@@ -39,9 +39,9 @@ class BlogModel
             ':slug' => $slug,
             ':blog' => $blog
         ));
-        $post = $post->fetchObject();
+        $postr = $post->fetchObject();
         if ($post->rowCount() > 0) {
-            return $post->id;
+            return $postr->id;
         } else {
             return false;
         }
@@ -150,13 +150,13 @@ class BlogModel
         $facebook = null;
         $twitter = null;
         $google = null;
-        if (strlen(Request::post('facebook')) > 1) {
+        if (strlen(Request::post('facebook')) > 10) {
             $facebook = Request::post('facebook');
         }
-        if (strlen(Request::post('twitter')) > 1) {
+        if (strlen(Request::post('twitter')) > 10) {
             $twitter = Request::post('twitter');
         }
-        if (strlen(Request::post('google')) > 1) {
+        if (strlen(Request::post('google')) > 10) {
             $google = Request::post('google');
         }
         $blogname = self::slugify($title);
@@ -201,13 +201,13 @@ class BlogModel
         $facebook = null;
         $twitter = null;
         $google = null;
-        if (strlen(Request::post('facebook')) > 1) {
+        if (strlen(Request::post('facebook')) > 10) {
             $facebook = Request::post('facebook');
         }
-        if (strlen(Request::post('twitter')) > 1) {
+        if (strlen(Request::post('twitter')) > 10) {
             $twitter = Request::post('twitter');
         }
-        if (strlen(Request::post('google')) > 1) {
+        if (strlen(Request::post('google')) > 10) {
             $google = Request::post('google');
         }
 
@@ -418,14 +418,6 @@ class BlogModel
 
         }
         return false;
-    }
-
-    public static function deletepage($blogid, $postslug)
-    {
-        $database = DatabaseFactory::getFactory()->getConnection();
-
-        $query = $database->prepare("DELETE FROM Pages WHERE blog_id = :blog AND slug = :slug");
-        return $query->execute(array(':blog' => $blogid, ':slug' => $postslug));
     }
 
     public static function getCategory($id){
