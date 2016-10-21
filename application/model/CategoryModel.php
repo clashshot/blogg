@@ -35,7 +35,7 @@ class CategoryModel
             }
             $slug = $baseslug . '-' . Text::generateRandomString(6);
         }
-        if(self::blogexists($slug)){
+        if(BlogModel::blogexists($slug)){
             return false;
         }
 

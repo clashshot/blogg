@@ -45,7 +45,7 @@ class BlogController extends Controller
                 }
             } elseif (BlogModel::getpage($blogid, $postslug)) {
                 $blog = BlogModel::getBlog($blogid);
-                $this->View->render('page/index',array(
+                $this->View->render('blog/page',array(
                     'blog' => $blog,
                     'user' => UserModel::getPublicProfileOfUser($blog->user_id),
                     'page' => BlogModel::getPage($blogid, $postslug)
@@ -55,7 +55,7 @@ class BlogController extends Controller
             }
         } elseif (BlogModel::getpage($blogid, $postslug)) {
             $blog = BlogModel::getBlog($blogid);
-            $this->View->render('page/index', array(
+            $this->View->render('blog/page', array(
                 'blog' => $blog,
                 'user' => UserModel::getPublicProfileOfUser($blog->user_id),
                 'page' => BlogModel::getPage($blogid, $postslug)
