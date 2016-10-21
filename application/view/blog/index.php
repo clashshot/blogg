@@ -29,12 +29,11 @@
                                 <p><?= $post->created ?></p>
                             </div>
                             <div class="pull-right comment">
-                                <p class="commentlink"><b><?= $post->comments ?></b><a class="commentlink"
-                                                                                       href="<?= Config::get('URL') ?><?= $this->blog->slug ?>/<?= $post->slug ?>">
+                                <p class="commentlink"><b><?= $post->comments ?></b><a class="commentlink" href="<?= Config::get('URL') ?><?= $this->blog->slug ?>/<?= $post->slug ?>">
                                         Kommentarer</a></p>
                             </div>
                             <div class="pull-right like">
-                                <p><b><?= $post->likes ?></b> Gillningar</p>
+                                <p><b><?= $post->likes ?></b> Gillningar  </p>
                             </div>
                         </div>
                     </div>
