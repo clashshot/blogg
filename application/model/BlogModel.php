@@ -379,6 +379,14 @@ class BlogModel
         return false;
     }
 
+    public static function deletepage($blogid, $postslug)
+    {
+        $database = DatabaseFactory::getFactory()->getConnection();
+
+        $query = $database->prepare("DELETE FROM Pages WHERE blog_id = :blog AND slug = :slug");
+        return $query->execute(array(':blog' => $blogid, ':slug' => $postslug));
+    }
+
     public static function getCategory($id){
         $database = DatabaseFactory::getFactory()->getConnection();
         $query = $database->prepare("SELECT * FROM Category WHERE id = :id");

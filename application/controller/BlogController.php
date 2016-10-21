@@ -204,6 +204,14 @@ class BlogController extends Controller
                         Redirect::to(BlogModel::getBlog($blogid)->slug . '/manage/editpage/');
                     }
                     break;
+                case 'deletepage':
+                    if (UserModel::getEditPermission($blogid)) {
+                        BlogModel::deletepage($blogid, $postslug);
+                        Redirect::to(BlogModel::getBlog($blogid)->slug . '/manage/pages');
+                    } else {
+                        Redirect::to(BlogModel::getBlog($blogid)->slug . '/manage/pages');
+                    }
+                    break;
                 default:
                     header('HTTP/1.0 404 Not Found', true, 404);
                     $this->View->render('error/404');
