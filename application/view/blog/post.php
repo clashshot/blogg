@@ -137,6 +137,7 @@ $bbcode = new Golonka\BBCode\BBCodeParser;
         <div class="col-md-8">
             <div class="well">
                 <h1 class="text-center"><?= $this->post->title ?></h1>
+                <p class="text-center"><?= BlogModel::getCategory($this->post->category_id) ?></p>
                 <?= $bbcode->parse($this->post->content, true) ?>
                 <div class="time row">
                     <div class="pull-left">
