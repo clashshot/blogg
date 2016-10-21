@@ -2,14 +2,18 @@
 
 class CategoryModel
 {
-    public static function showCategory($blogid, $exclude = null)
+    public static function showCategory($blogid, $exclude = null, $page = 0, $IPP = 10)
     {
         $database = DatabaseFactory::getFactory()->getConnection();
         $sql = 'SELECT * FROM Category WHERE';
         if (isset($exclude)){
             $sql .= ' id != :exclude AND';
         }
-        $sql = $database->prepare($sql . ' blog_id = :blogid');
+        if($IPP == -1){
+            $sql = $database->prepare($sql . ' blog_id = :blogid');
+        }else{
+            $sql = $database->prepare($sql . ' blog_id = :blogid LIMIT ' . ($page * $IPP) . ', ' . $IPP);
+        }
         if (isset($exclude)){
             $sql->execute(array(
                 ':blogid' => $blogid,

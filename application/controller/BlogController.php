@@ -79,7 +79,7 @@ class BlogController extends Controller
                 case 'addpost':
                     $this->View->render('manage/addpost', array(
                         'blog' => BlogModel::getBlog($blogid),
-                        'category' => CategoryModel::showCategory($blogid)
+                        'category' => CategoryModel::showCategory($blogid, null, null, -1)
                     ));
                     break;
                 case 'addpost_action':
@@ -94,7 +94,7 @@ class BlogController extends Controller
                 case 'editpost':
                     $post = BlogModel::getpost($blogid, $postslug);
                     $excludecat = $post->category_id;
-                    $category = CategoryModel::showCategory($blogid, $excludecat);
+                    $category = CategoryModel::showCategory($blogid, $excludecat, null, -1);
 
                     $this->View->render('manage/editpost', array(
                         'blog' => BlogModel::getBlog($blogid),
@@ -155,7 +155,7 @@ class BlogController extends Controller
                 case 'category':
                     $this->View->render('manage/category', array(
                         'blog' => BlogModel::getBlog($blogid),
-                        'category' => CategoryModel::showCategory($blogid),
+                        'category' => CategoryModel::showCategory($blogid, null, Request::get('page')),
                         'paginate' => new Paginate("Category WHERE blog_id = :blog_id", [':blog_id' => $blogid], 10)
                     ));
                     break;
@@ -271,7 +271,7 @@ class BlogController extends Controller
                 if(!CategoryModel::getCategory($blogid, Request::post('name'))){
                     CategoryModel::addCategory($blogid);
                 }
-                $this->View->renderJSON(CategoryModel::showCategory($blogid));
+                $this->View->renderJSON(CategoryModel::showCategory($blogid, null, null, -1));
                 break;
             default:
                 header('HTTP/1.0 404 Not Found', true, 404);
