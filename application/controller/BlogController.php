@@ -268,7 +268,9 @@ class BlogController extends Controller
             case 'index':
                 break;
             case 'addcategory':
-                CategoryModel::addCategory($blogid);
+                if(!CategoryModel::getCategory($blogid, Request::post('name'))){
+                    CategoryModel::addCategory($blogid);
+                }
                 $this->View->renderJSON(CategoryModel::showCategory($blogid));
                 break;
             default:
