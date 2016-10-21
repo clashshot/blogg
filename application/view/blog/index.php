@@ -16,12 +16,12 @@
                                 <p class="text-center"><?= BlogModel::getCategory($post->category_id) ?></p>
                             <?php } ?>
                             <div class="col-md-12">
-                                <div class="short"><?= $bbcode->parse(Filter::XSSFilter($post->content), true) ?></div>
+                                <div id="post<?=$post->id?>" class="collapse post"><?= $bbcode->parse(Filter::XSSFilter($post->content), true) ?></div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="form-group text-center readmore">
-                                <a class="btn btn-primary">Se hela posten</a>
+                                <a type="button" data-target="#post<?=$post->id?>" class="btn btn-primary post-collapse">Se hela posten</a>
                             </div>
                         </div>
                         <div class="time row">
@@ -29,11 +29,12 @@
                                 <p><?= $post->created ?></p>
                             </div>
                             <div class="pull-right comment">
-                                <p class="commentlink"><b><?= $post->comments ?></b><a class="commentlink" href="<?= Config::get('URL') ?><?= $this->blog->slug ?>/<?= $post->slug ?>">
+                                <p class="commentlink"><b><?= $post->comments ?></b><a class="commentlink"
+                                                                                       href="<?= Config::get('URL') ?><?= $this->blog->slug ?>/<?= $post->slug ?>">
                                         Kommentarer</a></p>
                             </div>
                             <div class="pull-right like">
-                                <p><b><?= $post->likes ?></b> Gillningar  </p>
+                                <p><b><?= $post->likes ?></b> Gillningar</p>
                             </div>
                         </div>
                     </div>
