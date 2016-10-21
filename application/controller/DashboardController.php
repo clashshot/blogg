@@ -31,7 +31,9 @@ class DashboardController extends Controller
     }
 
     public function favorite() {
-        $this->View->render('dashboard/favorite');
+        $this->View->render('dashboard/favorite', array(
+            'favoritelist' => FavoriteModel::favoritelist()
+        ));
 
     }
 
