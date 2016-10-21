@@ -157,6 +157,16 @@ $bbcode = new Golonka\BBCode\BBCodeParser;
                                    class="btn btn-primary btn-sm">Gilla</a>
                                 <?php
                             }
+                            if (FavoriteModel::checkfavorite($this->post->id)) {
+                                ?>
+                                <a onclick="favoritepost(this, <?= $this->post->id ?>, 0)"
+                                   class="btn btn-primary btn-sm glyphicon glyphicon-star"></a>
+                                <?php
+                            } else {?>
+                                <a onclick="favoritepost(this, <?= $this->post->id ?>, 1)"
+                                   class="btn btn-primary btn-sm glyphicon glyphicon-star-empty"></a>
+                                <?php
+                            }
                         }
                         ?>
                     </div>

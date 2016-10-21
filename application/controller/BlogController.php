@@ -319,6 +319,17 @@ class BlogController extends Controller
     public function visibility(){
         echo BlogModel::switchVisible();
     }
+    public function favorite(){
+        if(Request::post('favorite') == 1){
+            if(FavoriteModel::addfavorite()){
+                echo 1;
+            }
+        }else {
+            if(FavoriteModel::removefavorite()){
+                echo 0;
+            }
+        }
+    }
 
     private function generateRandomString($length = 10)
     {
