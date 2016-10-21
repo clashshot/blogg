@@ -13,7 +13,10 @@ var myCallBack = function() {
 
 var locSearch = window.location.search.substring(1).split('&')[0];
 if(locSearch){
-    document.getElementById( locSearch ).style.display = "block";
+    var element = document.getElementById( locSearch );
+    if(element){
+        element.style.display = "block";
+    }
 }
 
 function solvereport(button, id) {
