@@ -14,15 +14,15 @@
                     <div class="col-md-4">
                         <div class="input-group">
                             <span class="input-group-addon">
-                                <i style="font-size:24px" class="fa">&#xf082;</i>
+                                <i style="font-size:22px" class="fa">&#xf082;</i>
                             </span>
                             <input type="text" name="facebook" value="<?= $this->blog->facebook ?>" class="form-control" placeholder="/facebookusername">
-                            </div>
+                        </div>
                     </div>
                     <div class="col-md-4">
                         <div class="input-group">
                             <span class="input-group-addon">
-                            <i style="font-size:24px" class="fa">&#xf081;</i>
+                                <i style="font-size:22px" class="fa">&#xf081;</i>
                             </span>
                             <input type="text" name="twitter" value="<?= $this->blog->twitter ?>" class="form-control"
                                    placeholder="/twitterusername">
@@ -31,7 +31,7 @@
                     <div class="col-md-4">
                         <div class="input-group">
                             <span class="input-group-addon">
-                                <i style="font-size:24px" class="fa">&#xf0d4;</i>
+                                <i style="font-size:22px" class="fa">&#xf0d4;</i>
                              </span>
                             <input type="text" name="google" value="<?= $this->blog->google_plus ?>"
                                    class="form-control"
