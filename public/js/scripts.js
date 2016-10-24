@@ -243,4 +243,5 @@ function favoritepost(button, post, favorite) {
 
 $(".post-collapse").click(function () {
     $($(this)[0].dataset.target).toggleClass("active");
+    $(this).toggleClass("active");
 })

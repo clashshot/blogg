@@ -147,3 +147,13 @@ a.socialIcon:hover, .socialHoverClass {
     max-height: none;
     display: block;
 }
+.post-collapse.active{
+    transform: rotate(180deg);
+}
+.post-collapse:link{
+    text-decoration: none;
+}
+.post-collapse:hover{
+    text-decoration: none;
+    cursor: pointer;
+}
