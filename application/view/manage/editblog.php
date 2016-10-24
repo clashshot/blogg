@@ -51,11 +51,6 @@
                 <label>Beskrivning om din blogg</label>
                 <textarea name="about" class="form-control" id="editor1"><?= $this->blog->about ?></textarea>
             </div>
-            <script>
-                CKEDITOR.replace('editor1', {
-                    extraPlugins: 'bbcode',
-                });
-            </script>
             <input type="submit" value="Uppdatera blogg" class="btn btn-primary"/>
         </form>
     </div>
