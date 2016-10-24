@@ -180,11 +180,11 @@ function like_comment(button, comment, like) {
         success:function (data) {
             if(data == 1){
                 button.setAttribute('onclick', 'like_comment(this, ' + comment + ', 0)');
-                button.setAttribute('class', "btn btn-primary btn-sm");
+                button.setAttribute('class', "btn btn-primary btn-xs");
                 button.innerHTML = "Sluta gilla"
             }else if(data == 0){
                 button.setAttribute('onclick', 'like_comment(this, ' + comment + ', 1)');
-                button.setAttribute('class', "btn btn-primary btn-sm");
+                button.setAttribute('class', "btn btn-primary btn-xs");
                 button.innerHTML = "Gilla"
             }
             $("#comment_likes" + comment).load("/blog/ajaxcheck/comment_likes", {comment_id: comment});

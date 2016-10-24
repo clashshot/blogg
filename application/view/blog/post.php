@@ -1,5 +1,5 @@
 <?php
-function renderComments($post, $blog_id, $blogslug, $postslug, $comments)
+function renderComments($post, $blog_id, $blogslug, $postslug, $comments, $depth)
 {
     if (!empty($comments)) {
         foreach ($comments as $comment) {
@@ -28,103 +28,113 @@ function renderComments($post, $blog_id, $blogslug, $postslug, $comments)
                                 } ?></i></small>
                     </h4>
                     <?php
-                    if ($comment->deleted == 0) {
+                    if ($comment->deleted == 1 || $comment->flagged == 1) {
+                        echo "<p><i style='color: gray'>Den här kommentaren är bortagen</i></p>";
+                    } else {
                         ?><p><?= $comment->comment ?></p>
                         <?php
-                    } else {
-                        echo "<p><i style='color: gray'>Den här kommentaren är bortagen</i></p>";
                     }
                     if ($comment->deleted == 0) {
-                    if (Session::userIsLoggedIn()) {
-                    if (UserModel::getEditPermission($blog_id))//(Session::get("user_id") == $comment->user_id && !empty($comment->user_id))
-                    {
-                    ?>
-                    <button id="gill" type="button" class="btn btn-primary btn-xs dropdown-toggle"
-                            data-toggle="dropdown">
-                        <!--<button type="button" class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown"> -->
-                        Ändra
-                        <span class="caret"></span>
-                    </button>
-                    <ul class="dropdown-menu" role="menu">
-                        <li><a data-toggle="collapse" href="#cha_<?= $comment->id ?>"
-                               data-parent="#accordion<?= $comment->id ?>">Ändra</a></li>
-                        <li><a href="<?= Config::get('URL') . "/remove_comment/" . $comment->id ?>">Ta
-                                bort</a>
-                        </li>
-                    </ul>
-                    <!--  <button type="button" class="btn btn-xs" data-toggle="collapse" href="#cha_<?= $comment->id ?>"
+                        if (Session::userIsLoggedIn()) {
+                            if ((UserModel::getEditPermission($blog_id) || Session::get("user_id") == $comment->user_id) && !empty($comment->user_id)) {
+                                ?>
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-primary btn-xs dropdown-toggle"
+                                            data-toggle="dropdown">
+                                        <!--<button type="button" class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown"> -->
+                                        Mer
+                                        <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu" role="menu">
+                                        <li><a data-toggle="collapse" href="#cha_<?= $comment->id ?>"
+                                               data-parent="#accordion<?= $comment->id ?>">Redigera</a></li>
+                                        <li>
+                                            <a onclick="return confirm('Är du säker på att du vill ta bort din kommentar?')"
+                                               href="<?= Config::get('URL') . $blogslug . "/remove_comment/" . $comment->id ?>">
+                                                Ta bort
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <!--  <button type="button" class="btn btn-xs" data-toggle="collapse" href="#cha_<?= $comment->id ?>"
                                                                                                                                             data-parent="#accordion<?= $comment->id ?>">
                                         Ändra
                                     </button>
                                     <button type="submit" class="btn btn-danger btn-xs">Ta bort</button> -->
-                <?php
-                }
-                }
-                ?>
-                <button id="gill" type="button" class="btn btn-xs" data-toggle="collapse"
-                        href="#ans_<?= $comment->id ?>"
-                        data-parent="#accordion<?= $comment->id ?>">
-                    Svara
-                </button>
-                <?php
-                if (Session::userIsLoggedIn()) {
-                    if (CommentModel::likingcomment($comment->id)) {
+                                <?php
+                            }
+                        }
                         ?>
-                        <a id="gill" onclick="like_comment(this, <?= $comment->id ?>, 0)"
-                           class="btn btn-primary btn-xs">Sluta
-                            gilla</a>
+                        <button type="button" class="btn btn-xs" data-toggle="collapse"
+                                href="#ans_<?= $comment->id ?>"
+                                data-parent="#accordion<?= $comment->id ?>">
+                            Svara
+                        </button>
                         <?php
-                    } else {
-                        ?>
-                        <a id="gill" onclick="like_comment(this, <?= $comment->id ?>, 1)"
-                           class="btn btn-primary btn-xs">Gilla</a>
-                        <?php
-                    }
-                }
-                ?>
-                <button class="btn btn-xs btn-danger glyphicon glyphicon-flag"></button>
-                <div class="like">
-                    <p><b id="comment_likes<?= $comment->id ?>"><?= $comment->likes ?></b> Gillningar</p>
-                </div>
-                <div id="accordion<?= $comment->id ?>">
-                    <?php
-                    if (Session::get("user_id") == $comment->user_id) {
-                        ?>
-                        <div class="panel">
-                            <div id="cha_<?= $comment->id ?>" class="collapse">
-                                <form method="post"
-                                      action="<?= Config::get("URL") . $blogslug . "/update_comment/" . $postslug ?>">
-                                    <input type="hidden" name="comment_id" value="<?= $comment->id ?>"/>
-                                    <br/>
-                                    <textarea type="text" name="comment"
-                                              class="form-control"><?= $comment->comment ?></textarea>
-                                    <br/>
-                                    <input type="submit" class="btn btn-primary btn-sm" value="Ändra"/>
-                                </form>
+                        if (Session::userIsLoggedIn()) {
+                            if (CommentModel::likingcomment($comment->id)) {
+                                ?>
+                                <a onclick="like_comment(this, <?= $comment->id ?>, 0)"
+                                   class="btn btn-primary btn-xs">Sluta
+                                    gilla</a>
+                                <?php
+                            } else {
+                                ?>
+                                <a onclick="like_comment(this, <?= $comment->id ?>, 1)"
+                                   class="btn btn-primary btn-xs">Gilla</a>
+                                <?php
+                            }
+                            ?>
+                            <button class="btn btn-xs btn-danger glyphicon glyphicon-flag"></button>
+                        <?php } ?>
+                        <div class="like">
+                            <p><b id="comment_likes<?= $comment->id ?>"><?= $comment->likes ?></b> Gillningar</p>
+                        </div>
+                        <div id="accordion<?= $comment->id ?>">
+                            <?php
+                            if (Session::get("user_id") == $comment->user_id) {
+                                ?>
+                                <div class="panel">
+                                    <div id="cha_<?= $comment->id ?>" class="collapse">
+                                        <form method="post"
+                                              action="<?= Config::get("URL") . $blogslug . "/update_comment/" . $postslug ?>">
+                                            <input type="hidden" name="comment_id" value="<?= $comment->id ?>"/>
+                                            <br/>
+                                            <textarea type="text" name="comment"
+                                                      class="form-control"><?= $comment->comment ?></textarea>
+                                            <br/>
+                                            <input type="submit" class="btn btn-primary btn-sm" value="Ändra"/>
+                                        </form>
+                                    </div>
+                                </div>
+                                <?php
+                            }
+                            ?>
+                            <div class="panel">
+                                <div id="ans_<?= $comment->id ?>" class="collapse">
+                                    <form method="post"
+                                          action="<?= Config::get("URL") . $blogslug . "/comment/" . $postslug ?>">
+                                        <?php if ($depth < 7) { ?>
+                                            <input type="hidden" name="comment_id" value="<?= $comment->id ?>"/>
+                                        <?php } else { ?>
+                                            <input type="hidden" name="comment_id"
+                                                   value="<?= $comment->comment_id ?>"/>
+                                        <?php } ?>
+                                        <br/>
+                                        <textarea type="text" name="comment" class="form-control"></textarea>
+                                        <br/>
+                                        <input type="submit" class="btn btn-primary btn-sm" value="Skicka"/>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                         <?php
                     }
+                    if($depth <= 7){
+                        renderComments($post, $blog_id, $blogslug, $postslug, $comment->subComments, $depth +1);
+                    }
                     ?>
-                    <div class="panel">
-                        <div id="ans_<?= $comment->id ?>" class="collapse">
-                            <form method="post"
-                                  action="<?= Config::get("URL") . $blogslug . "/comment/" . $postslug ?>">
-                                <input type="hidden" name="comment_id" value="<?= $comment->id ?>"/>
-                                <br/>
-                                <textarea type="text" name="comment" class="form-control"></textarea>
-                                <br/>
-                                <input type="submit" class="btn btn-primary btn-sm" value="Skicka"/>
-                            </form>
-                        </div>
-                    </div>
                 </div>
-                <?php
-                }
-
-                renderComments($post, $blog_id, $blogslug, $postslug, $comment->subComments);
-                ?>
-            </div>
             </div>
             <?php
         }
@@ -209,7 +219,7 @@ $bbcode = new Golonka\BBCode\BBCodeParser;
                 <div class="col-md-12">
                     <?php
                     if ($this->post->allow_comments == 1)
-                        renderComments($this->post, $this->blog->id, $this->blog->slug, $this->post->slug, $this->comments);
+                        renderComments($this->post, $this->blog->id, $this->blog->slug, $this->post->slug, $this->comments, 0);
                     ?>
                 </div>
             </div>

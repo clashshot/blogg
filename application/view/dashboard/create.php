@@ -51,7 +51,7 @@
         </div>
         <div class="form-group">
             <label>Beskrivning om din blogg</label>
-        <textarea name="about" class="form-control" id="editor"></textarea>
+        <textarea name="about" class="form-control" id="editor1"></textarea>
         </div>
         <input type="submit" value="Skapa" class ="btn btn-primary pull-right"/>
     </form>

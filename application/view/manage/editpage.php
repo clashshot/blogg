@@ -18,6 +18,7 @@
                         <input type="text" name="title" class="form-control" placeholder="Titel" value="<?= $this->page->title ?>"/>
                     </div>
                     <div class="form-group">
+                        <label>Innehåll</label>
                         <textarea name="content" class="form-control" id="editor" rows="15"><?= $this->page->content; ?></textarea>
                     </div>
                     <input type="submit" class="btn btn-primary pull-right" value="Ändra" />

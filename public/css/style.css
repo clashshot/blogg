@@ -171,3 +171,6 @@ a.socialIcon:hover, .socialHoverClass {
     text-decoration: none;
     cursor: pointer;
 }
+.nounderline td a{
+    text-decoration: none !important;
+}
