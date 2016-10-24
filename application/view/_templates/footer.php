@@ -26,7 +26,7 @@
 
         $(function() {
             var wbbOpt = {
-                buttons: "bold,italic,underline,strike,|,bild,video,link,|,fontcolor,fontsize,fontfamily,|,justifyleft,justifycenter,justifyright,|,quote,|,bullist,numlist",
+                buttons: "bold,italic,underline,strike,sup,sub|,bild,video,link,|,fontcolor,fontsize,fontfamily,|,justifyleft,justifycenter,justifyright,|,quote,|,bullist,numlist",
                 allButtons: {
                     bild: {
                         title: "Lägg in bild",
