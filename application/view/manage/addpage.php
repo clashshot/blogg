@@ -11,9 +11,11 @@
                 <form method="post" action="<?php echo Config::get('URL'); echo $this->blog->slug; ?>/manage/addpage_action">
 
                     <div class="form-group">
+                        <label>Titel</label>
                         <input type="text" name="title" class="form-control" placeholder="Titel" required/>
                     </div>
                     <div class="form-group">
+                        <label>Innehåll</label>
                         <textarea name="content" class="form-control" id="editor"></textarea>
                     </div>
                     <input type="submit" class="btn btn-primary pull-right" value="Skapa" />
