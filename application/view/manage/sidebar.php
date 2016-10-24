@@ -8,7 +8,7 @@
             </div>
 
                 <div class="panel-body panel-nopadding">
-                    <table class="table">
+                    <table class="nounderline table">
                         <tr>
                             <td>
                                 <span class="glyphicon glyphicon-pencil text-primary"></span><a href="<?php echo Config::get('URL') . $this->blog->slug;?>/manage">Inlägg</a>
