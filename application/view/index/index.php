@@ -3,7 +3,7 @@
         <div class="well">
             <h2>Välkommen till <b>Blog|Nation</b></h2>
             <br/>
-            <h4><span class="glyphicon glyphicon-pencil"></span> <b>Samla alla dina bloggar</b> på ett enkelt och smidigt sätt.</h4>
+            <h4><span class="glyphicon glyphicon-pencil"></span> <b>Samla dina bloggar</b> på ett enkelt och smidigt sätt.</h4>
             <br/>
             <h4><span class="glyphicon glyphicon-comment"></span> <b>Kommentera</b> på intressanta inlägg.</h4>
             <br/>
