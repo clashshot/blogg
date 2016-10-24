@@ -36,6 +36,34 @@
             </tbody>
         </table>
     </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">Dina moderations-bloggar</div>
+        <table class="table table-hover table-striped">
+            <tbody>
+            <?php if(!empty($this->listmodblogs)){
+                foreach($this->listmodblogs as $key => $value){ ?>
+                    <tr>
+                    <td>
+                        <h4>
+                            <b><?= $value->title; ?></b>
+                        </h4>
+                        <p style="max-width: 80%"><?= $value->description; ?></p>
+
+                        </td>
+                        <td></td><td></td>
+                        <td><?=$value->posts?> Inlägg</td>
+                        <td>
+                            <div class="btn-group">
+                                <a href="<?php echo Config::get('URL');echo $value->slug;?>"><button class="btn btn-default" type="button"><i class="fa fa-fw fa-eye"></i>Visa</button></a>
+                                <a href="<?php echo Config::get('URL');echo $value->slug;?>/manage"><button class="btn btn-primary" type="button"><i class="fa fa-fw fa-cog"></i>Administrera</button></a>
+                            </div>
+                        </td>
+                    </tr>
+                <?php }
+            }?>
+            </tbody>
+        </table>
+    </div>
 
 </div>
 </div>

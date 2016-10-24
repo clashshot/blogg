@@ -22,7 +22,8 @@ class DashboardController extends Controller
     public function index()
     {
         $this->View->render('dashboard/index', array(
-            'listblogs' => DashboardModel::listblogs()
+            'listblogs' => DashboardModel::listblogs(),
+            'listmodblogs' => DashboardModel::listmodblogs()
     ));
     }
 

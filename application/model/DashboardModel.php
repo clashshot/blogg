@@ -17,6 +17,20 @@ class DashboardModel
         return $listblog;
     }
 
+    public static function listmodblogs()
+    {
+        $database = DatabaseFactory::getFactory()->getConnection();
+
+        $query = $database->prepare("SELECT Blog.*, COUNT(Post.id) as posts FROM Blog_moderator LEFT JOIN Blog ON Blog.id=Blog_moderator.blog_id LEFT JOIN Post ON Post.blog_id = Blog.id WHERE Blog_moderator.user_id = :id GROUP BY Blog.id");
+        $query->execute(array(
+            ':id' => Session::get('user_id')
+        ));
+
+        $listmodblogs = $query->fetchAll();
+
+        return $listmodblogs;
+    }
+
     public static function delete($slug){
         $database = DatabaseFactory::getFactory()->getConnection();
 
