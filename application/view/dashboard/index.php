@@ -37,7 +37,7 @@
         </table>
     </div>
     <div class="panel panel-default">
-        <div class="panel-heading">Dina moderations-bloggar</div>
+        <div class="panel-heading">Bloggar där du kan moderera kommentarer</div>
         <table class="table table-hover table-striped">
             <tbody>
             <?php if(!empty($this->listmodblogs)){
@@ -55,7 +55,6 @@
                         <td>
                             <div class="btn-group">
                                 <a href="<?php echo Config::get('URL');echo $value->slug;?>"><button class="btn btn-default" type="button"><i class="fa fa-fw fa-eye"></i>Visa</button></a>
-                                <a href="<?php echo Config::get('URL');echo $value->slug;?>/manage"><button class="btn btn-primary" type="button"><i class="fa fa-fw fa-cog"></i>Administrera</button></a>
                             </div>
                         </td>
                     </tr>

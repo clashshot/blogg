@@ -6,7 +6,7 @@
         <?php $this->renderFeedbackMessages(); ?>
         <div class="panel panel-default">
             <div class="panel-heading">
-                Dina moderatorer:
+                Dina moderatorer (rättigheter att moderera bloggar):
             </div>
             <div class="panel-body">
                 <?php $this->renderFeedbackMessages(); ?>

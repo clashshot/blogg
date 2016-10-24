@@ -86,7 +86,7 @@ class BlogController extends Controller
 
     public function manage($blogid, $method = 'index', $postslug = '')
     {
-        if (UserModel::getEditPermission($blogid)) {
+        if (UserModel::getExtendedPermission($blogid)) {
             switch (strtolower($method)) {
                 case 'index':
                     $this->View->render('manage/index', array(
