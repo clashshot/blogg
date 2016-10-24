@@ -117,6 +117,16 @@ class BBCodeParser
             'pattern' => '/\r\n/',
             'replace' => '<br />',
             'content' => ''
+        ],
+      	'sup' => [
+        	'pattern' => '/\[sup\](.*?)\[\/sup\]/s',
+          	'replace' => '<sup>$1</sup>',
+          	'content' => '$1'
+        ],
+      	'sub' => [
+        	'pattern' => '/\[sub\](.*?)\[\/sub\]/s',
+          	'replace' => '<sub>$1</sub>',
+          	'content' => '$1'
         ]
     ];
 
