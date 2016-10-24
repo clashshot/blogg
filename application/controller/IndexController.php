@@ -22,4 +22,11 @@ class IndexController extends Controller
             $this->View->render('index/index');
         }
     }
+
+    public function termsofservice()
+    {
+
+            $this->View->render('_templates/terms');
+
+    }
 }

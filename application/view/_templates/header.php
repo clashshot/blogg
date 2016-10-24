@@ -92,7 +92,7 @@
                     <div id="navbar" class="collapse navbar-collapse">
                         <ul class="nav navbar-nav navbar-right">
                             <li><a href="#">Om oss</a></li>
-                            <li><a href="#about">Användarvillkor</a></li>
+                            <li><a href="<?php echo Config::get('URL'); ?>index/termsofservice">Användarvillkor</a></li>
                             <li><a href="#contact">Kontakt</a></li>
                         </ul>
                     </div><!-- /.nav-collapse -->
