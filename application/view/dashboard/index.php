@@ -64,6 +64,20 @@
                 </table>
             </div>
         </div>
+        <div class="col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">Favoriter</div>
+                <table class="table table-hover table-striped">
+                    <tr>
+                        <td>
+                            <div class="btn-group">
+                                <a href="<?php echo Config::get('URL'); ?> dashboard/favorite/<?php echo $value->slug; ?>"><button class="btn btn-default" type="button"><i class="fa fa-fw fa-star"></i>Visa dina favoriter</button></a>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
     </div>
 
 
