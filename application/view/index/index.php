@@ -1,7 +1,9 @@
 <div class="container">
     <div class="col-md-8">
         <div class="well">
-            <h4><span class="glyphicon glyphicon-pencil"></span> Skapa flera bloggar på samma konto.</h4>
+            <h2>Välkommen till <b>Blog|Nation</b></h2>
+            <br/>
+            <h4><span class="glyphicon glyphicon-pencil"></span> Här samlar du alla dina bloggar på ett enkelt och smidigt sätt.</h4>
             <br/>
             <h4><span class="glyphicon glyphicon-comment"></span> Kommentera på intressanta inlägg.</h4>
             <br/>
