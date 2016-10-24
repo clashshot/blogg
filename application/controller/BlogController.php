@@ -19,11 +19,12 @@ class BlogController extends Controller
      */
     public function index($blogid)
     {
-        $blog = BlogModel::getBlog($blogid);
+    $blog = BlogModel::getBlog($blogid);
         $this->View->render('blog/index', array(
             'blog' => $blog,
             'user' => UserModel::getPublicProfileOfUser($blog->user_id),
             'posts' => BlogModel::getPosts($blogid, Request::get('page')),
+            'category' => CategoryModel::showCategory($blogid),
             'paginate' => new Paginate("Post WHERE blog_id = :blog_id AND visibility <= :permission", [':blog_id' => $blogid, ':permission' => UserModel::getPermission($blogid)], 5)
         ));
     }
@@ -63,6 +64,24 @@ class BlogController extends Controller
         } else {
             echo '<h1>Did not find post.</h1>';
         }
+    }
+
+    public function category($blogid, $catslug){
+            $blog = BlogModel::getBlog($blogid);
+            $catpage = CategoryModel::catpage($blogid, $catslug);
+            $catid = CategoryModel::getnamebyid('Category', 'slug', $catslug)->id;
+            if(!empty($catpage)){
+                $this->View->render('blog/categoryposts', array(
+                    'blog' => BlogModel::getBlog($blogid),
+                    'user' => UserModel::getPublicProfileOfUser($blog->user_id),
+                    'catpage' => $catpage,
+                    'posts' => BlogModel::getPosts($blogid, Request::get('page')),
+                    'category' => CategoryModel::showCatexistsinPost($blogid),
+                    'paginatecat' => new Paginate("Post WHERE blog_id = :blog_id AND category_id = :catid AND visibility <= :permission", [':blog_id' => $blogid, ':catid' => $catid, ':permission' => UserModel::getPermission($blogid)], 5)
+                ));
+            } else {
+                Redirect::to(BlogModel::getBlog($blogid)->slug);
+            }
     }
 
     public function manage($blogid, $method = 'index', $postslug = '')
