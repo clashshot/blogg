@@ -39,7 +39,7 @@ class DashboardController extends Controller
     }
     public function bloglist() {
         $this->View->render('dashboard/bloglist', array(
-            'blogs' => BlogModel::listAllBlogs()));
+            'blogs' => DashboardModel::listAllVisibleBlogs()));
     }
 
     public function blog_create(){

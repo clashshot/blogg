@@ -31,6 +31,16 @@ class DashboardModel
         return $listmodblogs;
     }
 
+    public static function listAllVisibleBlogs(){
+        $database = DatabaseFactory::getFactory()->getConnection();
+
+        $query = $database->prepare("SELECT * FROM Blog WHERE visible = 1");
+        $query->execute();
+        $listblogs = $query->fetchAll();
+
+        return $listblogs;
+
+    }
     public static function delete($slug){
         $database = DatabaseFactory::getFactory()->getConnection();
 
