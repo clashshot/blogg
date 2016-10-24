@@ -7,9 +7,9 @@
             <br/>
             <h4><span class="glyphicon glyphicon-heart"></span> Favoritmarkera dina favorit inlägg för lättare åtkomst.</h4>
             <br/>
-            <h4><span class="glyphicon glyphicon-user"></span> Ha moderatorer som kan kolla över och censurera elaka kommentarer.</h4>
+            <h4><span class="glyphicon glyphicon-user"></span> Gör dina kompisar till moderatorer på din blogg.</h4>
             <br/>
-            <h4><span class="glyphicon glyphicon-picture"></span> Länka till dina favorit bilder eller gifs.</h4>
+            <h4><span class="glyphicon glyphicon-picture"></span> Länka till dina favoritbilder eller gifs.</h4>
         </div>
     </div>
     <div class="col-md-4">
