@@ -73,10 +73,10 @@ class CommentModel
         }
     }
 
-    public static function getComments($post_id)
+    public static function getComments($post_id, $page = 0, $IPP = 10)
     {
         $database = DatabaseFactory::getFactory()->getConnection();
-        $query = $database->prepare("SELECT * FROM `Comment` LEFT JOIN users ON Comment.user_id = users.user_id WHERE post_id = :post AND comment_id IS NULL");
+        $query = $database->prepare("SELECT * FROM `Comment` LEFT JOIN users ON Comment.user_id = users.user_id WHERE post_id = :post AND comment_id IS NULL LIMIT " . ($page * $IPP) . ", " . $IPP);
         $query->execute(array(
             ":post" => $post_id
         ));

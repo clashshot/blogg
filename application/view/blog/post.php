@@ -220,6 +220,7 @@ $bbcode = new Golonka\BBCode\BBCodeParser;
                     <?php
                     if ($this->post->allow_comments == 1)
                         renderComments($this->post, $this->blog->id, $this->blog->slug, $this->post->slug, $this->comments, 0);
+                    $this->paginate->render();
                     ?>
                 </div>
             </div>

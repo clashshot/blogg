@@ -39,7 +39,8 @@ class BlogController extends Controller
                         'blog' => $blog,
                         'post' => $post,
                         'user' => UserModel::getPublicProfileOfUser($blog->user_id),
-                        'comments' => CommentModel::getComments($post->id)
+                        'comments' => CommentModel::getComments($post->id, Request::get('page')),
+                        'paginate' => new Paginate("Comment WHERE post_id = :post AND comment_id IS NULL", array('post' => $post->id))
                     ));
                 } else {
                     Redirect::to(BlogModel::getBlog($blogid)->slug);
