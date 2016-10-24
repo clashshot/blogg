@@ -38,7 +38,7 @@
                         echo '<a href="'.Config::get('URL').$this->blog->slug.'/category/'.$row->slug.'" class="list-group-item">'.$row->name.'</a>';
                     }
                 } else {
-                    echo 'Inga kategorier';
+                    echo '<div class="panel-body">Inga kategorier</div>';
                 }
 
                 ?>

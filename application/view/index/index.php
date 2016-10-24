@@ -1,15 +1,17 @@
 <div class="container">
     <div class="col-md-8">
         <div class="well">
-            <h4><span class="glyphicon glyphicon-pencil"></span> Skapa flera bloggar på samma konto.</h4>
+            <h2>Välkommen till <b>Blog|Nation</b></h2>
+            <br/>
+            <h4><span class="glyphicon glyphicon-pencil"></span> Här samlar du alla dina bloggar på ett enkelt och smidigt sätt.</h4>
             <br/>
             <h4><span class="glyphicon glyphicon-comment"></span> Kommentera på intressanta inlägg.</h4>
             <br/>
             <h4><span class="glyphicon glyphicon-heart"></span> Favoritmarkera dina favorit inlägg för lättare åtkomst.</h4>
             <br/>
-            <h4><span class="glyphicon glyphicon-user"></span> Ha moderatorer som kan kolla över och censurera elaka kommentarer.</h4>
+            <h4><span class="glyphicon glyphicon-user"></span> Gör dina kompisar till moderatorer på din blogg.</h4>
             <br/>
-            <h4><span class="glyphicon glyphicon-picture"></span> Länka till dina favorit bilder eller gifs.</h4>
+            <h4><span class="glyphicon glyphicon-picture"></span> Länka till dina favoritbilder eller gifs.</h4>
         </div>
     </div>
     <div class="col-md-4">
