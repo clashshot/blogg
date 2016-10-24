@@ -92,6 +92,15 @@ class CommentModel
         }
     }
 
+    public static function getcomment($id){
+        $database = DatabaseFactory::getFactory()->getConnection();
+        $query = $database->prepare("SELECT *FROM Comment WHERE id = :id");
+        $query->execute(array(
+            ":id" => $id
+        ));
+        return $query->fetchObject();
+    }
+
     public static function updateComment()
     {
         $database = DatabaseFactory::getFactory()->getConnection();
