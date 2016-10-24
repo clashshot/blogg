@@ -44,9 +44,7 @@
                             }
                             };
                         ?>
-                        <?php if(Session::userIsLoggedIn()): ?>
                             <li style="background:#37a1ff;"><a href="<?php echo Config::get('URL'); ?>">Startsida</a></li>
-                        <?php endif; ?>
                     </ul>
                 </div><!-- /.nav-collapse -->
             </div><!-- /.container -->

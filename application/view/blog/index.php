@@ -18,7 +18,7 @@
                         </div>
                         <div class="row">
                             <div class="form-group text-center readmore">
-                                <a type="button" data-target="#post<?=$post->id?>" class="btn btn-primary post-collapse">Se hela posten</a>
+                                <a type="button" data-target="#post<?=$post->id?>" class="post-collapse"><i class="fa fa-chevron-down"></i></a>
                             </div>
                         </div>
                         <div class="time row">
