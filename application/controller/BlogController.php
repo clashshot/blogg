@@ -40,6 +40,7 @@ class BlogController extends Controller
                         'post' => $post,
                         'user' => UserModel::getPublicProfileOfUser($blog->user_id),
                         'comments' => CommentModel::getComments($post->id, Request::get('page')),
+                        'category' => CategoryModel::showCatexistsinPost($blogid),
                         'paginate' => new Paginate("Comment WHERE post_id = :post AND comment_id IS NULL", array('post' => $post->id))
                     ));
                 } else {
