@@ -4,9 +4,11 @@
 
     <div class="col-md-9">
         <?php $this->renderFeedbackMessages(); ?>
+        <?php if (sizeof($this->pages) < 5){?>
         <a href="<?php echo Config::get('URL');
         echo $this->blog->slug; ?>/manage/addpage" class="btn btn-primary btn-xs pull-right"
            style="margin:8px 8px 0px 0px">Lägg till sida</a>
+        <?php } ?>
         <div class="panel panel-default">
             <div class="panel-heading">Dina sidor</div>
             <div class="panel-body">
