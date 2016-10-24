@@ -13,12 +13,14 @@
                     <h2 class="text-center"><?= $post->title ?></h2>
                     <p class="text-center"><?= BlogModel::getCategory($post->category_id) ?></p>
                     <div class="col-md-12">
-                        <div id="post<?=$post->id?>" class="collapse post"><?= $bbcode->parse(Filter::XSSFilter($post->content), true) ?></div>
+                        <div id="post<?= $post->id ?>"
+                             class="collapse post"><?= $bbcode->parse(Filter::XSSFilter($post->content), true) ?></div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="form-group text-center readmore">
-                        <a type="button" data-target="#post<?=$post->id?>" class="post-collapse fa fa-chevron-down"></a>
+                        <a type="button" data-target="#post<?= $post->id ?>"
+                           class="post-collapse fa fa-chevron-down"></a>
                     </div>
                 </div>
                 <div class="time row">
@@ -38,7 +40,7 @@
 
 <?php
 }
-}else{
+} else {
     echo "Finns inga inlägg att visa";
 }
 $this->paginate->render();
