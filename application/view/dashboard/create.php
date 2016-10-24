@@ -13,17 +13,17 @@
         <div class="form-group">
             <div class="row">
                 <div class="col-md-4">
-                    <i style="font-size:24px" class="fa">&#xf082;</i>
+                    <i class="fa fa-facebook-official" style="font-size: 24px;" aria-hidden="true"></i>
                     <input type="text" name="facebook" class="form-control"
                            placeholder="/facebookusername">
                 </div>
                 <div class="col-md-4">
-                    <i style="font-size:24px" class="fa">&#xf081;</i>
+                    <i class="fa fa-twitter-square" style="font-size: 24px;" aria-hidden="true"></i>
                     <input type="text" name="twitter" class="form-control"
                            placeholder="/twitterusername">
                 </div>
                 <div class="col-md-4">
-                    <i style="font-size:24px" class="fa">&#xf0d4;</i>
+                    <i class="fa fa-google-plus-square" style="font-size: 24px;" aria-hidden="true"></i>
                     <input type="text" name="google" class="form-control"
                            placeholder="/u/0/1234567890">
                 </div>
@@ -39,7 +39,7 @@
         </div>
         <div class="form-group">
             <label>Beskrivning om din blogg</label>
-        <textarea name="about" class="form-control" id="editor" rows="12"></textarea>
+        <textarea name="about" class="form-control" id="editor"></textarea>
         </div>
         <input type="submit" value="Skapa" class ="btn btn-primary pull-right"/>
     </form>
