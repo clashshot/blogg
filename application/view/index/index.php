@@ -3,15 +3,15 @@
         <div class="well">
             <h2>Välkommen till <b>Blog|Nation</b></h2>
             <br/>
-            <h4><span class="glyphicon glyphicon-pencil"></span> Här samlar du alla dina bloggar på ett enkelt och smidigt sätt.</h4>
+            <h4><span class="glyphicon glyphicon-pencil"></span> <b>Samla alla dina bloggar</b> på ett enkelt och smidigt sätt.</h4>
             <br/>
-            <h4><span class="glyphicon glyphicon-comment"></span> Kommentera på intressanta inlägg.</h4>
+            <h4><span class="glyphicon glyphicon-comment"></span> <b>Kommentera</b> på intressanta inlägg.</h4>
             <br/>
-            <h4><span class="glyphicon glyphicon-heart"></span> Favoritmarkera dina favorit inlägg för lättare åtkomst.</h4>
+            <h4><span class="glyphicon glyphicon-heart"></span> <b>Favoritmarkera inlägg</b> för lättare åtkomst.</h4>
             <br/>
-            <h4><span class="glyphicon glyphicon-user"></span> Gör dina kompisar till moderatorer på din blogg.</h4>
+            <h4><span class="glyphicon glyphicon-user"></span> <b>Gör dina kompisar till moderatorer</b> på din blogg.</h4>
             <br/>
-            <h4><span class="glyphicon glyphicon-picture"></span> Länka till dina favoritbilder eller gifs.</h4>
+            <h4><span class="glyphicon glyphicon-picture"></span> <b>Länka till</b> dina favoritbilder eller gifs.</h4>
         </div>
     </div>
     <div class="col-md-4">
