@@ -27,13 +27,15 @@ class FavoriteModel
     public static function favoritelist($page = 0, $post_per_page = 10){
 
         $database = DatabaseFactory::getFactory()->getConnection();
-        $query = $database->prepare("SELECT * FROM Favorite LEFT JOIN Post ON Favorite.post_id = Post.id WHERE Favorite.user_id = :userid LIMIT ($page * $post_per_page), $post_per_page");
+        $query = $database->prepare("SELECT * FROM Favorite LEFT JOIN Post ON Favorite.post_id = Post.id WHERE Favorite.user_id = :userid LIMIT " . ($page * $post_per_page) . "," . $post_per_page);
         $query->execute(array(
             ':userid' => Session::get('user_id')
         ));
-        if ($query->rowCount()> 0){
+        if ($query->rowCount() > 0){
             $posts = array();
             while($post = $query->fetchObject()){
+                $post->comments = CommentModel::getCommentAmount($post->id);
+                $post->likes = BlogModel::getPostLikes($post->id);
                 $posts[] = $post;
             }
             return $posts;
