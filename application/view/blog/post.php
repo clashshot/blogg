@@ -50,7 +50,7 @@ function renderComments($post, $blog_id, $blogslug, $postslug, $comments, $depth
                                                data-parent="#accordion<?= $comment->id ?>">Redigera</a></li>
                                         <li>
                                             <a onclick="return confirm('Är du säker på att du vill ta bort din kommentar?')"
-                                               href="<?= Config::get('URL') . $blogslug . "/remove_comment/" . $comment->id ?>">
+                                               href="<?= Config::get('URL') . $blogslug . "/remove_comment/" . $postslug ."/" . $comment->id ?>">
                                                 Ta bort
                                             </a>
                                         </li>

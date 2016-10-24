@@ -113,10 +113,9 @@ class CommentModel
         ));
     }
 
-    public static function removeComment()
+    public static function removeComment($comment_id)
     {
         $database = DatabaseFactory::getFactory()->getConnection();
-        $comment_id = Request::post("comment_id");
         $query = $database->prepare("UPDATE `Comment` SET `deleted` = 1 WHERE `id` = :comment_id");
         $query->execute(array(":comment_id" => $comment_id));
     }
