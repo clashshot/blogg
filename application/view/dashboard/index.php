@@ -50,7 +50,6 @@
                         <p style="max-width: 80%"><?= $value->description; ?></p>
 
                         </td>
-                        <td></td><td></td>
                         <td><?=$value->posts?> Inlägg</td>
                         <td>
                             <div class="btn-group">
