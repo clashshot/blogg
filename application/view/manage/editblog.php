@@ -47,10 +47,6 @@
                        required
                        placeholder="Skriv en beskriving om bloggen">
             </div>
-            <div class="form-group">
-                <label>Beskrivning om din blogg</label>
-                <textarea name="about" class="form-control" id="editor1"><?= $this->blog->about ?></textarea>
-            </div>
             <input type="submit" value="Uppdatera blogg" class="btn btn-primary"/>
         </form>
     </div>
