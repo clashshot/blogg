@@ -85,7 +85,14 @@ function renderComments($post, $blog_id, $blogslug, $postslug, $comments, $depth
                                 <?php
                             }
                             ?>
-                            <button class="btn btn-xs btn-danger glyphicon glyphicon-flag"></button>
+                            <?php
+                            // Report comment
+                            if (ReportModel::reportexists(1, $comment->id)) {
+                                echo 'Rapporterad';
+                            } else {
+                                echo '<a onclick="reportcomment(this,'.$comment->id.', 1)" class="btn btn-xs btn-danger glyphicon glyphicon-flag"></a>';
+                            } // End Report Comment
+                            ?>
                         <?php } ?>
                         <div class="like">
                             <p><b id="comment_likes<?= $comment->id ?>"><?= $comment->likes ?></b> Gillningar</p>
