@@ -37,6 +37,10 @@ class DashboardController extends Controller
             'paginate' => new Paginate("Favorite WHERE Favorite.user_id = :userid", array('userid' => Session::get('user_id')), 10)
         ));
     }
+    public function bloglist() {
+        $this->View->render('dashboard/bloglist', array(
+            'blogs' => BlogModel::listAllBlogs()));
+    }
 
     public function blog_create(){
         // Brolaugh was here <3 lol
