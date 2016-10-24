@@ -1,5 +1,5 @@
 <?php
-function renderComments($post, $blog_id, $blogslug, $postslug, $comments)
+function renderComments($post, $blog_id, $blogslug, $postslug, $comments, $depth)
 {
     if (!empty($comments)) {
         foreach ($comments as $comment) {
@@ -114,7 +114,12 @@ function renderComments($post, $blog_id, $blogslug, $postslug, $comments)
                                 <div id="ans_<?= $comment->id ?>" class="collapse">
                                     <form method="post"
                                           action="<?= Config::get("URL") . $blogslug . "/comment/" . $postslug ?>">
-                                        <input type="hidden" name="comment_id" value="<?= $comment->id ?>"/>
+                                        <?php if ($depth < 7) { ?>
+                                            <input type="hidden" name="comment_id" value="<?= $comment->id ?>"/>
+                                        <?php } else { ?>
+                                            <input type="hidden" name="comment_id"
+                                                   value="<?= $comment->comment_id ?>"/>
+                                        <?php } ?>
                                         <br/>
                                         <textarea type="text" name="comment" class="form-control"></textarea>
                                         <br/>
@@ -125,7 +130,9 @@ function renderComments($post, $blog_id, $blogslug, $postslug, $comments)
                         </div>
                         <?php
                     }
-                    renderComments($post, $blog_id, $blogslug, $postslug, $comment->subComments);
+                    if($depth <= 7){
+                        renderComments($post, $blog_id, $blogslug, $postslug, $comment->subComments, $depth +1);
+                    }
                     ?>
                 </div>
             </div>
@@ -212,7 +219,7 @@ $bbcode = new Golonka\BBCode\BBCodeParser;
                 <div class="col-md-12">
                     <?php
                     if ($this->post->allow_comments == 1)
-                        renderComments($this->post, $this->blog->id, $this->blog->slug, $this->post->slug, $this->comments);
+                        renderComments($this->post, $this->blog->id, $this->blog->slug, $this->post->slug, $this->comments, 0);
                     ?>
                 </div>
             </div>
