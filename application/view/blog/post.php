@@ -39,7 +39,7 @@ function renderComments($post, $blog_id, $blogslug, $postslug, $comments)
                     if (UserModel::getEditPermission($blog_id))//(Session::get("user_id") == $comment->user_id && !empty($comment->user_id))
                     {
                     ?>
-                    <button type="button" class="btn btn-primary btn-xs dropdown-toggle"
+                    <button id="gill" type="button" class="btn btn-primary btn-xs dropdown-toggle"
                             data-toggle="dropdown">
                         <!--<button type="button" class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown"> -->
                         Ändra
@@ -61,7 +61,7 @@ function renderComments($post, $blog_id, $blogslug, $postslug, $comments)
                 }
                 }
                 ?>
-                <button type="button" class="btn btn-xs" data-toggle="collapse"
+                <button id="gill" type="button" class="btn btn-xs" data-toggle="collapse"
                         href="#ans_<?= $comment->id ?>"
                         data-parent="#accordion<?= $comment->id ?>">
                     Svara
@@ -70,13 +70,13 @@ function renderComments($post, $blog_id, $blogslug, $postslug, $comments)
                 if (Session::userIsLoggedIn()) {
                     if (CommentModel::likingcomment($comment->id)) {
                         ?>
-                        <a onclick="like_comment(this, <?= $comment->id ?>, 0)"
+                        <a id="gill" onclick="like_comment(this, <?= $comment->id ?>, 0)"
                            class="btn btn-primary btn-xs">Sluta
                             gilla</a>
                         <?php
                     } else {
                         ?>
-                        <a onclick="like_comment(this, <?= $comment->id ?>, 1)"
+                        <a id="gill" onclick="like_comment(this, <?= $comment->id ?>, 1)"
                            class="btn btn-primary btn-xs">Gilla</a>
                         <?php
                     }
@@ -150,13 +150,13 @@ $bbcode = new Golonka\BBCode\BBCodeParser;
                         if (Session::userIsLoggedIn()) {
                             if (BlogModel::likingpost($this->post->id)) {
                                 ?>
-                                <a onclick="like_post(this, <?= $this->post->id ?>, 0)"
+                                <a id="gill" onclick="like_post(this, <?= $this->post->id ?>, 0)"
                                    class="btn btn-primary btn-sm">Sluta
                                     gilla</a>
                                 <?php
                             } else {
                                 ?>
-                                <a onclick="like_post(this, <?= $this->post->id ?>, 1)"
+                                <a id="gill" onclick="like_post(this, <?= $this->post->id ?>, 1)"
                                    class="btn btn-primary btn-sm">Gilla</a>
                                 <?php
                             }
@@ -174,7 +174,7 @@ $bbcode = new Golonka\BBCode\BBCodeParser;
                         ?>
                     </div>
                     <div class="pull-right like">
-                        <p><b id="likes"><?= $this->post->likes ?></b> Gillningar</p>
+                        <p id="gilla"><b><?= $this->post->likes ?></b> Gillningar</p>
                     </div>
                 </div>
             </div>
