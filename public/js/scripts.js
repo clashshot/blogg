@@ -245,3 +245,21 @@ $(".post-collapse").click(function () {
     $($(this)[0].dataset.target).toggleClass("active");
     $(this).toggleClass("active");
 })
+
+function report(button, id, type, reason) {
+    if(reason.length == 0){
+        reason = "Skrev inget";
+    }
+    $.ajax('/blog/report/',{
+        data: {format: "json", type: type, reported_id: id, reason: reason},
+        dataType: 'json',
+        type: "POST",
+        success:function (data) {
+            $(button).replaceWith("Rapporterad");
+        },
+        error:function (request, status, error) {
+            var manage = document.getElementsByClassName("col-md-9")[0];
+            $('<div class="alert alert-danger fade in"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>' + error + '</div>').prependTo(manage);
+        }
+    });
+}

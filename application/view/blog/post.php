@@ -87,10 +87,10 @@ function renderComments($post, $blog_id, $blogslug, $postslug, $comments, $depth
                             ?>
                             <?php
                             // Report comment
-                            if (ReportModel::reportexists(1, $comment->id)) {
+                            if (ReportModel::reportexists(Session::get('user_id'), 1, $comment->id)) {
                                 echo 'Rapporterad';
                             } else {
-                                echo '<a onclick="report(this,'.$comment->id.', 1)" class="btn btn-xs btn-danger glyphicon glyphicon-flag"></a>';
+                                echo '<a onclick="report(this,'.$comment->id.', 1, prompt(\'Anledning till rapportering\', \'\'))" class="btn btn-xs btn-danger glyphicon glyphicon-flag"></a>';
                             } // End Report Comment
                             ?>
                         <?php } ?>

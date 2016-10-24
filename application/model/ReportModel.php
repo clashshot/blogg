@@ -68,8 +68,8 @@ class ReportModel
         if(isset($_POST['prio'])){
             $priority = Request::post('prio');
         }
-        if(reportexists($user, $type, $reported_id)){
-            return false;
+        if(self::reportexists($user, $type, $reported_id)){
+            return true;
         }
         $database = DatabaseFactory::getFactory()->getConnection();
         $report = $database->prepare("INSERT INTO Report(`user_id`, `type`, `reported_id`, `reason`, `priority`) VALUES(:user, :type, :reported, :reason, :prio)");
@@ -82,10 +82,10 @@ class ReportModel
         ));
     }
 
-    public static function reportexists($type, $reported_id){
+    public static function reportexists($user, $type, $reported_id){
         $database = DatabaseFactory::getFactory()->getConnection();
-        $report = $database->prepare("SELECT * FROM Report WHERE user_id = :userid AND type = :type AND reported_id = :report");
-        $report->execute(array(':userid' => Session::get('user_id'), ':type' => $type, ':report' => $reported_id));
+        $report = $database->prepare("SELECT *FROM Report WHERE user_id = :user AND type = :type AND reported_id = :report");
+        $report->execute(array('user' => $user, 'type' => $type, 'report' => $reported_id));
         if ($report->rowCount() > 0){
             return true;
         }

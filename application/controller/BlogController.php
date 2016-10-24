@@ -87,7 +87,7 @@ class BlogController extends Controller
 
     public function manage($blogid, $method = 'index', $postslug = '')
     {
-        if (UserModel::getExtendedPermission($blogid)) {
+        if (UserModel::getEditPermission($blogid)) {
             switch (strtolower($method)) {
                 case 'index':
                     $this->View->render('manage/index', array(
@@ -310,13 +310,7 @@ class BlogController extends Controller
     public function update_comment($blogid, $postslug)
     {
         $blog = BlogModel::getBlog($blogid);
-        CommentModel::updateComment();
-        Redirect::to($blog->slug."/".$postslug);
-    }
-    public function remove_comment($blogid, $postslug)
-    {
-        $blog = BlogModel::getBlog($blogid);
-        CommentModel::removeComment();
+        CommentModel::updateComment(BlogModel::getpost($blogid, $postslug)->id);
         Redirect::to($blog->slug."/".$postslug);
     }
 
@@ -357,6 +351,12 @@ class BlogController extends Controller
             if(FavoriteModel::removefavorite()){
                 echo 0;
             }
+        }
+    }
+
+    public function report(){
+        if(Session::userIsLoggedIn()){
+            echo ReportModel::report();
         }
     }
 }
