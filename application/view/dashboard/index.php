@@ -71,7 +71,7 @@
                     <tr>
                         <td>
                             <div class="btn-group">
-                                <a href="<?php echo Config::get('URL'); ?> dashboard/favorite/<?php echo $value->slug; ?>"><button class="btn btn-default" type="button"><i class="fa fa-fw fa-star"></i>Visa dina favoriter</button></a>
+                                <a href="<?php echo Config::get('URL'); ?>/dashboard/favorite/<?php echo $value->slug; ?>"><button class="btn btn-default" type="button"><i class="fa fa-fw fa-star"></i>Visa dina favoriter</button></a>
                             </div>
                         </td>
                     </tr>
