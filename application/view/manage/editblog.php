@@ -6,6 +6,7 @@
     <div class="col-md-9">
         <form method="post" action="<?php echo Config::get('URL'); ?><?= $this->blog->slug ?>/manage/blog_update">
             <div class="form-group">
+                <label>Bloggnamn</label>
                 <input type="text" name="title" class="form-control" value="<?= $this->blog->title ?>" required
                        placeholder="Här skriver du in din titel">
             </div>
@@ -41,12 +42,13 @@
                 </div>
             </div>
             <div class="form-group">
+                <label>Kort beskrivning om dig</label>
                 <input type="text" name="description" class="form-control" value="<?= $this->blog->description ?>"
                        required
                        placeholder="Skriv en beskriving om bloggen">
             </div>
             <div class="form-group">
-
+                <label>Beskrivning om din blogg</label>
                 <textarea name="about" class="form-control" id="editor1"><?= $this->blog->about ?></textarea>
             </div>
             <script>
