@@ -9,8 +9,7 @@
                 Dina moderatorer:
             </div>
             <div class="panel-body">
-
-
+                <?php $this->renderFeedbackMessages(); ?>
                 <table class="table">
                     <thead>
                     <tr>

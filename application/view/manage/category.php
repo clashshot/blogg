@@ -38,7 +38,7 @@
                                                     <input type="text" value="<?=$post->name?>" name="new_category" class="form-control">
                                                 </div>
                                                 <input type="hidden" value="<?=$post->id?>" name="category">
-                                                <input type="submit" class="btn btn-primary">Lägg till</input>
+                                                <input type="submit" value="Ändra" class="btn btn-primary">
                                             </form>
                                         </div>
                                         <div class="modal-footer">

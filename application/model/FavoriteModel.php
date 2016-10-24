@@ -18,7 +18,7 @@ class FavoriteModel
     {
         $database = DatabaseFactory::getFactory()->getConnection();
 
-        $query = $database->prepare("DELETE FROM Favorite WHERE user_id = :id, post_id = :postid ");
+        $query = $database->prepare("DELETE FROM Favorite WHERE user_id = :id AND post_id = :postid");
         return $query->execute(array(
             ':id' => Session::get('user_id'),
             ':postid' => Request::post('postid')
@@ -27,16 +27,35 @@ class FavoriteModel
     public static function favoritelist($page = 0, $post_per_page = 10){
 
         $database = DatabaseFactory::getFactory()->getConnection();
-        $query = $database->prepare("SELECT * FROM Favorite LEFT JOIN Post ON Favorite.post_id = Post.id WHERE Favorite.user_id = :userid LIMIT ($page * $post_per_page), $post_per_page");
+        $query = $database->prepare("SELECT * FROM Favorite LEFT JOIN Post ON Favorite.post_id = Post.id WHERE Favorite.user_id = :userid LIMIT " . ($page * $post_per_page) . "," . $post_per_page);
         $query->execute(array(
             ':userid' => Session::get('user_id')
         ));
-        if ($query->rowCount()> 0){
+        if ($query->rowCount() > 0){
             $posts = array();
             while($post = $query->fetchObject()){
+                $post->comments = CommentModel::getCommentAmount($post->id);
+                $post->likes = BlogModel::getPostLikes($post->id);
                 $posts[] = $post;
             }
             return $posts;
         }
+    }
+    public static function checkfavorite ($post_id)
+    {
+        $database = DatabaseFactory::getFactory()->getConnection();
+
+        $query = $database->prepare("SELECT * FROM Favorite WHERE post_id = :postid AND user_id = :userid");
+        $query->execute(array(
+            ':postid' => $post_id,
+            ':userid' => Session::get('user_id')
+        ));
+        if($query->rowCount() > 0){
+            return true;
+        }
+        else {
+            return false;
+        }
+
     }
 }

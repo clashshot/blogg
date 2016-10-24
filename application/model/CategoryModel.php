@@ -2,7 +2,7 @@
 
 class CategoryModel
 {
-    public static function showCategory($blogid, $exclude = null)
+    public static function showCategory($blogid, $exclude = null, $page = 0, $IPP = 10)
     {
         $database = DatabaseFactory::getFactory()->getConnection();
 
@@ -10,7 +10,11 @@ class CategoryModel
         if (isset($exclude)){
             $sql .= ' id != :exclude AND';
         }
-        $sql = $database->prepare($sql . ' blog_id = :blogid');
+        if($IPP == -1){
+            $sql = $database->prepare($sql . ' blog_id = :blogid');
+        }else{
+            $sql = $database->prepare($sql . ' blog_id = :blogid LIMIT ' . ($page * $IPP) . ', ' . $IPP);
+        }
         if (isset($exclude)){
             $sql->execute(array(
                 ':blogid' => $blogid,
@@ -37,12 +41,40 @@ class CategoryModel
 
     public static function addCategory($blogid){
         $name = Request::post('name');
+        $baseslug = BlogModel::slugify($name);
+
+        $slug = $baseslug;
+        for ($i = 0; $i < 5; $i++) {
+            if (!self::getCategory($blogid, $slug) && !Blacklist::contains($slug)) {
+                break;
+            }
+            $slug = $baseslug . '-' . Text::generateRandomString(6);
+        }
+        if(BlogModel::blogexists($slug)){
+            return false;
+        }
+
         $database = DatabaseFactory::getFactory()->getConnection();
-        $query = $database->prepare("INSERT INTO Category(blog_id, `name`) VALUES(:blog, :name)");
+        $query = $database->prepare("INSERT INTO Category(blog_id, `name`, slug) VALUES(:blog, :name, :slug)");
         return $query->execute(array(
             ':blog' => $blogid,
-            ':name' => Filter::XSSFilter($name)
+            ':name' => Filter::XSSFilter($name),
+            ':slug' => $slug
         ));
+    }
+
+    public static function getCategory($blogid, $slug){
+        $database = DatabaseFactory::getFactory()->getConnection();
+        $query = $database->prepare("SELECT *FROM Category WHERE blog_id = :blog AND slug = :slug");
+        $query->execute(array(
+            ':blog' => $blogid,
+            ':slug' => $slug
+        ));
+        if($query->rowCount() > 0){
+            return $query->fetchObject();
+        }else{
+            return false;
+        }
     }
 
     public static function removeCategory($blogid){

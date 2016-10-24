@@ -4,11 +4,13 @@
 
     <div class="col-md-9">
         <?php $this->renderFeedbackMessages(); ?>
+        <?php if (sizeof($this->pages) < 5){?>
         <a href="<?php echo Config::get('URL');
         echo $this->blog->slug; ?>/manage/addpage" class="btn btn-primary btn-xs pull-right"
            style="margin:8px 8px 0px 0px">Lägg till sida</a>
+        <?php } ?>
         <div class="panel panel-default">
-            <div class="panel-heading">Dina inlägg</div>
+            <div class="panel-heading">Dina sidor</div>
             <div class="panel-body">
                 <?php if (!empty($this->pages)) { ?>
                     <table class="table table-striped">
@@ -27,8 +29,8 @@
                                 <td class="text-center">
                                     <a class='btn btn-info btn-xs'href="<?= Config::get("URL") . $this->blog->slug ?>/manage/editpage/<?= $page->slug ?>">
                                         <span class="glyphicon glyphicon-edit"></span> Ändra</a>
-                                    <a href="#" class="btn btn-danger btn-xs">
-                                        <span class="glyphicon glyphicon-remove"></span> Del</a></td>
+                                    <a class="btn btn-danger btn-xs" href="<?php echo Config::get('URL') . $this->blog->slug; ?>/manage/deletepage/<?php echo $page->slug; ?>" onclick="return confirm('Är du säker på att du vill ta bort detta inlägg?')">
+                                        <span class="glyphicon glyphicon-remove"></span> Ta bort</a></td>
                             </tr>
                             <?php
                         }

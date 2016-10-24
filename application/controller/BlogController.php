@@ -24,7 +24,7 @@ class BlogController extends Controller
             'blog' => $blog,
             'user' => UserModel::getPublicProfileOfUser($blog->user_id),
             'posts' => BlogModel::getPosts($blogid, Request::get('page')),
-            'category' => CategoryModel::showCategory($blogid),
+            'category' => CategoryModel::showCatexistsinPost($blogid),
             'paginate' => new Paginate("Post WHERE blog_id = :blog_id AND visibility <= :permission", [':blog_id' => $blogid, ':permission' => UserModel::getPermission($blogid)], 5)
         ));
     }
@@ -46,7 +46,7 @@ class BlogController extends Controller
                 }
             } elseif (BlogModel::getpage($blogid, $postslug)) {
                 $blog = BlogModel::getBlog($blogid);
-                $this->View->render('page/index',array(
+                $this->View->render('blog/page',array(
                     'blog' => $blog,
                     'user' => UserModel::getPublicProfileOfUser($blog->user_id),
                     'page' => BlogModel::getPage($blogid, $postslug)
@@ -56,7 +56,7 @@ class BlogController extends Controller
             }
         } elseif (BlogModel::getpage($blogid, $postslug)) {
             $blog = BlogModel::getBlog($blogid);
-            $this->View->render('page/index', array(
+            $this->View->render('blog/page', array(
                 'blog' => $blog,
                 'user' => UserModel::getPublicProfileOfUser($blog->user_id),
                 'page' => BlogModel::getPage($blogid, $postslug)
@@ -98,7 +98,7 @@ class BlogController extends Controller
                 case 'addpost':
                     $this->View->render('manage/addpost', array(
                         'blog' => BlogModel::getBlog($blogid),
-                        'category' => CategoryModel::showCategory($blogid)
+                        'category' => CategoryModel::showCategory($blogid, null, null, -1)
                     ));
                     break;
                 case 'addpost_action':
@@ -113,7 +113,7 @@ class BlogController extends Controller
                 case 'editpost':
                     $post = BlogModel::getpost($blogid, $postslug);
                     $excludecat = $post->category_id;
-                    $category = CategoryModel::showCategory($blogid, $excludecat);
+                    $category = CategoryModel::showCategory($blogid, $excludecat, null, -1);
 
                     $this->View->render('manage/editpost', array(
                         'blog' => BlogModel::getBlog($blogid),
@@ -164,15 +164,17 @@ class BlogController extends Controller
                     break;
                 case 'addmod_action':
                     if (BlogModel::addMod($blogid)) {
+                        Session::add('feedback_positive', 'Moderator lades till');
                         Redirect::to(BlogModel::getBlog($blogid)->slug . '/manage/mods');
                     } else {
+                        Session::add('feedback_negative', 'Moderator kunde inte läggas till, var vänlig försök igen');
                         Redirect::to(BlogModel::getBlog($blogid)->slug . '/manage/mods');
                     }
                     break;
                 case 'category':
                     $this->View->render('manage/category', array(
                         'blog' => BlogModel::getBlog($blogid),
-                        'category' => CategoryModel::showCategory($blogid),
+                        'category' => CategoryModel::showCategory($blogid, null, Request::get('page')),
                         'paginate' => new Paginate("Category WHERE blog_id = :blog_id", [':blog_id' => $blogid], 10)
                     ));
                     break;
@@ -200,7 +202,7 @@ class BlogController extends Controller
                 case 'addpage_action':
                     if (BlogModel::addpage($blogid)) {
                         Session::add('feedback_positive', 'Sidan skapades.');
-                        Redirect::to(BlogModel::getBlog($blogid)->slug . '/manage/index');
+                        Redirect::to(BlogModel::getBlog($blogid)->slug . '/manage/pages');
                     } else {
                         Session::add('feedback_negative', 'Sidan kunde ej skapas, försök igen.');
                         Redirect::to(BlogModel::getBlog($blogid)->slug . '/manage/addpage');
@@ -221,6 +223,14 @@ class BlogController extends Controller
                     } else {
                         Session::add('feedback_negative', 'Din sida kunde ej uppdateras.');
                         Redirect::to(BlogModel::getBlog($blogid)->slug . '/manage/editpage/' . $postslug);
+                    }
+                    break;
+                case 'deletepage':
+                    if (UserModel::getEditPermission($blogid)) {
+                        BlogModel::deletepage($blogid, $postslug);
+                        Redirect::to(BlogModel::getBlog($blogid)->slug . '/manage/pages');
+                    } else {
+                        Redirect::to(BlogModel::getBlog($blogid)->slug . '/manage/pages');
                     }
                     break;
                 default:
@@ -250,7 +260,7 @@ class BlogController extends Controller
                         echo $slug;
                         break;
                     }
-                    $slug = $baseSlug . '-' . $this->generateRandomString(6);
+                    $slug = $baseSlug . '-' . Text::generateRandomString(6);
                 }
                 if (BlogModel::blogexists($slug)) {
                     echo "Kunde inte skapa en unik slug";
@@ -277,8 +287,10 @@ class BlogController extends Controller
             case 'index':
                 break;
             case 'addcategory':
-                CategoryModel::addCategory($blogid);
-                $this->View->renderJSON(CategoryModel::showCategory($blogid));
+                if(!CategoryModel::getCategory($blogid, Request::post('name'))){
+                    CategoryModel::addCategory($blogid);
+                }
+                $this->View->renderJSON(CategoryModel::showCategory($blogid, null, null, -1));
                 break;
             default:
                 header('HTTP/1.0 404 Not Found', true, 404);
@@ -297,14 +309,7 @@ class BlogController extends Controller
     public function update_comment($blogid, $postslug)
     {
         $blog = BlogModel::getBlog($blogid);
-        CommentModel::updateComment();
-        Redirect::to($blog->slug."/".$postslug);
-    }
-
-    public function remove_comment($blogid, $postslug)
-    {
-        $blog = BlogModel::getBlog($blogid);
-        CommentModel::removeComment();
+        CommentModel::updateComment(BlogModel::getpost($blogid, $postslug)->id);
         Redirect::to($blog->slug."/".$postslug);
     }
 
@@ -336,14 +341,15 @@ class BlogController extends Controller
         echo BlogModel::switchVisible();
     }
 
-    private function generateRandomString($length = 10)
-    {
-        $characters = '0123456789';
-        $charactersLength = strlen($characters);
-        $randomString = '';
-        for ($i = 0; $i < $length; $i++) {
-            $randomString .= $characters[rand(0, $charactersLength - 1)];
+    public function favorite(){
+        if(Request::post('favorite') == 1){
+            if(FavoriteModel::addfavorite()){
+                echo 1;
+            }
+        }else {
+            if(FavoriteModel::removefavorite()){
+                echo 0;
+            }
         }
-        return $randomString;
     }
 }

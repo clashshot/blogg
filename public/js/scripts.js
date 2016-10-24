@@ -13,7 +13,10 @@ var myCallBack = function() {
 
 var locSearch = window.location.search.substring(1).split('&')[0];
 if(locSearch){
-    document.getElementById( locSearch ).style.display = "block";
+    var element = document.getElementById( locSearch );
+    if(element){
+        element.style.display = "block";
+    }
 }
 
 function solvereport(button, id) {
@@ -151,12 +154,14 @@ function like_post(button, post, like) {
         dataType: 'json',
         type: "POST",
         success:function (data) {
-            var parent = button.parentNode;
-            parent.innerHTML = '';
             if(data == 1){
-                $('<a onclick="like_post(this, ' + post + ', 0)" class="btn btn-primary btn-sm">Sluta gilla</a>').appendTo(parent);
+                button.setAttribute('onclick', 'like_post(this, ' + post + ', 0)');
+                button.setAttribute('class', "btn btn-primary btn-sm");
+                button.innerHTML = "Sluta gilla"
             }else if(data == 0){
-                $('<a onclick="like_post(this, ' + post + ', 1)" class="btn btn-primary btn-sm">Gilla</a>').appendTo(parent);
+                button.setAttribute('onclick', 'like_post(this, ' + post + ', 1)');
+                button.setAttribute('class', "btn btn-primary btn-sm");
+                button.innerHTML = "Gilla"
             }
             $("#likes").load("/blog/ajaxcheck/post_likes", {post_id: post});
         },
@@ -214,3 +219,29 @@ function postHistory(historyid) {
         }
     });
 }
+
+function favoritepost(button, post, favorite) {
+    $.ajax('/blog/favorite/',{
+        data: {format: "json", postid: post, favorite: favorite},
+        dataType: 'json',
+        type: "POST",
+        success:function (data) {
+            if(data == 1){
+                button.setAttribute('onclick', 'favoritepost(this, ' + post + ', 0)');
+                button.setAttribute('class', "btn btn-primary btn-sm glyphicon glyphicon-star");
+            }else if(data == 0){
+                button.setAttribute('onclick', 'favoritepost(this, ' + post + ', 1)');
+                button.setAttribute('class', "btn btn-primary btn-sm glyphicon glyphicon-star-empty");
+            }
+        },
+        error:function (request, status, error) {
+            var manage = document.getElementsByClassName("col-md-9")[0];
+            $('<div class="alert alert-danger fade in"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>' + error + '</div>').prependTo(manage);
+        }
+    });
+}
+
+$(".post-collapse").click(function () {
+    $($(this)[0].dataset.target).toggleClass("active");
+    $(this).toggleClass("active");
+})

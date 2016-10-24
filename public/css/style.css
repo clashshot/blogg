@@ -136,3 +136,24 @@ a.socialIcon:hover, .socialHoverClass {
 .panel-nopadding .table {margin-bottom: 0px; }
 
 @import url("https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,700");
+
+.post{
+    max-height: 20em;
+    overflow: hidden;
+    display: block;
+    transition: height 0.3s, display 0.3s;
+}
+.post.active{
+    max-height: none;
+    display: block;
+}
+.post-collapse.active{
+    transform: rotate(180deg);
+}
+.post-collapse:link{
+    text-decoration: none;
+}
+.post-collapse:hover{
+    text-decoration: none;
+    cursor: pointer;
+}

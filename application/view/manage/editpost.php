@@ -18,17 +18,29 @@
                         <input type="text" id="title" name="title" class="form-control" placeholder="Titel" value="<?= $this->post->title ?>"/>
                     </div>
                     <div class="form-group">
-                        <label>Kategori</label>
-                        <select name="category" class="form-control">
-                            <?php
-                            echo '<option value="'.$this->post->category_id.'" selected>'.CategoryModel::getnamebyid('Category', 'id', $this->post->category_id)->name.'</option>';
-                            ?>
-                            <?php
-                            foreach($this->category as $key => $value){
-                                echo '<option value="'.$value->id.'">'.$value->name.'</option>';
-                            }
-                            ?>
-                        </select>
+                        <div class="row">
+                            <div class="col-md-10">
+                                <label>Kategori (Ämnestaggar)</label>
+                                <select name="category" id="cat_select" class="form-control">
+                                    <option disabled selected>Välj kategori</option>
+                                    <?php
+                                    foreach ($this->category as $category) {
+                                        ?>
+                                        <option value="<?= $category->id ?>"><?= $category->name ?></option>
+                                        <?php
+                                    }
+                                    ?>
+                                </select>
+                            </div>
+                            <div class="col-md-1">
+                                <div class="form-group">
+                                    <label></label>
+                                    <button type="button" class="btn btn-primary" data-toggle="modal"
+                                            data-target="#myModal" style="margin-top:4px;">Lägg till
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="form-group">
@@ -91,5 +103,29 @@
         <input type="submit" class="btn btn-primary pull-right" style="margin-bottom:30px;" value="Ändra" />
 
         </form>
+    </div>
+</div>
+
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Lägg till en ny kategori</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <input type="text" name="new_category" id="new_category" class="form-control">
+                </div>
+                <button type="button" class="btn btn-primary" data-dismiss="modal"
+                        onclick="addCategory(<?= $this->blog->id ?>)">Lägg till
+                </button>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Stäng</button>
+            </div>
+        </div>
     </div>
 </div>

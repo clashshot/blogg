@@ -1,6 +1,6 @@
-<div class="container">
-
-    <div class="col-md-10 col-md-offset-1">
+<div class="container-fluid">
+    <?php include 'sidebar.php'; ?>
+    <div class="col-md-9">
         <?php $this->renderFeedbackMessages();?>
         <div class="panel panel-default">
 

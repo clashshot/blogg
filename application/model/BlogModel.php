@@ -32,6 +32,21 @@ class BlogModel
         }
     }
 
+    public static function postexists($blog, $slug){
+        $database = DatabaseFactory::getFactory()->getConnection();
+        $post = $database->prepare('SELECT * FROM Post WHERE slug = :slug AND blog_id = :blog');
+        $post->execute(array(
+            ':slug' => $slug,
+            ':blog' => $blog
+        ));
+        $postr = $post->fetchObject();
+        if ($post->rowCount() > 0) {
+            return $postr->id;
+        } else {
+            return false;
+        }
+    }
+
     public static function getpost($blogid, $postslug)
     {
         $database = DatabaseFactory::getFactory()->getConnection();
@@ -89,6 +104,18 @@ class BlogModel
         $comment = Request::post('comment');
         $content = Request::post('content');
         $titleslug = self::slugify($title);
+
+        $slug = $titleslug;
+        for ($i = 0; $i < 5; $i++) {
+            if (!self::postexists($blogid, $slug) && !self::pageexists($blogid, $slug) && !Blacklist::contains($slug)) {
+                break;
+            }
+            $slug = $titleslug . '-' . Text::generateRandomString(6);
+        }
+        if(self::postexists($blogid, $slug)){
+            return false;
+        }
+
         $database = DatabaseFactory::getFactory()->getConnection();
         try {
             $add = $database->prepare('INSERT INTO Post (blog_id, category_id, user_id, slug, title, content, visibility, created, allow_comments)
@@ -97,7 +124,7 @@ class BlogModel
                 ':blog_id' => $blogid,
                 ':category_id' => $category,
                 ':user_id' => Session::get('user_id'),
-                ':slug' => $titleslug,
+                ':slug' => $slug,
                 ':title' => Filter::XSSFilter($title),
                 ':content' => Filter::XSSFilter($content),
                 ':visibility' => $visibility,
@@ -113,6 +140,13 @@ class BlogModel
         }
 
     }
+    public static function deletepage($blogid, $postslug) {
+        $database = DatabaseFactory::getFactory()->getConnection();
+
+        $query = $database->prepare("DELETE FROM Pages WHERE blog_id = :blog AND slug = :slug");
+        return $query->execute(array(':blog' => $blogid, ':slug' => $postslug));
+     }
+
 
     public static function blog_create()
     {
@@ -133,6 +167,17 @@ class BlogModel
             $google = Request::post('google');
         }
         $blogname = self::slugify($title);
+
+        $slug = $blogname;
+        for ($i = 0; $i < 5; $i++) {
+            if (!self::blogexists($slug) && !Blacklist::contains($slug)) {
+                break;
+            }
+            $slug = $blogname . '-' . Text::generateRandomString(6);
+        }
+        if(self::blogexists($slug)){
+            return false;
+        }
 
         $database = DatabaseFactory::getFactory()->getConnection();
 
@@ -308,6 +353,18 @@ class BlogModel
         $title = Request::post('title');
         $content = Request::post('content');
         $titleslug = self::slugify($title);
+
+        $slug = $titleslug;
+        for ($i = 0; $i < 5; $i++) {
+            if (!self::pageexists($blogid, $slug) && !self::postexists($blogid, $slug) && !Blacklist::contains($slug)) {
+                break;
+            }
+            $slug = $titleslug . '-' . Text::generateRandomString(6);
+        }
+        if(self::pageexists($blogid, $slug)){
+            return false;
+        }
+
         $database = DatabaseFactory::getFactory()->getConnection();
         try {
             $add = $database->prepare("INSERT INTO Pages(user_id,blog_id,title,slug,content,created) 
@@ -315,7 +372,7 @@ class BlogModel
             $add->execute(array(
                 ':blog_id' => $blogid,
                 ':user_id' => Session::get('user_id'),
-                ':slug' => $titleslug,
+                ':slug' => $slug,
                 ':title' => Filter::XSSFilter($title),
                 ':content' => $content,
                 ':created' => date('Y-m-d H:i:s'),
@@ -361,23 +418,40 @@ class BlogModel
         if(empty($title) && empty($content)){
             return false;
         }
-        $database = DatabaseFactory::getFactory()->getConnection();
-        $edit = $database->prepare("
-          UPDATE Pages SET title = :title, content = :content, updated = :updated WHERE blog_id = :blog_id AND slug = :slug");
 
-        $edit->execute(array(
-            ':title' => $title,
-            ':content' => $content,
-            ':updated' => date('Y-m-d H:i:s'),
-            ':blog_id' => $blogid,
-            ':slug' => $postslug
-        ));
-        if($edit){
-            return true;
-        }
+            $database = DatabaseFactory::getFactory()->getConnection();
+            $edit = $database->prepare("
+            UPDATE Pages SET title = :title, content = :content, updated = :updated WHERE blog_id = :blog_id AND slug = :slug");
+
+            $edit->execute(array(
+                ':title' => $title,
+                ':content' => $content,
+                ':updated' => date('Y-m-d H:i:s'),
+                ':blog_id' => $blogid,
+                ':slug' => $postslug
+            ));
+            if($edit){
+                return true;
+            }
 
         return false;
     }
+
+    public static function pageexists($blog, $slug){
+        $database = DatabaseFactory::getFactory()->getConnection();
+        $post = $database->prepare('SELECT * FROM Pages WHERE slug = :slug AND blog_id = :blog');
+        $post->execute(array(
+            ':slug' => $slug,
+            ':blog' => $blog
+        ));
+        $postr = $post->fetchObject();
+        if ($post->rowCount() > 0) {
+            return $postr->id;
+        } else {
+            return false;
+        }
+    }
+
 
     public static function getCategory($id){
         $database = DatabaseFactory::getFactory()->getConnection();
@@ -386,7 +460,7 @@ class BlogModel
         if ($query->rowCount() == 1) {
             return $query->fetchObject()->name;
         } else {
-            return "Ingen kategori";
+            return false;
         }
     }
 

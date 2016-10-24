@@ -22,7 +22,8 @@ class DashboardController extends Controller
     public function index()
     {
         $this->View->render('dashboard/index', array(
-            'listblogs' => DashboardModel::listblogs()
+            'listblogs' => DashboardModel::listblogs(),
+            'listmodblogs' => DashboardModel::listmodblogs()
     ));
     }
 
@@ -30,7 +31,15 @@ class DashboardController extends Controller
         $this->View->render('dashboard/create');
     }
 
+    public function favorite() {
+        $this->View->render('dashboard/favorite', array(
+            'posts' => FavoriteModel::favoritelist(),
+            'paginate' => new Paginate("Favorite WHERE Favorite.user_id = :userid", array('userid' => Session::get('user_id')), 10)
+        ));
+    }
+
     public function blog_create(){
+        // Brolaugh was here <3 lol
         if($blog = BlogModel::blog_create()){
             Session::add('feedback_positive', 'Bloggen har skapats');
             Redirect::to($blog->slug . "/manage" );
