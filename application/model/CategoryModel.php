@@ -5,22 +5,21 @@ class CategoryModel
     public static function showCategory($blogid, $exclude = null, $page = 0, $IPP = 10)
     {
         $database = DatabaseFactory::getFactory()->getConnection();
-
         $sql = 'SELECT * FROM Category WHERE';
-        if (isset($exclude)){
+        if (isset($exclude)) {
             $sql .= ' id != :exclude AND';
         }
-        if($IPP == -1){
+        if ($IPP == -1) {
             $sql = $database->prepare($sql . ' blog_id = :blogid');
-        }else{
+        } else {
             $sql = $database->prepare($sql . ' blog_id = :blogid LIMIT ' . ($page * $IPP) . ', ' . $IPP);
         }
-        if (isset($exclude)){
+        if (isset($exclude)) {
             $sql->execute(array(
                 ':blogid' => $blogid,
                 ':exclude' => $exclude
             ));
-        }else{
+        } else {
             $sql->execute(array(
                 ':blogid' => $blogid
             ));
@@ -29,7 +28,8 @@ class CategoryModel
         return $sql->fetchAll();
     }
 
-    public static function showCatexistsinPost($blogid){
+    public static function showCatexistsinPost($blogid)
+    {
         $database = DatabaseFactory::getFactory()->getConnection();
         // Show categories -> if category id exists in post
         $query = $database->prepare('SELECT c.* FROM Category AS c WHERE c.blog_id = :blogid AND EXISTS (SELECT 1 FROM Post AS p WHERE p.category_id = c.id)');
@@ -39,9 +39,14 @@ class CategoryModel
         return $query->fetchAll();
     }
 
-    public static function addCategory($blogid){
+    public static function addCategory($blogid)
+    {
         $name = Request::post('name');
         $baseslug = BlogModel::slugify($name);
+
+        if (self::categoryexists($blogid, $name)) {
+            return true;
+        }
 
         $slug = $baseslug;
         for ($i = 0; $i < 5; $i++) {
@@ -50,7 +55,7 @@ class CategoryModel
             }
             $slug = $baseslug . '-' . Text::generateRandomString(6);
         }
-        if(BlogModel::blogexists($slug)){
+        if (BlogModel::blogexists($slug)) {
             return false;
         }
 
@@ -63,21 +68,39 @@ class CategoryModel
         ));
     }
 
-    public static function getCategory($blogid, $slug){
+    private static function categoryexists($blogid, $name)
+    {
+        $database = DatabaseFactory::getFactory()->getConnection();
+        $query = $database->prepare("SELECT *FROM Category WHERE blog_id = :blog AND name = :name");
+        $query->execute(array(
+            ':blog' => $blogid,
+            ':name' => $name
+        ));
+
+        if ($query->rowCount() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public static function getCategory($blogid, $slug)
+    {
         $database = DatabaseFactory::getFactory()->getConnection();
         $query = $database->prepare("SELECT *FROM Category WHERE blog_id = :blog AND slug = :slug");
         $query->execute(array(
             ':blog' => $blogid,
             ':slug' => $slug
         ));
-        if($query->rowCount() > 0){
+        if ($query->rowCount() > 0) {
             return $query->fetchObject();
-        }else{
+        } else {
             return false;
         }
     }
 
-    public static function removeCategory($blogid){
+    public static function removeCategory($blogid)
+    {
         $database = DatabaseFactory::getFactory()->getConnection();
         $query = $database->prepare("DELETE FROM Category WHERE id = :id AND blog_id = :blog");
         return $query->execute(array(
@@ -86,7 +109,8 @@ class CategoryModel
         ));
     }
 
-    public static function editCategory($blogid){
+    public static function editCategory($blogid)
+    {
         $database = DatabaseFactory::getFactory()->getConnection();
         $query = $database->prepare("UPDATE Category SET name = :cate WHERE id = :id AND blog_id = :blog");
         return $query->execute(array(
@@ -125,5 +149,4 @@ class CategoryModel
         }
         return $postarray;
     }
-
 }
