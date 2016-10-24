@@ -22,7 +22,7 @@
                         </div>
                         <div class="time row">
                             <div class="pull-left">
-                                <p><?= $post->created ?></p>
+                                <p><?php echo date("j F, Y g:i",strtotime($post->created));  ?></p>
                             </div>
                             <div class="pull-right comment">
                                 <p class="commentlink"><b><?= $post->comments ?></b><a class="commentlink"
