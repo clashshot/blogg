@@ -29,4 +29,10 @@ class IndexController extends Controller
             $this->View->render('_templates/terms');
 
     }
+    public function about()
+    {
+
+        $this->View->render('_templates/aboutus');
+
+    }
 }
