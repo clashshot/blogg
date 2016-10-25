@@ -40,6 +40,7 @@ class FavoriteModel
             return $posts;
         }
     }
+    //kollar om du har favoritmarkerat
     public static function checkfavorite ($post_id)
     {
         $database = DatabaseFactory::getFactory()->getConnection();

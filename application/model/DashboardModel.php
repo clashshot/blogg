@@ -16,7 +16,7 @@ class DashboardModel
 
         return $listblog;
     }
-
+    //listar bloggar som den inloggade användaren är moderator för
     public static function listmodblogs()
     {
         $database = DatabaseFactory::getFactory()->getConnection();
@@ -30,7 +30,7 @@ class DashboardModel
 
         return $listmodblogs;
     }
-
+    //visar alla synliga bloggar med sidor
     public static function listAllVisibleBlogs($page = 0, $posts_per_page = 10){
         $database = DatabaseFactory::getFactory()->getConnection();
         /*
