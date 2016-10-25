@@ -13,14 +13,12 @@
                     <h2 class="text-center"><?= $post->title ?></h2>
                     <p class="text-center"><?= BlogModel::getCategory($post->category_id) ?></p>
                     <div class="col-md-12">
-                        <div id="post<?= $post->id ?>"
-                             class="collapse post"><?= $bbcode->parse(Filter::XSSFilter($post->content), true) ?></div>
+                        <div id="post<?=$post->id?>" class="collapse post"><?= $bbcode->parse(Filter::XSSFilter($post->content), true) ?></div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="form-group text-center readmore">
-                        <a type="button" data-target="#post<?= $post->id ?>"
-                           class="post-collapse fa fa-chevron-down"></a>
+                        <a type="button" data-target="#post<?=$post->id?>" class="btn btn-primary post-collapse">Se hela posten</a>
                     </div>
                 </div>
                 <div class="time row">
@@ -29,7 +27,7 @@
                     </div>
                     <div class="pull-right comment">
                         <p class="commentlink"><b><?= $post->comments ?></b><a class="commentlink"
-                                                                               href="<?= Config::get('URL') ?><?= $this->blog->slug ?>/<?= $post->slug ?>">
+                                                                               href="<?= Config::get('URL') ?><?= BlogModel::getBlog($post->blog_id)->slug ?>/<?= $post->slug ?>">
                                 Kommentarer</a></p>
                     </div>
                     <div class="pull-right like">
@@ -40,7 +38,7 @@
 
 <?php
 }
-} else {
+}else{
     echo "Finns inga inlägg att visa";
 }
 $this->paginate->render();
