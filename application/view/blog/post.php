@@ -16,6 +16,8 @@ function renderComments($post, $blog_id, $blogslug, $postslug, $comments, $depth
                         <?php
                         if (!empty($comment->user_name))
                             echo $comment->user_name;
+                        elseif (isset($comment->user_id))
+                            echo 'Användare borttagen';
                         else
                             echo "Anonym";
                         ?>
