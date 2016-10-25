@@ -70,7 +70,7 @@ class BlogController extends Controller
 
     public function category($blogid, $catslug){
             $blog = BlogModel::getBlog($blogid);
-            $catpage = CategoryModel::catpage($blogid, $catslug, Request::get());
+            $catpage = CategoryModel::catpage($blogid, $catslug, Request::get('page'));
             $catid = CategoryModel::getnamebyid('Category', 'slug', $catslug)->id;
             if(!empty($catpage)){
                 $this->View->render('blog/index', array(
