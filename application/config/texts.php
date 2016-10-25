@@ -59,7 +59,7 @@ return array(
     "FEEDBACK_PASSWORD_RESET_MAIL_SENDING_ERROR" => "Återställ lösenord mail kunde inte skickas pga: ",
     "FEEDBACK_PASSWORD_RESET_MAIL_SENDING_SUCCESSFUL" => "Ett återställ lösenord mail har skickats.",
     "FEEDBACK_PASSWORD_RESET_LINK_EXPIRED" => "Din återställnings länk har gått ut. Var god och använd länken inom en timme.",
-    "FEEDBACK_PASSWORD_RESET_COMBINATION_DOES_NOT_EXIST" => "Användarnamn/Verifikation kod kombinationen existerar inte.",
+    "FEEDBACK_PASSWORD_RESET_COMBINATION_DOES_NOT_EXIST" => "lösenordåterställningskombinationen existerar inte.",
     "FEEDBACK_PASSWORD_RESET_LINK_VALID" => "Återställ lösenord länken är korrekt. Ändra lösenord nu.",
     "FEEDBACK_PASSWORD_CHANGE_SUCCESSFUL" => "Lösenordet ändrades.",
     "FEEDBACK_PASSWORD_CHANGE_FAILED" => "Ändra lösenord misslyckades.",
