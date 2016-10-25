@@ -92,7 +92,7 @@ class AdminModel
             return true;
         }
     }
-
+    //kollar om den inloggade användaren är admin
     public static function isAdmin(){
         $database = DatabaseFactory::getFactory()->getConnection();
 
