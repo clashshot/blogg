@@ -36,7 +36,7 @@ function renderComments($post, $blog_id, $blogslug, $postslug, $comments, $depth
                     }
                     if ($comment->deleted == 0) {
                         if (Session::userIsLoggedIn()) {
-                            if ((UserModel::getEditPermission($blog_id) || Session::get("user_id") == $comment->user_id) && !empty($comment->user_id)) {
+                            if ((UserModel::getEditPermission($blog_id) || Session::get("user_id") == $comment->user_id)) {
                                 ?>
                                 <div class="btn-group">
                                     <button type="button" class="btn btn-primary btn-xs dropdown-toggle"
@@ -46,11 +46,14 @@ function renderComments($post, $blog_id, $blogslug, $postslug, $comments, $depth
                                         <span class="caret"></span>
                                     </button>
                                     <ul class="dropdown-menu" role="menu">
-                                        <li><a data-toggle="collapse" href="#cha_<?= $comment->id ?>"
-                                               data-parent="#accordion<?= $comment->id ?>">Redigera</a></li>
+                                        <li
+                                            <?php if ((Session::get("user_id") != $comment->user_id)) {
+                                                echo " class='disabled'";
+                                            } ?>><a data-toggle="collapse" href="#cha_<?= $comment->id ?>"
+                                                    data-parent="#accordion<?= $comment->id ?>">Redigera</a></li>
                                         <li>
                                             <a onclick="return confirm('Är du säker på att du vill ta bort din kommentar?')"
-                                               href="<?= Config::get('URL') . $blogslug . "/remove_comment/" . $comment->id ?>">
+                                               href="<?= Config::get('URL') . $blogslug . "/remove_comment/" . $postslug . "/" . $comment->id ?>">
                                                 Ta bort
                                             </a>
                                         </li>
@@ -90,7 +93,7 @@ function renderComments($post, $blog_id, $blogslug, $postslug, $comments, $depth
                             if (ReportModel::reportexists(Session::get('user_id'), 1, $comment->id)) {
                                 echo 'Rapporterad';
                             } else {
-                                echo '<a onclick="report(this,'.$comment->id.', 1, prompt(\'Anledning till rapportering\', \'\'))" class="btn btn-xs btn-danger glyphicon glyphicon-flag"></a>';
+                                echo '<a onclick="report(this,' . $comment->id . ', 1, prompt(\'Anledning till rapportering\', \'\'))" class="btn btn-xs btn-danger glyphicon glyphicon-flag"></a>';
                             } // End Report Comment
                             ?>
                         <?php } ?>
@@ -107,7 +110,7 @@ function renderComments($post, $blog_id, $blogslug, $postslug, $comments, $depth
                                               action="<?= Config::get("URL") . $blogslug . "/update_comment/" . $postslug ?>">
                                             <input type="hidden" name="comment_id" value="<?= $comment->id ?>"/>
                                             <br/>
-                                            <textarea type="text" name="comment"
+                                            <textarea maxlength=255 name="comment"
                                                       class="form-control"><?= $comment->comment ?></textarea>
                                             <br/>
                                             <input type="submit" class="btn btn-primary btn-sm" value="Ändra"/>
@@ -128,7 +131,7 @@ function renderComments($post, $blog_id, $blogslug, $postslug, $comments, $depth
                                                    value="<?= $comment->comment_id ?>"/>
                                         <?php } ?>
                                         <br/>
-                                        <textarea type="text" name="comment" class="form-control"></textarea>
+                                        <textarea maxlength=255 name="comment" class="form-control"></textarea>
                                         <br/>
                                         <input type="submit" class="btn btn-primary btn-sm" value="Skicka"/>
                                     </form>
@@ -137,8 +140,8 @@ function renderComments($post, $blog_id, $blogslug, $postslug, $comments, $depth
                         </div>
                         <?php
                     }
-                    if($depth <= 7){
-                        renderComments($post, $blog_id, $blogslug, $postslug, $comment->subComments, $depth +1);
+                    if ($depth <= 7) {
+                        renderComments($post, $blog_id, $blogslug, $postslug, $comment->subComments, $depth + 1);
                     }
                     ?>
                 </div>
@@ -206,7 +209,7 @@ $bbcode = new Golonka\BBCode\BBCodeParser;
                 <div class="col-md-12">
                     <form method="post"
                           action="<?= Config::get("URL") . $this->blog->slug . "/comment/" . $this->post->slug ?>">
-                        <textarea type="text" class="form-control" name="comment"
+                        <textarea maxlength=255 class="form-control" name="comment"
                                   placeholder="<?php if ($this->post->allow_comments == 1)
                                       echo "Skriv en kommentar...";
                                   else

@@ -1,6 +1,6 @@
 <div class="container">
     <div class="panel panel-default">
-        <div class="panel-heading">Användarvillkor</div>
+        <div class="panel-heading">Användarvillkor:</div>
         <div class="panel-body">
            <h1>Medlemsavtal BlogNation:</h1>
 

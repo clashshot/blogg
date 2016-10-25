@@ -22,7 +22,15 @@
                         </div>
                         <div class="time row">
                             <div class="pull-left">
-                                <p><?php echo date("j F, Y g:i",strtotime($post->created));  ?></p>
+                                <p><?php echo date("j F, Y g:i",strtotime($post->created));  ?>
+                                <?php if (Session::userIsLoggedIn()) {
+                                    // Report comment
+                                    if (ReportModel::reportexists(Session::get('user_id'), 2, $post->id)) {
+                                        echo '- <b style="color:red"> Rapporterad</b>';
+                                    } else {
+                                        echo '<a style="margin:0px 0px 3px 5px;" onclick="report(this,' . $post->id . ', 2, prompt(\'Anledning till rapportering\', \'\'))" class="btn btn-xs btn-danger glyphicon glyphicon-flag"></a>';
+                                    } // End Report Comment
+                                }?></p>
                             </div>
                             <div class="pull-right comment">
                                 <p class="commentlink"><b><?= $post->comments ?></b><a class="commentlink"

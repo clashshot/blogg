@@ -1,7 +1,15 @@
 <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
     <div class="well">
         <div class="profile-userpic text-center">
-            <img src="<?= $this->user->user_avatar_link ?>">
+            <img src="<?=$this->user->user_avatar_link?>">
+            <?php if (Session::userIsLoggedIn()) {
+                // Report comment
+                if (ReportModel::reportexists(Session::get('user_id'), 0, $this->blog->id)) {
+                    echo '<div class="vcenter" style="color:red;"><b>Rapporterad</b></div>';
+                } else {
+                    echo '<div class="vcenter" style="margin-top:5px;"><a onclick="report(this,' . $this->blog->id . ', 0, prompt(\'Anledning till rapportering\', \'\'))" class="btn btn-xs btn-danger glyphicon glyphicon-flag"></a></div>';
+                } // End Report Comment
+            }?>
         </div>
         <div class="text-center">
             <h2><?= $this->user->user_name ?></h2>
@@ -35,8 +43,6 @@
             }
 
             ?>
-
-
         </ul>
     </div>
 </div>

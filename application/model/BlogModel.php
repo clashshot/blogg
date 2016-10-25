@@ -3,7 +3,7 @@
 
 class BlogModel
 {
-
+    //kollar om en blogg finns med en specifik slug(url vänligt bloggnamn) och i så fall returneras id på den bloggen
     public static function blogexists($slug)
     {
         $database = DatabaseFactory::getFactory()->getConnection();
@@ -18,7 +18,7 @@ class BlogModel
             return false;
         }
     }
-
+    //Hämtar en blogg med hjälp av ID
     public static function getBlog($id)
     {
         $database = DatabaseFactory::getFactory()->getConnection();
@@ -32,7 +32,7 @@ class BlogModel
             return $blogr;
         }
     }
-
+    //kollar om en post finns på en specifik blogg med en specifik slug, returner i så fall post id på den
     public static function postexists($blog, $slug){
         $database = DatabaseFactory::getFactory()->getConnection();
         $post = $database->prepare('SELECT * FROM Post WHERE slug = :slug AND blog_id = :blog');
@@ -47,7 +47,7 @@ class BlogModel
             return false;
         }
     }
-
+    //hämtar en post på en blogg med hjälp av slug
     public static function getpost($blogid, $postslug)
     {
         $database = DatabaseFactory::getFactory()->getConnection();
@@ -64,7 +64,7 @@ class BlogModel
             return false;
         }
     }
-
+    //hämtar post med hjälp av ID
     public static function getpostbyid($postid)
     {
         $database = DatabaseFactory::getFactory()->getConnection();
@@ -78,7 +78,7 @@ class BlogModel
             return false;
         }
     }
-
+    //hämtar post från en blogg så att det funkar med pageinate (så att vi får sidor med 5 blogginlägg på varje sida)
     public static function getPosts($blogid, $page = 0, $posts_per_page = 5)
     {
         $database = DatabaseFactory::getFactory()->getConnection();
@@ -96,7 +96,7 @@ class BlogModel
             return false;
         }
     }
-
+    //lägger till en post
     public static function addpost($blogid)
     {
         $title = Request::post('title');
@@ -160,6 +160,7 @@ class BlogModel
         return $query->fetchAll();
     }
 
+    // tar bort en dynamisk sida
     public static function deletepage($blogid, $postslug) {
         $database = DatabaseFactory::getFactory()->getConnection();
 
@@ -167,7 +168,7 @@ class BlogModel
         return $query->execute(array(':blog' => $blogid, ':slug' => $postslug));
      }
 
-
+    //skapar en blogg
     public static function blog_create()
     {
         $title = Request::post('title');
@@ -235,6 +236,7 @@ class BlogModel
         }
     }
 
+    //uppdaterar blogg info
     public static function blog_update($blogid)
     {
         $title = Request::post('title');
@@ -255,7 +257,8 @@ class BlogModel
             return false;
         }
     }
-
+    //funktion som används för att ändra det bloggnamn/postnamn/kategorinamn man valt till en URL
+    //vänlig text, alltså tar den bort alla dåliga tecken med andra och även gör att lowercase
     public static function slugify($blogname)
     {
         $blogname = str_replace(array('å', 'ä', 'ö'), array('a', 'a', 'o'), $blogname);
@@ -288,7 +291,7 @@ class BlogModel
 
         return $blogname;
     }
-
+    //lägger till en moderator på din blogg
     public static function addMod($blog_id)
     {
         $database = DatabaseFactory::getFactory()->getConnection();
@@ -320,7 +323,7 @@ class BlogModel
             return false;
         }
     }
-
+    //tar bort en moderator UTAN AJAX
     public static function removeMod($blog_id){
         $database = DatabaseFactory::getFactory()->getConnection();
 
@@ -338,12 +341,12 @@ class BlogModel
             return false;
         }
     }
-
+    //Hämtar alla moderatorer för en blogg
     public static function getMods($blog_id)
     {
         $database = DatabaseFactory::getFactory()->getConnection();
 
-        $query = $database->prepare("SELECT user_email FROM Blog_moderator LEFT JOIN users on users.user_id=Blog_moderator.user_id WHERE blog_id = :blog_id");
+        //$query = $database->prepare("SELECT user_email FROM Blog_moderator LEFT JOIN users on users.user_id=Blog_moderator.user_id WHERE blog_id = :blog_id");
 
         $query = $database->prepare("SELECT users.user_id, users.user_email FROM Blog_moderator  LEFT JOIN users on users.user_id=Blog_moderator.user_id WHERE blog_id = :blog_id");
 
@@ -360,14 +363,14 @@ class BlogModel
 
         return $mods;
     }
-
+    //tar bort mod AJAX
     public static function completedRemoveMod($blog_id, $user_id)
     {
         $database = DatabaseFactory::getFactory()->getConnection();
         $mod = $database->prepare("DELETE FROM blog_moderator WHERE user_id = :user_id AND blog_id = :blog_id");
         return $mod->execute(array('blog_id' => $blog_id, 'user_id' => $user_id));
     }
-
+    //lägger till en dynamisk sida
     public static function addPage($blogid){
         $title = Request::post('title');
         $content = Request::post('content');
@@ -405,7 +408,7 @@ class BlogModel
         }
 
     }
-
+    //hämtar en dynamisk sida med hjälp av bloggid och slug
     public static function getPage($blogid, $pageslug){
         $database = DatabaseFactory::getFactory()->getConnection();
 
@@ -417,7 +420,7 @@ class BlogModel
 
         return $sql->fetchObject();
     }
-
+    //Listar alla dynamiska sidor på en blogg, max 5
     public static function showPages($blogid)
     {
         $database = DatabaseFactory::getFactory()->getConnection();
@@ -429,7 +432,7 @@ class BlogModel
 
         return $sql->fetchAll();
     }
-
+    //ändra en dynamisk sida
     public static function editPages($blogid, $postslug){
         $title = Request::post('title');
         $content = Request::post('content');
@@ -482,7 +485,7 @@ class BlogModel
             return false;
         }
     }
-
+    //hämtar en bloggs alla kategorier
     public static function Category($blogid)
     {
         $database = DatabaseFactory::getFactory()->getConnection();
@@ -540,7 +543,7 @@ class BlogModel
         $query = $database->prepare("DELETE FROM Post WHERE blog_id = :blog AND slug = :slug");
         return $query->execute(array(':blog' => $blogid, ':slug' => $postslug));
     }
-
+    //ändrar visibility på en blogg (ögat på dashboarden)
     public static function switchVisible()
     {
         $blog = Request::post('blog_id');
@@ -597,7 +600,7 @@ class BlogModel
         }
         return false;
     }
-
+    //skapar en posthistory
     public static function createposthistory($blogid, $postslug)
     {
 
@@ -622,7 +625,7 @@ class BlogModel
         }
         return false;
     }
-
+    
     public static function getposthistory($post_id)
     {
         $database = DatabaseFactory::getFactory()->getConnection();
