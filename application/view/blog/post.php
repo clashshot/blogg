@@ -104,7 +104,7 @@ function renderComments($post, $blog_id, $blogslug, $postslug, $comments, $depth
                             <?php
                             if (Session::get("user_id") == $comment->user_id) {
                                 ?>
-                                <div class="comment_panel">
+                                <div class="panel comment_panel">
                                     <div id="cha_<?= $comment->id ?>" class="collapse">
                                         <form method="post"
                                               action="<?= Config::get("URL") . $blogslug . "/update_comment/" . $postslug ?>">
@@ -120,7 +120,7 @@ function renderComments($post, $blog_id, $blogslug, $postslug, $comments, $depth
                                 <?php
                             }
                             ?>
-                            <div class="comment_panel">
+                            <div class="panel comment_panel">
                                 <div id="ans_<?= $comment->id ?>" class="collapse">
                                     <form method="post"
                                           action="<?= Config::get("URL") . $blogslug . "/comment/" . $postslug ?>">
