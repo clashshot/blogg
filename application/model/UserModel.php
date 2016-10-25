@@ -426,6 +426,7 @@ class UserModel
             return false;
         }
     }
+
     public static function getExtendedPermission($blog_id){
         $database = DatabaseFactory::getFactory()->getConnection();
 
@@ -442,6 +443,40 @@ class UserModel
         }else{
             return false;
         }
+    }
+
+    public static function contact(){
+        $name = Request::post('name', true);
+        $email = Request::post('email');
+        $subject = Request::post('subject', true);
+        $message = Request::post('message');
+
+        if(!filter_var($email ,FILTER_VALIDATE_EMAIL)){
+            Session::add('feedback_negative', 'Ogiltig e-post, kontrollera och försök igen.');
+            return false;
+        }
+
+// create email body
+$body = 'Namn: '.$name.'
+E-post: '.$email.'
+Ämne: '.$subject.'
+        
+Meddelande: '.$message;
+
+        // create instance of Mail class, try sending and check
+        $mail = new Mail;
+        $mail_sent = $mail->sendMail(Config::get('EMAIL_CONTACT_TO'),$email,$name,$subject,$body);
+
+        if ($mail_sent) {
+            Session::add('feedback_positive', 'Du har lyckats skicka meddelandet, vår prioritet är att svara inom 24 timmar.');
+            return true;
+        } else {
+            Session::add('feedback_negative', 'Meddelandet kunde inte skickas, försök igen.');
+            return false;
+        }
+
+
+
     }
 
 

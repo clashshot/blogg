@@ -26,7 +26,7 @@
                                 <?php if (Session::userIsLoggedIn()) {
                                     // Report comment
                                     if (ReportModel::reportexists(Session::get('user_id'), 2, $post->id)) {
-                                        echo '<div style="color:red;"><b>Rapporterad</b>';
+                                        echo '- <b style="color:red"> Rapporterad</b>';
                                     } else {
                                         echo '<a style="margin:0px 0px 3px 5px;" onclick="report(this,' . $post->id . ', 2, prompt(\'Anledning till rapportering\', \'\'))" class="btn btn-xs btn-danger glyphicon glyphicon-flag"></a>';
                                     } // End Report Comment

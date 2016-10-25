@@ -33,4 +33,17 @@ class IndexController extends Controller
         $this->View->render('_templates/aboutus');
 
     }
+
+    public function contact(){
+        $this->View->render('_templates/contact');
+    }
+
+    public function contact_action(){
+        if(UserModel::contact()){
+            Redirect::to('index/contact');
+        } else {
+            Redirect::to('index/contact');
+        }
+    }
+
 }

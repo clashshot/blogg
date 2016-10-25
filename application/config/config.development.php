@@ -137,6 +137,9 @@ return array(
     /**
      * Configuration for: Email content data
      */
+
+    'EMAIL_CONTACT_TO' => 'support@hepicsolutions.com',
+
     'EMAIL_PASSWORD_RESET_URL' => 'login/verifypasswordreset',
     'EMAIL_PASSWORD_RESET_FROM_EMAIL' => 'no-reply@hepicsolutions.com',
     'EMAIL_PASSWORD_RESET_FROM_NAME' => 'BlogNation',

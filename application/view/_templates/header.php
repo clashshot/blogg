@@ -93,7 +93,7 @@
                         <ul class="nav navbar-nav navbar-right">
                             <li><a href="<?php echo Config::get('URL'); ?>index/aboutus">Om oss</a></li>
                             <li><a href="<?php echo Config::get('URL'); ?>index/termsofservice">Användarvillkor</a></li>
-                            <li><a href="#contact">Kontakt</a></li>
+                            <li><a href="<?php echo Config::get('URL'); ?>index/contact">Kontakt</a></li>
                         </ul>
                     </div><!-- /.nav-collapse -->
                 </div><!-- /.container -->
