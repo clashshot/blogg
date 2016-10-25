@@ -129,17 +129,18 @@ class CategoryModel
         return $query->fetchObject();
     }
 
-    public static function catpage($blogid, $catslug){
+    public static function catpage($blogid, $catslug, $page = 0, $IPP = 5){
         $database = DatabaseFactory::getFactory()->getConnection();
 
         $catid = $database->prepare("SELECT id FROM Category WHERE slug = :catslug");
         $catid->execute(array(':catslug'=>$catslug));
         $cat = $catid->fetchObject();
 
-        $query = $database->prepare("SELECT * FROM Post WHERE blog_id = :blogid AND category_id = :catid");
+        $query = $database->prepare("SELECT * FROM Post WHERE blog_id = :blogid AND category_id = :catid AND visibility <= :permission ORDER BY created DESC LIMIT " . ($page * $IPP) . ", " . $IPP);
         $query->execute(array(
             ':blogid' => $blogid,
-            ':catid' => $cat->id
+            ':catid' => $cat->id,
+            ':permission' => UserModel::getPermission($blogid)
         ));
         $postarray = array();
         while ($post = $query->fetchObject()) {

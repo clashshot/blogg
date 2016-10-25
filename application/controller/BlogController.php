@@ -70,16 +70,15 @@ class BlogController extends Controller
 
     public function category($blogid, $catslug){
             $blog = BlogModel::getBlog($blogid);
-            $catpage = CategoryModel::catpage($blogid, $catslug);
+            $catpage = CategoryModel::catpage($blogid, $catslug, Request::get('page'));
             $catid = CategoryModel::getnamebyid('Category', 'slug', $catslug)->id;
             if(!empty($catpage)){
-                $this->View->render('blog/categoryposts', array(
+                $this->View->render('blog/index', array(
                     'blog' => BlogModel::getBlog($blogid),
                     'user' => UserModel::getPublicProfileOfUser($blog->user_id),
-                    'catpage' => $catpage,
-                    'posts' => BlogModel::getPosts($blogid, Request::get('page')),
+                    'posts' => $catpage,
                     'category' => CategoryModel::showCatexistsinPost($blogid),
-                    'paginatecat' => new Paginate("Post WHERE blog_id = :blog_id AND category_id = :catid AND visibility <= :permission", [':blog_id' => $blogid, ':catid' => $catid, ':permission' => UserModel::getPermission($blogid)], 5)
+                    'paginate' => new Paginate("Post WHERE blog_id = :blog_id AND category_id = :catid AND visibility <= :permission", [':blog_id' => $blogid, ':catid' => $catid, ':permission' => UserModel::getPermission($blogid)], 5)
                 ));
             } else {
                 Redirect::to(BlogModel::getBlog($blogid)->slug);
@@ -311,13 +310,7 @@ class BlogController extends Controller
     public function update_comment($blogid, $postslug)
     {
         $blog = BlogModel::getBlog($blogid);
-        CommentModel::updateComment();
-        Redirect::to($blog->slug."/".$postslug);
-    }
-    public function remove_comment($blogid, $postslug, $comment)
-    {
-        $blog = BlogModel::getBlog($blogid);
-        CommentModel::removeComment($comment);
+        CommentModel::updateComment(BlogModel::getpost($blogid, $postslug)->id);
         Redirect::to($blog->slug."/".$postslug);
     }
 

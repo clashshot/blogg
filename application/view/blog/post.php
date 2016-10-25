@@ -46,14 +46,11 @@ function renderComments($post, $blog_id, $blogslug, $postslug, $comments, $depth
                                         <span class="caret"></span>
                                     </button>
                                     <ul class="dropdown-menu" role="menu">
-                                        <li
-                                            <?php if ((Session::get("user_id") != $comment->user_id) && !empty($comment->user_id)) {
-                                                echo " class='disabled'";
-                                            } ?>><a data-toggle="collapse" href="#cha_<?= $comment->id ?>"
-                                                    data-parent="#accordion<?= $comment->id ?>">Redigera</a></li>
+                                        <li><a data-toggle="collapse" href="#cha_<?= $comment->id ?>"
+                                               data-parent="#accordion<?= $comment->id ?>">Redigera</a></li>
                                         <li>
                                             <a onclick="return confirm('Är du säker på att du vill ta bort din kommentar?')"
-                                               href="<?= Config::get('URL') . $blogslug . "/remove_comment/" . $postslug . "/" . $comment->id ?>">
+                                               href="<?= Config::get('URL') . $blogslug . "/remove_comment/" . $comment->id ?>">
                                                 Ta bort
                                             </a>
                                         </li>
@@ -93,7 +90,7 @@ function renderComments($post, $blog_id, $blogslug, $postslug, $comments, $depth
                             if (ReportModel::reportexists(Session::get('user_id'), 1, $comment->id)) {
                                 echo 'Rapporterad';
                             } else {
-                                echo '<a onclick="report(this,' . $comment->id . ', 1, prompt(\'Anledning till rapportering\', \'\'))" class="btn btn-xs btn-danger glyphicon glyphicon-flag"></a>';
+                                echo '<a onclick="report(this,'.$comment->id.', 1, prompt(\'Anledning till rapportering\', \'\'))" class="btn btn-xs btn-danger glyphicon glyphicon-flag"></a>';
                             } // End Report Comment
                             ?>
                         <?php } ?>
@@ -140,8 +137,8 @@ function renderComments($post, $blog_id, $blogslug, $postslug, $comments, $depth
                         </div>
                         <?php
                     }
-                    if ($depth <= 7) {
-                        renderComments($post, $blog_id, $blogslug, $postslug, $comment->subComments, $depth + 1);
+                    if($depth <= 7){
+                        renderComments($post, $blog_id, $blogslug, $postslug, $comment->subComments, $depth +1);
                     }
                     ?>
                 </div>
@@ -160,7 +157,7 @@ $bbcode = new Golonka\BBCode\BBCodeParser;
             <div class="well">
                 <h1 class="text-center"><?= $this->post->title ?></h1>
                 <p class="text-center"><?= BlogModel::getCategory($this->post->category_id) ?></p>
-                <?= $bbcode->parse($this->post->content, true) ?>
+                <?= $bbcode->parse(Filter::XSSFilter($this->post->content), true) ?>
                 <div class="time row">
                     <div class="pull-left">
                         <p><?= $this->post->created ?></p>
