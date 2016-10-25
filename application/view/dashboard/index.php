@@ -71,12 +71,12 @@
                     <tr>
                         <td>
                             <div class="btn-group">
-                                <a href="<?php echo Config::get('URL'); ?>/dashboard/favorite/"><button class="btn btn-default" type="button"><i class="fa fa-fw fa-star"></i>Visa dina favoriter</button></a>
+                                <a href="<?php echo Config::get('URL'); ?>dashboard/favorite/"><button class="btn btn-default" type="button"><i class="fa fa-fw fa-star"></i>Visa dina favoriter</button></a>
                             </div>
                         </td>
                         <td>
                             <div class="btn-group">
-                                <a href="<?php echo Config::get('URL'); ?>/dashboard/bloglist/"><button class="btn btn-default" type="button">Visa andra användares bloggar</button></a>
+                                <a href="<?php echo Config::get('URL'); ?>dashboard/bloglist/"><button class="btn btn-default" type="button">Visa andra användares bloggar</button></a>
                             </div>
                         </td>
                     </tr>
