@@ -28,6 +28,7 @@ class BlogModel
         ));
         $blogr = $blog->fetchObject();
         if ($blog->rowCount() > 0) {
+            $blogr->social = self::socialpages($blogr->id);
             return $blogr;
         }
     }
@@ -140,6 +141,25 @@ class BlogModel
         }
 
     }
+
+    public static function socialpages($blogid){
+        $database = DatabaseFactory::getFactory()->getConnection();
+
+        $query = $database->prepare("SELECT Social.*, Social_link.link as link, Social_link.id as social_link_id FROM Social_link LEFT JOIN Social ON Social_link.social_id = Social.id WHERE blog_id = :blog");
+        $query->execute(array(
+            ':blog' => $blogid
+        ));
+        return $query->fetchAll();
+    }
+
+    public static function social(){
+        $database = DatabaseFactory::getFactory()->getConnection();
+
+        $query = $database->prepare("SELECT *FROM Social");
+        $query->execute();
+        return $query->fetchAll();
+    }
+
     public static function deletepage($blogid, $postslug) {
         $database = DatabaseFactory::getFactory()->getConnection();
 
@@ -152,20 +172,7 @@ class BlogModel
     {
         $title = Request::post('title');
         $description = Request::post('description');
-        $about = Request::post('about');
         $visibility = Request::post('visibility');
-        $facebook = null;
-        $twitter = null;
-        $google = null;
-        if (strlen(Request::post('facebook')) > 10) {
-            $facebook = Request::post('facebook');
-        }
-        if (strlen(Request::post('twitter')) > 10) {
-            $twitter = Request::post('twitter');
-        }
-        if (strlen(Request::post('google')) > 10) {
-            $google = Request::post('google');
-        }
         $blogname = self::slugify($title);
 
         $slug = $blogname;
@@ -181,22 +188,50 @@ class BlogModel
 
         $database = DatabaseFactory::getFactory()->getConnection();
 
-        $blog = $database->prepare('INSERT INTO Blog (user_id, slug, title, description, about, visible, facebook, twitter, google_plus) VALUES(:user_id, :slug, :title, :description, :about, :visible, :facebook, :twitter, :google)');
+        $blog = $database->prepare('INSERT INTO Blog (user_id, slug, title, description, visible) VALUES(:user_id, :slug, :title, :description, :visible)');
         $success = $blog->execute(array(
             ':user_id' => Session::get("user_id"),
             ':slug' => $blogname,
             ':title' => Filter::XSSFilter($title),
             ':description' => Filter::XSSFilter($description),
-            ':about' => $about,
             ':visible' => $visibility,
-            'facebook' => Filter::XSSFilter($facebook),
-            'twitter' => Filter::XSSFilter($twitter),
-            'google' => Filter::XSSFilter($google)
         ));
         if ($success) {
-            return self::getBlog($database->lastInsertId());
+            $blogid = $database->lastInsertId();
+            self::syncsocial($blogid, Request::post('social'));
+            return self::getBlog($blogid);
         } else {
             return false;
+        }
+    }
+
+    public static function syncsocial($blogid, $socialarray){
+        $database = DatabaseFactory::getFactory()->getConnection();
+
+        $cursocial = self::socialpages($blogid);
+
+        $social = $database->prepare("INSERT INTO Social_link(blog_id, social_id, link) VALUES(:blog, :social, :link)");
+        $updateQuery = $database->prepare("UPDATE Social_link SET link = :link WHERE id = :id");
+        $deleteQuery = $database->prepare("DELETE FROM Social_link WHERE id = :id");
+        foreach ($socialarray as $key => $link){
+            $update = false;
+            $curid = -1;
+            foreach ($cursocial as $current){
+                if($current->id == $key){
+                    $update = true;
+                    $curid = $current->social_link_id;
+                    break;
+                }
+            }
+            if($update){
+                if(strlen($link) > 0){
+                    $updateQuery->execute(array(':link' => Filter::XSSFilter($link), ':id' => $curid));
+                }else{
+                    $deleteQuery->execute(array(':id' => $curid));
+                }
+            }else{
+                $social->execute(array(':blog'=> $blogid, ':social' => $key, ':link' => Filter::XSSFilter($link)));
+            }
         }
     }
 
@@ -204,34 +239,18 @@ class BlogModel
     {
         $title = Request::post('title');
         $description = Request::post('description');
-        $about = Request::post('about');
-        $facebook = null;
-        $twitter = null;
-        $google = null;
-        if (strlen(Request::post('facebook')) > 10) {
-            $facebook = Request::post('facebook');
-        }
-        if (strlen(Request::post('twitter')) > 10) {
-            $twitter = Request::post('twitter');
-        }
-        if (strlen(Request::post('google')) > 10) {
-            $google = Request::post('google');
-        }
 
         $database = DatabaseFactory::getFactory()->getConnection();
 
-        $blog = $database->prepare('UPDATE Blog SET title = :title, description = :description, about = :about, facebook = :facebook, twitter = :twitter, google_plus = :google WHERE id = :blog');
+        $blog = $database->prepare('UPDATE Blog SET title = :title, description = :description WHERE id = :blog');
         $success = $blog->execute(array(
             ':title' => Filter::XSSFilter($title),
             ':description' => Filter::XSSFilter($description),
-            ':about' => $about,
-            'facebook' => Filter::XSSFilter($facebook),
-            'twitter' => Filter::XSSFilter($twitter),
-            'google' => Filter::XSSFilter($google),
             'blog' => $blogid
         ));
         if ($success) {
-            return self::getBlog($database->lastInsertId());
+            self::syncsocial($blogid, Request::post('social'));
+            return self::getBlog($blogid);
         } else {
             return false;
         }

@@ -70,7 +70,7 @@ class BlogController extends Controller
 
     public function category($blogid, $catslug){
             $blog = BlogModel::getBlog($blogid);
-            $catpage = CategoryModel::catpage($blogid, $catslug, Request::get('page'));
+            $catpage = CategoryModel::catpage($blogid, $catslug, Request::get());
             $catid = CategoryModel::getnamebyid('Category', 'slug', $catslug)->id;
             if(!empty($catpage)){
                 $this->View->render('blog/index', array(
@@ -143,7 +143,9 @@ class BlogController extends Controller
                     break;
                 case 'update':
                     $this->View->render('manage/editblog', array(
-                        "blog" => BlogModel::getBlog($blogid)
+                        "blog" => BlogModel::getBlog($blogid),
+                        'social_pages' => BlogModel::socialpages($blogid),
+                        'social' => BlogModel::social()
                     ));
                     break;
                 case 'blog_update':

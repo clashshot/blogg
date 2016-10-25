@@ -263,3 +263,9 @@ function report(button, id, type, reason) {
         }
     });
 }
+function addSocial(button) {
+    var social = $('#social_select').find(':selected')[0];
+    if($("#" + social.dataset.parentclass).length == 0){
+        $('<div class="col-md-4" id="' + social.dataset.parentclass + '"><div class="input-group"><span class="input-group-addon"><i style="font-size:21px" class="' + social.dataset.class + '"></i></span><input type="text" name="social[' + social.value + ']" class="form-control"placeholder="' + social.dataset.placeholder + '"></div></div>').insertBefore(button.parentNode.parentNode);
+    }
+}

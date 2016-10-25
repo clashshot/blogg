@@ -12,31 +12,36 @@
             </div>
             <div class="form-group">
                 <div class="row">
-                    <div class="col-md-4">
-                        <div class="input-group">
-                            <span class="input-group-addon">
-                                <i style="font-size:22px" class="fa">&#xf082;</i>
-                            </span>
-                            <input type="text" name="facebook" value="<?= $this->blog->facebook ?>" class="form-control" placeholder="/facebookusername">
+                    <?php
+                    foreach ($this->social_pages as $social) {
+                        ?>
+                        <div class="col-md-4" id="<?= $social->parent_class ?>">
+                            <div class="input-group"><span class="input-group-addon"><i style="font-size:21px"
+                                                                                        class="<?= $social->class ?>"></i></span><input
+                                    type="text" name="social[<?= $social->id ?>]" value="<?= $social->link ?>"
+                                    class="form-control"
+                                    placeholder="<?= $social->placeholder ?>"></div>
                         </div>
-                    </div>
+                        <?php
+                    }
+                    ?>
                     <div class="col-md-4">
-                        <div class="input-group">
-                            <span class="input-group-addon">
-                                <i style="font-size:22px" class="fa">&#xf081;</i>
-                            </span>
-                            <input type="text" name="twitter" value="<?= $this->blog->twitter ?>" class="form-control"
-                                   placeholder="/twitterusername">
+                        <div class="col-md-6">
+                            <select id="social_select" class="form-control">
+                                <?php
+                                foreach ($this->social as $social) {
+                                    ?>
+                                    <option value="<?= $social->id ?>"
+                                            data-placeholder="<?= $social->placeholder ?>"
+                                            data-class="<?= $social->class ?>"
+                                            data-parentclass="<?=$social->parent_class?>"><?= $social->name ?></option>
+                                    <?php
+                                }
+                                ?>
+                            </select>
                         </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="input-group">
-                            <span class="input-group-addon">
-                                <i style="font-size:22px" class="fa">&#xf0d4;</i>
-                             </span>
-                            <input type="text" name="google" value="<?= $this->blog->google_plus ?>"
-                                   class="form-control"
-                                   placeholder="/u/0/1234567890">
+                        <div class="col-md-6">
+                            <button type="button" class="btn btn-primary col-md-6" onclick="addSocial(this)">Lägg till</button>
                         </div>
                     </div>
                 </div>

@@ -28,7 +28,7 @@ class DashboardController extends Controller
     }
 
     public function create() {
-        $this->View->render('dashboard/create');
+        $this->View->render('dashboard/create', array('social' => BlogModel::social()));
     }
 
     public function favorite() {
@@ -36,10 +36,6 @@ class DashboardController extends Controller
             'posts' => FavoriteModel::favoritelist(),
             'paginate' => new Paginate("Favorite WHERE Favorite.user_id = :userid", array('userid' => Session::get('user_id')), 10)
         ));
-    }
-    public function bloglist() {
-        $this->View->render('dashboard/bloglist', array(
-            'blogs' => DashboardModel::listAllVisibleBlogs()));
     }
 
     public function blog_create(){
