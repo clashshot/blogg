@@ -36,7 +36,7 @@ function renderComments($post, $blog_id, $blogslug, $postslug, $comments, $depth
                     }
                     if ($comment->deleted == 0) {
                         if (Session::userIsLoggedIn()) {
-                            if ((UserModel::getEditPermission($blog_id) || Session::get("user_id") == $comment->user_id) && !empty($comment->user_id)) {
+                            if ((UserModel::getEditPermission($blog_id) || Session::get("user_id") == $comment->user_id)) {
                                 ?>
                                 <div class="btn-group">
                                     <button type="button" class="btn btn-primary btn-xs dropdown-toggle"
@@ -46,11 +46,14 @@ function renderComments($post, $blog_id, $blogslug, $postslug, $comments, $depth
                                         <span class="caret"></span>
                                     </button>
                                     <ul class="dropdown-menu" role="menu">
-                                        <li><a data-toggle="collapse" href="#cha_<?= $comment->id ?>"
-                                               data-parent="#accordion<?= $comment->id ?>">Redigera</a></li>
+                                        <li
+                                            <?php if ((Session::get("user_id") != $comment->user_id)) {
+                                                echo " class='disabled'";
+                                            } ?>><a data-toggle="collapse" href="#cha_<?= $comment->id ?>"
+                                                    data-parent="#accordion<?= $comment->id ?>">Redigera</a></li>
                                         <li>
                                             <a onclick="return confirm('Är du säker på att du vill ta bort din kommentar?')"
-                                               href="<?= Config::get('URL') . $blogslug . "/remove_comment/" . $comment->id ?>">
+                                               href="<?= Config::get('URL') . $blogslug . "/remove_comment/" . $postslug . "/" . $comment->id ?>">
                                                 Ta bort
                                             </a>
                                         </li>
@@ -137,8 +140,8 @@ function renderComments($post, $blog_id, $blogslug, $postslug, $comments, $depth
                         </div>
                         <?php
                     }
-                    if($depth <= 7){
-                        renderComments($post, $blog_id, $blogslug, $postslug, $comment->subComments, $depth +1);
+                    if ($depth <= 7){
+                        renderComments($post, $blog_id, $blogslug, $postslug, $comment->subComments, $depth + 1);
                     }
                     ?>
                 </div>
