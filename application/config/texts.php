@@ -45,7 +45,7 @@ return array(
     "FEEDBACK_VERIFICATION_MAIL_SENDING_SUCCESSFUL" => "Ett verifierings mail har skickats.",
     "FEEDBACK_ACCOUNT_ACTIVATION_SUCCESSFUL" => "Aktiveringen lyckades! Du kan logga in nu.",
     "FEEDBACK_ACCOUNT_ACTIVATION_FAILED" => "Inget sådant id/verifierings kod kombination här! Det kan vara så att din mail leverantör (Yahoo? Hotmail?) automatiskt besöker linkar i emails för anti-scam skanning, så denna aktivations linken kanske redan har klickats utan att du har gjort något. Prova gärna att logga in på start sidan.",
-    "FEEDBACK_AVATAR_UPLOAD_SUCCESSFUL" => "Avatar uppladnign lyckades.",
+    "FEEDBACK_AVATAR_UPLOAD_SUCCESSFUL" => "Avatar uppladdning lyckades.",
     "FEEDBACK_AVATAR_UPLOAD_WRONG_TYPE" => "Bara JPEG och PNG filer är tillåtna.",
     "FEEDBACK_AVATAR_UPLOAD_TOO_SMALL" => "Avatar filens bredd/höjd är för liten. Den måste vara 100x100 pixlar minimum.",
     "FEEDBACK_AVATAR_UPLOAD_TOO_BIG" => "Avatar filen är för stor. 5 Megabyte är max.",
