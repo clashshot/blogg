@@ -70,7 +70,7 @@ function renderComments($post, $blog_id, $blogslug, $postslug, $comments, $depth
                             }
                         }
                         ?>
-                        <button type="button" class="btn btn-xs" data-toggle="collapse"
+                        <button type="button" class="btn btn-primary btn-xs" data-toggle="collapse"
                                 href="#ans_<?= $comment->id ?>"
                                 data-parent="#accordion<?= $comment->id ?>">
                             Svara
@@ -80,13 +80,13 @@ function renderComments($post, $blog_id, $blogslug, $postslug, $comments, $depth
                             if (CommentModel::likingcomment($comment->id)) {
                                 ?>
                                 <a onclick="like_comment(this, <?= $comment->id ?>, 0)"
-                                   class="btn btn-primary btn-xs">Sluta
+                                   class="btn btn-outline-primary btn-xs"><span class="glyphicon glyphicon-thumbs-up"></span>Sluta
                                     gilla</a>
                                 <?php
                             } else {
                                 ?>
                                 <a onclick="like_comment(this, <?= $comment->id ?>, 1)"
-                                   class="btn btn-primary btn-xs">Gilla</a>
+                                   class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-thumbs-up"></span>Gilla</a>
                                 <?php
                             }
                             ?>
