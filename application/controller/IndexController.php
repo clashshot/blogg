@@ -25,9 +25,7 @@ class IndexController extends Controller
 
     public function termsofservice()
     {
-
             $this->View->render('_templates/terms');
-
     }
     public function aboutus()
     {

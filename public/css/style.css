@@ -174,3 +174,8 @@ a.socialIcon:hover, .socialHoverClass {
 .nounderline td a{
     text-decoration: none !important;
 }
+
+.vcenter {
+    text-align: center;
+    float: none;
+}
