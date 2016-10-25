@@ -31,14 +31,27 @@ class DashboardModel
         return $listmodblogs;
     }
 
-    public static function listAllVisibleBlogs(){
+    public static function listAllVisibleBlogs($page = 0, $posts_per_page = 10){
         $database = DatabaseFactory::getFactory()->getConnection();
-
+        /*
         $query = $database->prepare("SELECT * FROM Blog WHERE visible = 1");
         $query->execute();
         $listblogs = $query->fetchAll();
 
         return $listblogs;
+        */
+        $database = DatabaseFactory::getFactory()->getConnection();
+        $blogs = $database->prepare('SELECT * FROM Blog WHERE visible = 1 ORDER BY id LIMIT ' . ($page * $posts_per_page) . ', ' . $posts_per_page);
+        $blogs->execute();
+        if ($blogs->rowCount() > 0) {
+            $blogarray = array();
+            while ($blog = $blogs->fetchObject()) {
+                $blogarray[] = $blog;
+            }
+            return $blogarray;
+        } else {
+            return false;
+        }
 
     }
     public static function delete($slug){

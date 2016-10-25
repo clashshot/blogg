@@ -23,10 +23,16 @@
                             <td><a href="<?php echo Config::get('URL');echo $value->slug;?>"><button class="btn btn-default" type="button"><i class="fa fa-fw fa-eye"></i>Visa</button></a></td>
                         </tr>
                     <?php }
-                }?>
+                }else{
+                    echo "Finns inga Bloggar att visa";
+                }
+
+                ?>
                 <!-- <a href="#"><i class="fa fa-2x"></i></a> -->
                 </tbody>
             </table>
+
         </div>
+        <?php $this->paginate->render(); ?>
     </div>
 </div>
