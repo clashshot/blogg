@@ -194,6 +194,7 @@ a.socialIcon:hover, .socialHoverClass {
     font-size: 24px;
 }.panel {
     border:none;
+    -webkit-box-shadow: none;
 }
 textarea[name=comment]{
     resize: none;
