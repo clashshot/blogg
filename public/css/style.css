@@ -204,3 +204,9 @@ textarea[name=comment]{
     overflow: visible;
     word-break: break-all;
 }
+.btn-outline-primary {
+    border-color: #2780e3;
+}
+.btn-outline-primary:hover {
+    background-color: #2372C9;
+}
