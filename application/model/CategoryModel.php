@@ -128,7 +128,7 @@ class CategoryModel
 
         return $query->fetchObject();
     }
-
+    //hämtar poster i en kategori med hantering så man kan visa dem i sidor
     public static function catpage($blogid, $catslug, $page = 0, $IPP = 5){
         $database = DatabaseFactory::getFactory()->getConnection();
 
