@@ -1,9 +1,15 @@
 <div class="container">
     <div class="row">
         <div class="panel panel-default">
-            <div class="panel-heading">Bloggar:</div>
+
             <table class="table table-hover table-striped">
                 <tbody>
+                <tr>
+                    <th>Bloggnamn</th>
+                    <th>beskrivning</th>
+                    <th></th>
+                </tr>
+
                 <?php
                 if(!empty($this->blogs)){
                     foreach($this->blogs as $key => $value){ ?>
@@ -12,9 +18,9 @@
                             <h4>
                                 <b><?= $value->title; ?></b>
                             </h4>
-                            <p style="max-width: 80%"><?= $value->description; ?></p>
                             </td>
-                            <td><?=$value->posts?> Inlägg</td>
+                            <td><p style="max-width: 80%"><?= $value->description; ?></p></td>
+                            <td><a href="<?php echo Config::get('URL');echo $value->slug;?>"><button class="btn btn-default" type="button"><i class="fa fa-fw fa-eye"></i>Visa</button></a></td>
                         </tr>
                     <?php }
                 }?>
