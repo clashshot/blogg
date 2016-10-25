@@ -179,3 +179,14 @@ a.socialIcon:hover, .socialHoverClass {
     text-align: center;
     float: none;
 }
+.panel {
+    border:none;
+}
+textarea[name=comment]{
+    resize: none;
+}
+.media,
+.media-body {
+    overflow: visible;
+    word-break: break-all;
+}
