@@ -33,10 +33,10 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="<?=Config::get('URL')?><?=$this->blog->slug?>"><?php if(isset($this->blog)){ echo $this->blog->title;} else { echo 'BlogNation'; }?></a>
+                    <a class="navbar-brand" style="background:#37a1ff;" href="<?=Config::get('URL')?><?=$this->blog->slug?>"><?php if(isset($this->blog)){ echo $this->blog->title;} else { echo 'BlogNation'; }?></a>
                 </div>
                 <div id="navbar" class="collapse navbar-collapse">
-                    <ul class="nav navbar-nav navbar-right">
+                    <ul class="nav navbar-nav navbar-left">
                         <?php
                             if(!empty($page = BlogModel::showPages($this->blog->id))){
                             foreach ($page as $key => $value){
@@ -44,8 +44,16 @@
                             }
                             };
                         ?>
-                            <li style="background:#37a1ff;"><a href="<?php echo Config::get('URL'); ?>">Startsida</a></li>
+
                     </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                    <?php if (Session::userIsLoggedIn()) : ?>
+                    <li><a href="<?php echo Config::get('URL'); ?>"><b>Min kontrollpanel</b></a></li>
+                    <?php else: ?>
+                    <li><a href="<?php echo Config::get('URL'); ?>"><b>Startsida</b></a></li>
+                    <?php endif;?>
+                        </ul>
+
                 </div><!-- /.nav-collapse -->
             </div><!-- /.container -->
         </nav><!-- /.navbar -->
