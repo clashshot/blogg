@@ -25,9 +25,9 @@
                         <?php
                     }
                     ?>
-                    <div class="col-md-4">
-                        <div class="col-md-6">
-                            <select id="social_select" class="form-control">
+
+                        <div class="col-md-3">
+                            <select id="social_select" class="form-control" style="margin-bottom:15px;">
                                 <?php
                                 foreach ($this->social as $social) {
                                     ?>
@@ -40,10 +40,11 @@
                                 ?>
                             </select>
                         </div>
-                        <div class="col-md-6">
-                            <button type="button" class="btn btn-primary col-md-6" onclick="addSocial(this)">Lägg till</button>
+
+                        <div class="col-md-3">
+                            <button type="button" class="btn btn-primary" onclick="addSocial(this)">Lägg till</button>
                         </div>
-                    </div>
+
                 </div>
             </div>
             <div class="form-group">
