@@ -255,7 +255,7 @@ function report(button, id, type, reason) {
         dataType: 'json',
         type: "POST",
         success:function (data) {
-            $(button).replaceWith("Rapporterad");
+            $(button).replaceWith('<b style="color:red;">Rapporterad</b>');
         },
         error:function (request, status, error) {
             var manage = document.getElementsByClassName("col-md-9")[0];
@@ -263,9 +263,15 @@ function report(button, id, type, reason) {
         }
     });
 }
+function removeSocial(button) {
+    for(var i = 0; i < 3; i++){
+        $(button.parentNode.nextSibling).remove();
+    }
+    $(button.parentNode).remove();
+}
 function addSocial(button) {
     var social = $('#social_select').find(':selected')[0];
     if($("#" + social.dataset.parentclass).length == 0){
-        $('<div class="col-md-6" style="margin-left:-15px;" id="' + social.dataset.parentclass + '"><div class="input-group"><span class="input-group-addon"><i style="font-size:21px" class="' + social.dataset.class + '"></i></span><input type="text" name="social[' + social.value + ']" class="form-control"placeholder="' + social.dataset.placeholder + '"></div></div><br /><br /><br />').insertAfter(button.parentNode.parentNode);
+        $('<div class="col-md-6" style="margin-left:-15px;" id="' + social.dataset.parentclass + '"><div class="input-group col-md-10" style="float: left"><span class="input-group-addon"><i style="font-size:21px" class="' + social.dataset.class + '"></i></span><input type="text" name="social[' + social.value + ']" class="form-control"placeholder="' + social.dataset.placeholder + '"></div><button type="button" class="btn btn-danger" onclick="removeSocial(this)">X</button></div><br /><br /><br />').insertAfter(button.parentNode.parentNode);
     }
 }

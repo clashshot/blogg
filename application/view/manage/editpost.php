@@ -100,8 +100,8 @@
             </div>
 
         </div>
+        <a class="btn btn-danger pull-right" style="margin-left:15px;margin-bottom:30px;" href="<?= Config::get('URL') . $this->blog->slug . '/manage'?>">Avbryt</a>
         <input type="submit" class="btn btn-primary pull-right" style="margin-bottom:30px;" value="Ändra" />
-
         </form>
     </div>
 </div>
