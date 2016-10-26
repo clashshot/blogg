@@ -42,8 +42,12 @@
                                 <textarea name="message" class="form-control" rows="9" cols="25" required ></textarea>
                             </div>
                         </div>
+
                         <div class="col-md-12">
-                            <button type="submit" class="btn btn-primary pull-right">Skicka</button>
+                            <div class="form-group">
+                                <div id="recaptcha1"></div>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Skicka</button>
                         </div>
                     </div>
                 </form>

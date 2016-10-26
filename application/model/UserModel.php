@@ -415,6 +415,12 @@ class UserModel
         $email = Request::post('email');
         $subject = Request::post('subject', true);
         $message = Request::post('message');
+        $captcha = Request::post('g-recaptcha-response');
+
+        if (!CaptchaModel::checkCaptcha($captcha)) {
+            Session::add('feedback_negative', Text::get('FEEDBACK_CAPTCHA_WRONG'));
+            return false;
+        }
 
         if(!filter_var($email ,FILTER_VALIDATE_EMAIL)){
             Session::add('feedback_negative', 'Ogiltig e-post, kontrollera och försök igen.');
