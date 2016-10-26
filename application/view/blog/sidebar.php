@@ -7,7 +7,7 @@
                 if (ReportModel::reportexists(Session::get('user_id'), 0, $this->blog->id)) {
                     echo '<div class="vcenter" style="color:red;"><b>Rapporterad</b></div>';
                 } else {
-                    echo '<div class="vcenter" style="margin-top:5px;"><a onclick="report(this,' . $this->blog->id . ', 0, prompt(\'Anledning till rapportering\', \'\'))" class="btn btn-xs btn-danger glyphicon glyphicon-flag"></a></div>';
+                    echo '<div class="vcenter" style="margin-top:5px;"><a style="margin:0px 0px 3px 5px;" type="button" data-toggle="modal" data-target="#0reportmodal' . $this->blog->id . '" id="0report' . $this->blog->id . '" class="btn btn-xs btn-danger glyphicon glyphicon-flag"></a></div>';
                 } // End Report Comment
             }?>
         </div>
@@ -44,5 +44,24 @@
 
             ?>
         </ul>
+    </div>
+    <div id="<?='0reportmodal' . $this->blog->id?>" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Rapportera blogg</h4>
+                </div>
+                <div class="modal-body">
+                    <textarea class="form-control" rows="4" id="<?='0reporttext' . $this->blog->id?>"></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="report(document.getElementById('0report<?=$this->blog->id?>'), <?=$this->blog->id?>, 0, document.getElementById('0reporttext<?=$this->blog->id?>').value)">Rapportera</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Avbryt</button>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

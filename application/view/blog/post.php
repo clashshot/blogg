@@ -95,7 +95,7 @@ function renderComments($post, $blog_id, $blogslug, $postslug, $comments, $depth
                             if (ReportModel::reportexists(Session::get('user_id'), 1, $comment->id)) {
                                 echo 'Rapporterad';
                             } else {
-                                echo '<a onclick="report(this,' . $comment->id . ', 1, prompt(\'Anledning till rapportering\', \'\'))" class="btn btn-xs btn-danger glyphicon glyphicon-flag"></a>';
+                                echo '<a style="margin:0px 0px 3px 5px;" type="button" data-toggle="modal" onclick="document.getElementById(\'commentid\').value=' . $comment->id . ';document.getElementById(\'repbtnid\').value=\'1report' . $comment->id. '\'" data-target="#1reportcommentmodal" id="1report' . $comment->id . '" class="btn btn-xs btn-danger glyphicon glyphicon-flag"></a>';
                             } // End Report Comment
                             ?>
                         <?php } ?>
@@ -171,7 +171,7 @@ $bbcode = new Golonka\BBCode\BBCodeParser;
                                 if (ReportModel::reportexists(Session::get('user_id'), 2, $this->post->id)) {
                                     echo '- <b style="color:red"> Rapporterad</b>';
                                 } else {
-                                    echo '<a style="margin:0px 0px 3px 5px;" onclick="report(this,' . $this->post->id . ', 2, prompt(\'Anledning till rapportering\', \'\'))" class="btn btn-xs btn-danger glyphicon glyphicon-flag"></a>';
+                                    echo '<a style="margin:0px 0px 3px 5px;" type="button" data-toggle="modal" data-target="#2reportmodal' . $this->post->id . '" id="2report' . $this->post->id . '" class="btn btn-xs btn-danger glyphicon glyphicon-flag"></a>';
                                 } // End Report Comment
                             }?></p>
                     </div>
@@ -243,6 +243,46 @@ $bbcode = new Golonka\BBCode\BBCodeParser;
                     $this->paginate->render();
                     ?>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="<?='1reportcommentmodal'?>" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Rapportera kommentar</h4>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="commentid">
+                <input type="hidden" id="repbtnid">
+                <textarea class="form-control" rows="4" id="<?='1reporttext'?>"></textarea>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="report(document.getElementById(document.getElementById('repbtnid').value), document.getElementById('commentid').value, 1, document.getElementById('1reporttext').value);document.getElementById('1reporttext').value=''">Rapportera</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Avbryt</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="<?='2reportmodal' . $this->post->id?>" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Rapportera inlägg</h4>
+            </div>
+            <div class="modal-body">
+                <textarea class="form-control" rows="4" id="<?='2reporttext' . $this->post->id?>"></textarea>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="report(document.getElementById('2report<?=$this->post->id?>'), <?=$this->post->id?>, 2, document.getElementById('2reporttext<?=$this->post->id?>').value)">Rapportera</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Avbryt</button>
             </div>
         </div>
     </div>

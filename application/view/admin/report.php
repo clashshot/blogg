@@ -43,7 +43,7 @@
                                             break;
                                     }
                                     ?></td>
-                                <td><?= $report->reason ?></td>
+                                <td><a type="button" class="reportmodal" data-toggle="modal" data-target="#report<?=$report->id?>"><?=substr($report->reason, 0, 40) ?><?php if(strlen($report->reason) > 40)echo '...';?></a></td>
                                 <td><?php
                                     switch ($report->priority) {
                                         case 1:
@@ -80,7 +80,25 @@
                                     </button>
                                 </td>
                             </tr>
+                            <div id="report<?=$report->id?>" class="modal fade" role="dialog">
+                                <div class="modal-dialog">
 
+                                    <!-- Modal content-->
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                            <h4 class="modal-title">Anledning</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p><?=$report->reason?></p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
                             <?php
                         } ?>
                         </tbody>

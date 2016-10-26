@@ -210,3 +210,6 @@ textarea[name=comment]{
 .btn-outline-primary:hover {
     background-color: #2372C9;
 }
+.reportmodal:hover{
+    cursor: pointer;
+}

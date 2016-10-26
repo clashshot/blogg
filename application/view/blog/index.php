@@ -28,7 +28,7 @@
                                     if (ReportModel::reportexists(Session::get('user_id'), 2, $post->id)) {
                                         echo '- <b style="color:red"> Rapporterad</b>';
                                     } else {
-                                        echo '<a style="margin:0px 0px 3px 5px;" onclick="report(this,' . $post->id . ', 2, prompt(\'Anledning till rapportering\', \'\'))" class="btn btn-xs btn-danger glyphicon glyphicon-flag"></a>';
+                                        echo '<a style="margin:0px 0px 3px 5px;" type="button" data-toggle="modal" data-target="#2reportmodal' . $post->id . '" id="2report' . $post->id . '" class="btn btn-xs btn-danger glyphicon glyphicon-flag"></a>';
                                     } // End Report Comment
                                 }?></p>
                             </div>
@@ -42,7 +42,25 @@
                             </div>
                         </div>
                     </div>
+                    <div id="<?='2reportmodal' . $post->id?>" class="modal fade" role="dialog">
+                        <div class="modal-dialog">
 
+                            <!-- Modal content-->
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    <h4 class="modal-title">Rapportera inlägg</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <textarea class="form-control" rows="4" id="<?='2reporttext' . $post->id?>"></textarea>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="report(document.getElementById('2report<?=$post->id?>'), <?=$post->id?>, 2, document.getElementById('2reporttext<?=$post->id?>').value)">Rapportera</button>
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Avbryt</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <?php
                 }
             }else{
