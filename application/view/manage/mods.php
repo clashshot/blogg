@@ -26,18 +26,19 @@
                             </td>
                             <td>
                                 <button type="button" onclick="removemod(this,<?=$this->blog->id?>, <?= $mod->user_id ?>)"
-                                        class="btn btn-primary">ta bort
+                                        class="btn btn-primary">Ta bort
                                 </button>
                             </td>
                         </tr>
                         <?php
                     } ?>
                     </tbody>
-                </table>
+                </table><br />
                 Lägg till mod (email eller användarnamn):</br>
                 <form method="post" action="<?php echo Config::get('URL'); echo $this->blog->slug; ?>/manage/addmod_action">
-                    <input type="text" class="form-control" name="user_identity" placeholder="Email eller användarnamn" required />
-                    <input type="submit" class="btn btn-primary" value="lägg till" />
+                    <div class="form-group"><input type="text" class="form-control" name="user_identity" placeholder="Email eller användarnamn" required /></div>
+
+                    <div class="form-group"><input type="submit" class="btn btn-primary" value="Lägg till" /></div>
                 </form>
             </div>
         </div>

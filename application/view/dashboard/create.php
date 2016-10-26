@@ -12,24 +12,23 @@
                 </div>
                 <div class="form-group">
                     <div class="row">
-                        <div class="col-md-4">
-                            <div class="col-md-6">
-                                <select id="social_select" class="form-control">
-                                    <?php
-                                    foreach ($this->social as $social) {
-                                        ?>
-                                        <option value="<?= $social->id ?>"
-                                                data-placeholder="<?= $social->placeholder ?>"
-                                                data-class="<?= $social->class ?>"
-                                                data-parentclass="<?=$social->parent_class?>"><?= $social->name ?></option>
-                                        <?php
-                                    }
+                        <div class="col-md-3">
+                            <select id="social_select" class="form-control" style="margin-bottom:15px;">
+                                <?php
+                                foreach ($this->social as $social) {
                                     ?>
-                                </select>
-                            </div>
-                            <div class="col-md-6">
-                                <button type="button" class="btn btn-primary col-md-6" onclick="addSocial(this)">Lägg till</button>
-                            </div>
+                                    <option value="<?= $social->id ?>"
+                                            data-placeholder="<?= $social->placeholder ?>"
+                                            data-class="<?= $social->class ?>"
+                                            data-parentclass="<?=$social->parent_class?>"><?= $social->name ?></option>
+                                    <?php
+                                }
+                                ?>
+                            </select>
+                        </div>
+
+                        <div class="col-md-3">
+                            <button type="button" class="btn btn-primary" onclick="addSocial(this)">Lägg till</button>
                         </div>
                     </div>
                 </div>

@@ -213,3 +213,7 @@ textarea[name=comment]{
 .reportmodal:hover{
     cursor: pointer;
 }
+
+.input-group-addon {
+    padding-right:6px;
+}
