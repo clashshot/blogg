@@ -259,10 +259,17 @@ $bbcode = new Golonka\BBCode\BBCodeParser;
             <div class="modal-body">
                 <input type="hidden" id="commentid">
                 <input type="hidden" id="repbtnid">
+                <select id="1reportprio" class="form-control">
+                    <option selected disabled>Prioritet</option>
+                    <option value="1">Låg</option>
+                    <option value="2">Medel</option>
+                    <option value="3">Hög</option>
+                </select>
+                <br>
                 <textarea class="form-control" rows="4" id="<?='1reporttext'?>"></textarea>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="report(document.getElementById(document.getElementById('repbtnid').value), document.getElementById('commentid').value, 1, document.getElementById('1reporttext').value);document.getElementById('1reporttext').value=''">Rapportera</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="report(document.getElementById(document.getElementById('repbtnid').value), document.getElementById('commentid').value, 1, document.getElementById('1reporttext').value, '1reportprio');document.getElementById('1reporttext').value=''">Rapportera</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">Avbryt</button>
             </div>
         </div>
@@ -278,10 +285,17 @@ $bbcode = new Golonka\BBCode\BBCodeParser;
                 <h4 class="modal-title">Rapportera inlägg</h4>
             </div>
             <div class="modal-body">
+                <select id="2reportprio<?=$this->post->id?>" class="form-control">
+                    <option selected disabled>Prioritet</option>
+                    <option value="1">Låg</option>
+                    <option value="2">Medel</option>
+                    <option value="3">Hög</option>
+                </select>
+                <br>
                 <textarea class="form-control" rows="4" id="<?='2reporttext' . $this->post->id?>"></textarea>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="report(document.getElementById('2report<?=$this->post->id?>'), <?=$this->post->id?>, 2, document.getElementById('2reporttext<?=$this->post->id?>').value)">Rapportera</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="report(document.getElementById('2report<?=$this->post->id?>'), <?=$this->post->id?>, 2, document.getElementById('2reporttext<?=$this->post->id?>').value, '2reportprio<?=$this->post->id?>')">Rapportera</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">Avbryt</button>
             </div>
         </div>

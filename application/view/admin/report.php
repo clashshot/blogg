@@ -61,15 +61,32 @@
                                     switch ($report->type) {
                                         case 0:
                                             $blog = BlogModel::getBlog($report->reported_id);
-                                            echo '<a href="' . Config::get('URL') . $blog->slug . '">Gå till ' . $blog->slug . '</a>';
+                                            if(isset($blog)){
+                                                echo '<a href="' . Config::get('URL') . $blog->slug . '">Gå till ' . $blog->slug . '</a>';
+                                            }else{
+                                                echo 'Bloggen hittades inte';
+                                            }
                                             break;
                                         case 1:
-                                            echo CommentModel::getcomment($report->reported_id)->comment;
+                                            $comment = CommentModel::getcomment($report->reported_id)->comment;
+                                            if(isset($blog)){
+                                                echo $comment;
+                                            }else{
+                                                echo 'Kommentaren hittades inte';
+                                            }
                                             break;
                                         case 2:
                                             $post = BlogModel::getpostbyid($report->reported_id);
-                                            $blog = BlogModel::getBlog($post->blog_id);
-                                            echo '<a href="' . Config::get('URL') . $blog->slug . '/' . $post->slug . '">Gå till ' . $blog->slug . '</a>';
+                                            if(!empty($post)){
+                                                $blog = BlogModel::getBlog($post->blog_id);
+                                                if(isset($blog)){
+                                                    echo '<a href="' . Config::get('URL') . $blog->slug . '/' . $post->slug . '">Gå till ' . $blog->slug . '</a>';
+                                                }else{
+                                                    echo 'Inlägget hittades inte';
+                                                }
+                                            }else{
+                                                echo 'Inlägget hittades inte';
+                                            }
                                             break;
                                     }
                                     ?>

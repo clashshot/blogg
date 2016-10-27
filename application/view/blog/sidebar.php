@@ -61,10 +61,17 @@
                     <h4 class="modal-title">Rapportera blogg</h4>
                 </div>
                 <div class="modal-body">
+                    <select id="0reportprio<?=$this->blog->id?>" class="form-control">
+                        <option selected disabled>Prioritet</option>
+                        <option value="1">Låg</option>
+                        <option value="2">Medel</option>
+                        <option value="3">Hög</option>
+                    </select>
+                    <br>
                     <textarea class="form-control" rows="4" id="<?='0reporttext' . $this->blog->id?>"></textarea>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="report(document.getElementById('0report<?=$this->blog->id?>'), <?=$this->blog->id?>, 0, document.getElementById('0reporttext<?=$this->blog->id?>').value)">Rapportera</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="report(document.getElementById('0report<?=$this->blog->id?>'), <?=$this->blog->id?>, 0, document.getElementById('0reporttext<?=$this->blog->id?>').value, '0reportprio<?=$this->blog->id?>')">Rapportera</button>
                     <button type="button" class="btn btn-default" data-dismiss="modal">Avbryt</button>
                 </div>
             </div>

@@ -65,8 +65,8 @@ class ReportModel
         $reported_id = Request::post('reported_id');
         $reason = Request::post('reason');
         $priority = 1;
-        if(isset($_POST['prio'])){
-            $priority = Request::post('prio');
+        if(isset($_POST['priority'])){
+            $priority = Request::post('priority');
         }
         if(self::reportexists($user, $type, $reported_id)){
             return true;

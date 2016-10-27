@@ -52,7 +52,7 @@
                                     <h4 class="modal-title">Rapportera inlägg</h4>
                                 </div>
                                 <div class="modal-body">
-                                    <select class="form-control">
+                                    <select id="2reportprio<?=$post->id?>" class="form-control">
                                         <option selected disabled>Prioritet</option>
                                         <option value="1">Låg</option>
                                         <option value="2">Medel</option>
@@ -62,7 +62,7 @@
                                     <textarea class="form-control" rows="4" id="<?='2reporttext' . $post->id?>"></textarea>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="report(document.getElementById('2report<?=$post->id?>'), <?=$post->id?>, 2, document.getElementById('2reporttext<?=$post->id?>').value)">Rapportera</button>
+                                    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="report(document.getElementById('2report<?=$post->id?>'), <?=$post->id?>, 2, document.getElementById('2reporttext<?=$post->id?>').value, '2reportprio<?=$post->id?>')">Rapportera</button>
                                     <button type="button" class="btn btn-default" data-dismiss="modal">Avbryt</button>
                                 </div>
                             </div>

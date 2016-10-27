@@ -246,12 +246,17 @@ $(".post-collapse").click(function () {
     $(this).toggleClass("active");
 })
 
-function report(button, id, type, reason) {
+function report(button, id, type, reason, prio) {
+    var prioselect = $("#" + prio)[0];
+    prio = prioselect.options[prioselect.selectedIndex].value;
+    if(prio <= 0){
+        prio = 1;
+    }
     if(reason.length == 0){
         reason = "Skrev inget";
     }
     $.ajax('/blog/report/',{
-        data: {format: "json", type: type, reported_id: id, reason: reason},
+        data: {format: "json", type: type, reported_id: id, reason: reason, priority: prio},
         dataType: 'json',
         type: "POST",
         success:function (data) {
