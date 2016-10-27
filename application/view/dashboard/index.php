@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container" xmlns:max-width="http://www.w3.org/1999/xhtml">
 <div class="row">
 
         <?php $this->renderFeedbackMessages(); ?>

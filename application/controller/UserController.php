@@ -80,7 +80,8 @@ class UserController extends Controller
     public function editAvatar()
     {
         $this->View->render('user/editAvatar', array(
-            'avatar_file_path' => AvatarModel::getPublicUserAvatarFilePathByUserId(Session::get('user_id'))
+            'avatar_file_path' => AvatarModel::getPublicUserAvatarFilePathByUserId(Session::get('user_id')),
+            'user' => UserModel::getPublicProfileOfUser(Session::get('user_id'))
         ));
     }
 

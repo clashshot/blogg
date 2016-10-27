@@ -36,7 +36,7 @@
                                     <td><?= $user->user_id; ?></td>
                                     <td class="avatar">
                                         <?php if (isset($user->user_avatar_link)) { ?>
-                                            <img src="<?= $user->user_avatar_link; ?>"/>
+                                            <img src="<?= $user->user_avatar_link; ?>" height="80px" width="80px"/>
                                         <?php } ?>
                                     </td>
                                     <td><?= $user->user_name; ?></td>

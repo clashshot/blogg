@@ -3,7 +3,7 @@
         <div class="panel panel-default">
             <div class="panel-heading">
                 <h4 class="panel-title">
-                    <a href="<?php echo Config::get('URL');echo $value->slug;?>/manage"><span class="glyphicon glyphicon-folder-close"></span>Administration</a>
+                    <a href="<?php echo Config::get('URL');echo $this->blog->slug;?>/manage"><span class="glyphicon glyphicon-folder-close"></span>Administration</a>
                 </h4>
             </div>
 

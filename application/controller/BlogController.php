@@ -17,7 +17,7 @@ class BlogController extends Controller
      * Handles what happens when user moves to URL/index/index - or - as this is the default controller, also
      * when user moves to /index or enter your application at base level
      */
-    public function index($blogid)
+    public function index($blogid, $catslug = '')
     {
     $blog = BlogModel::getBlog($blogid);
         $this->View->render('blog/index', array(
@@ -25,6 +25,7 @@ class BlogController extends Controller
             'user' => UserModel::getPublicProfileOfUser($blog->user_id),
             'posts' => BlogModel::getPosts($blogid, Request::get('page')),
             'category' => CategoryModel::showCatexistsinPost($blogid),
+            'catslug' => $catslug,
             'paginate' => new Paginate("Post WHERE blog_id = :blog_id AND visibility <= :permission", [':blog_id' => $blogid, ':permission' => UserModel::getPermission($blogid)], 5)
         ));
     }
@@ -41,6 +42,7 @@ class BlogController extends Controller
                         'user' => UserModel::getPublicProfileOfUser($blog->user_id),
                         'comments' => CommentModel::getComments($post->id, Request::get('page')),
                         'category' => CategoryModel::showCatexistsinPost($blogid),
+                        'catslug' => $postslug,
                         'paginate' => new Paginate("Comment WHERE post_id = :post AND comment_id IS NULL", array('post' => $post->id))
                     ));
                 } else {
@@ -51,6 +53,8 @@ class BlogController extends Controller
                 $this->View->render('blog/page',array(
                     'blog' => $blog,
                     'user' => UserModel::getPublicProfileOfUser($blog->user_id),
+                    'category' => CategoryModel::showCatexistsinPost($blogid),
+                    'catslug' => $postslug,
                     'page' => BlogModel::getPage($blogid, $postslug)
                 ));
             }else{
@@ -78,6 +82,7 @@ class BlogController extends Controller
                     'user' => UserModel::getPublicProfileOfUser($blog->user_id),
                     'posts' => $catpage,
                     'category' => CategoryModel::showCatexistsinPost($blogid),
+                    'catslug' => $catslug,
                     'paginate' => new Paginate("Post WHERE blog_id = :blog_id AND category_id = :catid AND visibility <= :permission", [':blog_id' => $blogid, ':catid' => $catid, ':permission' => UserModel::getPermission($blogid)], 5)
                 ));
             } else {

@@ -22,7 +22,14 @@
                             <div class="col-md-10">
                                 <label>Kategori (Ämnestaggar)</label>
                                 <select name="category" id="cat_select" class="form-control">
-                                    <option disabled selected>Välj kategori</option>
+                                    <?php
+                                    if(isset($this->post->category_id)){ ?>
+                                        <option selected value="<?= $this->post->category_id ?>"><?php echo CategoryModel::getnamebyid('Category', 'id', $this->post->category_id)->name; ?></option>
+                                    <?php } else { ?>
+                                        <option disabled selected>Välj kategori</option>
+                                    <?php }
+                                    ?>
+
                                     <?php
                                     foreach ($this->category as $category) {
                                         ?>

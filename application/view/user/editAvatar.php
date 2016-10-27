@@ -11,7 +11,7 @@
             If you still see the old picture after uploading a new one: Hard-Reload the page with F5! Your browser doesn't
             realize there's a new image as new and old one have the same filename.
         </div>
-
+        <img src="<?=$this->user->user_avatar_link?>">
         <form action="<?php echo Config::get('URL'); ?>user/uploadAvatar_action" method="post" enctype="multipart/form-data">
             <label for="avatar_file">Select an avatar image from your hard-disk (will be scaled to 44x44 px, only .jpg currently):</label>
             <input type="file" name="avatar_file" required />

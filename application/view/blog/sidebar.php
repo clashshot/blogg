@@ -33,10 +33,16 @@
     <div class="panel panel-default">
         <h4 style="margin-left:15px;">Kategorier</h4>
         <ul class="list-group">
+
             <?php
+
             if (!empty($this->category)) {
                 foreach ($this->category as $row) {
-                    echo '<a href="' . Config::get('URL') . $this->blog->slug . '/category/' . $row->slug . '" class="list-group-item">' . $row->name . '</a>';
+                    echo '<a href="' . Config::get('URL') . $this->blog->slug . '/category/' . $row->slug . '" class="list-group-item';
+                    if ($row->slug == $this->catslug){
+                        echo ' active';
+                    };
+                    echo '">' . $row->name . '</a>';
                 }
             } else {
                 echo '<div class="panel-body">Inga kategorier</div>';
