@@ -137,17 +137,6 @@ class View
         return false;
     }
 
-    public static function checkForActiveCategory($filename, $navigation_action){
-        $split_filename = explode("/", $filename);
-        $active_action = $split_filename[2];
-
-        if ($active_action == $navigation_action) {
-            return true;
-        }
-
-        return false;
-    }
-
     /**
      * Checks if the passed string is the currently active controller and controller-action.
      * Useful for handling the navigation's active/non-active link.
