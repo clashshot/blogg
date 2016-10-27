@@ -52,6 +52,13 @@
                                     <h4 class="modal-title">Rapportera inlägg</h4>
                                 </div>
                                 <div class="modal-body">
+                                    <select class="form-control">
+                                        <option selected disabled>Prioritet</option>
+                                        <option value="1">Låg</option>
+                                        <option value="2">Medel</option>
+                                        <option value="3">Hög</option>
+                                    </select>
+                                    <br>
                                     <textarea class="form-control" rows="4" id="<?='2reporttext' . $post->id?>"></textarea>
                                 </div>
                                 <div class="modal-footer">
