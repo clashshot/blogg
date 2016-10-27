@@ -38,6 +38,13 @@ class IndexController extends Controller
         $this->View->render('_templates/contact');
     }
 
+    public function bloglist(){
+        $this->View->render('dashboard/bloglist', array(
+            'blogs' => DashboardModel::listAllVisibleBlogs(Request::get("page"), 10),
+            'paginate' => new Paginate("Blog WHERE visible = 1 ")
+        ));
+    }
+
     public function contact_action(){
         if(UserModel::contact()){
             Redirect::to('index/contact');

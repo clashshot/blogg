@@ -47,6 +47,7 @@
 
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
+                        <li><a href="<?=Config::get('URL')?>index/bloglist">Bloggar</a></li>
                     <?php if (Session::userIsLoggedIn()) : ?>
                     <li><a href="<?php echo Config::get('URL'); ?>"><b>Min kontrollpanel</b></a></li>
                     <?php else: ?>
@@ -72,6 +73,7 @@
                 </div>
                 <div id="navbar" class="collapse navbar-collapse">
                     <ul class="nav navbar-nav navbar-right">
+                        <li><a href="<?=Config::get('URL')?>index/bloglist">Bloggar</a></li>
                         <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#" class="navbar-link"><?php echo $_SESSION['user_name'] ?><span class="caret"></span></a>
                             <ul role="menu" class="dropdown-menu">
                                 <?php if(AdminModel::isAdmin()){?><li><a href="<?=Config::get('URL')?>admin">Admin panel</a></li><?php } ?>
@@ -99,6 +101,7 @@
                     </div>
                     <div id="navbar" class="collapse navbar-collapse">
                         <ul class="nav navbar-nav navbar-right">
+                            <li><a href="<?=Config::get('URL')?>index/bloglist">Bloggar</a></li>
                             <li><a href="<?php echo Config::get('URL'); ?>index/aboutus">Om oss</a></li>
                             <li><a href="<?php echo Config::get('URL'); ?>index/termsofservice">Användarvillkor</a></li>
                             <li><a href="<?php echo Config::get('URL'); ?>index/contact">Kontakt</a></li>

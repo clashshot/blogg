@@ -76,7 +76,7 @@
                         </td>
                         <td>
                             <div class="btn-group">
-                                <a href="<?php echo Config::get('URL'); ?>dashboard/bloglist/"><button class="btn btn-default" type="button">Visa andra användares bloggar</button></a>
+                                <a href="<?php echo Config::get('URL'); ?>index/bloglist/"><button class="btn btn-default" type="button">Visa andra användares bloggar</button></a>
                             </div>
                         </td>
                     </tr>

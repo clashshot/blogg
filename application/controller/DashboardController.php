@@ -38,13 +38,6 @@ class DashboardController extends Controller
         ));
     }
 
-    public function bloglist() {
-        $this->View->render('dashboard/bloglist', array(
-            'blogs' => DashboardModel::listAllVisibleBlogs(Request::get("page"), 10),
-            'paginate' => new Paginate("Blog WHERE visible = 1 ")
-        ));
-    }
-
     public function blog_create(){
         // Brolaugh was here <3 lol
         if($blog = BlogModel::blog_create()){
