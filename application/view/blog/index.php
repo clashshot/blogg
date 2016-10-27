@@ -9,7 +9,7 @@
                     ?>
                     <div class="well well-post">
                         <div class="row">
-                            <h2 class="text-center"><?= $post->title ?></h2>
+                            <h2 class="text-center"><a style="text-decoration: none" href="<?= Config::get('URL') ?><?= $this->blog->slug ?>/<?= $post->slug ?>"><?= $post->title ?></a></h2>
                             <p class="text-center"><?= BlogModel::getCategory($post->category_id) ?></p>
                             <div class="col-md-12">
                                 <div id="post<?=$post->id?>" class="collapse post"><?= $bbcode->parse(Filter::XSSFilter($post->content), true) ?></div>

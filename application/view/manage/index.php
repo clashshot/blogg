@@ -25,8 +25,22 @@
                         <?php foreach ($this->posts as $post) { ?>
                             <tr>
                                 <td><?= $post->title ?></td>
-                                <td><?= $post->visibility ?></td>
-                                <td><?= $post->created ?></td>
+                                <td>
+                                    <?php
+                                    switch ($post->visibility){
+                                        case '1':
+                                            echo 'Publik';
+                                            break;
+                                        case '2':
+                                            echo 'Registrerade användare';
+                                            break;
+                                        case '3':
+                                            echo 'Privat';
+                                            break;
+                                    }
+                                    ?>
+                                </td>
+                                <td><?php echo date("j F, Y g:i",strtotime($post->created));  ?></td>
                                 <td class="text-center"><a class='btn btn-info btn-xs'
                                                            href="<?= Config::get("URL") . $this->blog->slug ?>/manage/editpost/<?= $post->slug ?>"><span
                                             class="glyphicon glyphicon-edit"></span> Ändra</a> <a href="<?php echo Config::get('URL') . $this->blog->slug; ?>/manage/deletepost/<?php echo $post->slug; ?>" onclick="return confirm('Är du säker på att du vill ta bort detta inlägg?')" class="btn btn-danger btn-xs"><span
