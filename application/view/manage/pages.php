@@ -25,7 +25,7 @@
                         <?php foreach ($this->pages as $page) { ?>
                             <tr>
                                 <td><?= $page->title ?></td>
-                                <td><?= $page->created ?></td>
+                                <td><?php echo date("j F, Y g:i",strtotime($page->created));  ?></td>
                                 <td class="text-center">
                                     <a class='btn btn-info btn-xs'href="<?= Config::get("URL") . $this->blog->slug ?>/manage/editpage/<?= $page->slug ?>">
                                         <span class="glyphicon glyphicon-edit"></span> Ändra</a>

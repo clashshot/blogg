@@ -1,4 +1,21 @@
-    </div><!-- close class="wrapper" -->
+<!-- FOOTER START -->
+<div class="container footer">
+<div class="row">
+    <hr>
+    <div class="col-lg-12">
+        <div class="col-md-8">
+            <a href="<?php echo Config::get('URL'); ?>index/termsofservice">Användarvillkor</a> | <a href="<?php echo Config::get('URL'); ?>index/aboutus">Om oss</a> | <a href="<?php echo Config::get('URL'); ?>index/contact">Kontakt</a>
+        </div>
+        <div class="col-md-4">
+            <p class="muted pull-right">Copyright © 2016 Blog|Nation. All rights reserved</p>
+        </div>
+    </div>
+</div>
+</div>
+<!-- FOOTER END -->
+
+
+
 
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.12/jquery-ui.min.js" type="text/javascript" charset="utf-8"></script>
