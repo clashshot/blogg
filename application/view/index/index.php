@@ -26,7 +26,7 @@
                 <form action="<?php echo Config::get('URL'); ?>login/login" method="post">
 
                     <div style="margin-bottom: 12px" class="input-group">
-                        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                        <span class="input-group-addon inputpaddfix"><i class="glyphicon glyphicon-user"></i></span>
                         <input id="login-username" type="text" class="form-control" name="user_name" value="" placeholder="Användarnamn eller e-post">
                     </div>
 
@@ -76,7 +76,7 @@
                 <form method="post" action="<?php echo Config::get('URL'); ?>login/requestPasswordReset_action">
 
                     <div style="margin-bottom: 12px" class="input-group">
-                        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                        <span class="input-group-addon inputpaddfix"><i class="glyphicon glyphicon-user"></i></span>
                         <input id="login-username" type="text" class="form-control" name="user_name_or_email" value="" placeholder="Användarnamn eller e-post">
                     </div>
                     <div class="form-group">
@@ -96,27 +96,27 @@
                 <form method="post" action="<?php echo Config::get('URL'); ?>register/register_action">
 
                     <div style="margin-bottom: 12px" class="input-group">
-                        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                        <span class="input-group-addon inputpaddfix"><i class="glyphicon glyphicon-user"></i></span>
                         <input id="login-username" type="text" class="form-control" name="user_name" value="" placeholder="Användarnamn">
                     </div>
 
                     <div style="margin-bottom: 12px" class="input-group">
-                        <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
+                        <span class="input-group-addon inputpaddfix"><i class="glyphicon glyphicon-envelope"></i></span>
                         <input id="login-username" type="email" class="form-control" name="user_email" value="" placeholder="E-post">
                     </div>
 
                     <div style="margin-bottom: 12px" class="input-group">
-                        <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
+                        <span class="input-group-addon inputpaddfix"><i class="glyphicon glyphicon-envelope"></i></span>
                         <input id="login-username" type="email" class="form-control" name="user_email_repeat" value="" placeholder="Repetera e-post">
                     </div>
 
                     <div style="margin-bottom: 12px" class="input-group">
-                        <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                        <span class="input-group-addon inputpaddfix"><i class="glyphicon glyphicon-lock"></i></span>
                         <input id="login-password" type="password" class="form-control" name="user_password_new" placeholder="Lösenord">
                     </div>
 
                     <div style="margin-bottom: 12px" class="input-group">
-                        <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                        <span class="input-group-addon inputpaddfix"><i class="glyphicon glyphicon-lock"></i></span>
                         <input id="login-password" type="password" class="form-control" name="user_password_repeat" placeholder="Repetera lösenordet">
                     </div>
 

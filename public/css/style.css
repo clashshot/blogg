@@ -152,7 +152,7 @@ a.socialIcon:hover, .socialHoverClass {
 @import url("https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,700");
 
 .post{
-    max-height: 20em;
+    max-height: 21em;
     overflow: hidden;
     display: block;
     transition: height 0.3s, display 0.3s;
@@ -214,7 +214,7 @@ textarea[name=comment]{
     cursor: pointer;
 }
 
-.input-group-addon {
+.inputpaddfix {
     padding-right:6px;
 }
 
