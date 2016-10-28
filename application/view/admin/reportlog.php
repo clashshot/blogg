@@ -19,8 +19,9 @@
                             <th>Användare</th>
                             <th>Typ</th>
                             <th>Anledning</th>
+                            <th>Prioritet</th>
                             <th>Innehåll</th>
-                            <th>Hantering</th>
+
                         </tr>
                         </thead>
                         <tbody>
