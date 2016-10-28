@@ -3,11 +3,11 @@ var recaptcha2;
 var myCallBack = function() {
 
     recaptcha1 = grecaptcha.render('recaptcha1', {
-        'sitekey' : '6Ldk-wgUAAAAAPGDPYPxtgopZxFfDIDmqvafCJ36'
+        'sitekey' : 'SITEKEYHERE'
     });
 
     recaptcha2 = grecaptcha.render('recaptcha2', {
-        'sitekey' : '6Ldk-wgUAAAAAPGDPYPxtgopZxFfDIDmqvafCJ36'
+        'sitekey' : 'SITEKEYHERE'
     });
 };
 
