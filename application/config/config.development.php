@@ -62,10 +62,10 @@ return array(
      * DB_CHARSET The charset, necessary for security reasons. Check Database.php class for more info.
      */
     'DB_TYPE' => 'mysql',
-    'DB_HOST' => 'home.rickfo.se',
-    'DB_NAME' => 'blogg',
-    'DB_USER' => 'hepicnew_blogg',
-    'DB_PASS' => '{1=[GVqKvieZ',
+    'DB_HOST' => '',
+    'DB_NAME' => '',
+    'DB_USER' => '',
+    'DB_PASS' => '',
     'DB_PORT' => '3306',
     'DB_CHARSET' => 'utf8',
 
@@ -138,15 +138,15 @@ return array(
      * Configuration for: Email content data
      */
 
-    'EMAIL_CONTACT_TO' => 'support@hepicsolutions.com',
+    'EMAIL_CONTACT_TO' => 'your@email.com',
 
     'EMAIL_PASSWORD_RESET_URL' => 'login/verifypasswordreset',
-    'EMAIL_PASSWORD_RESET_FROM_EMAIL' => 'no-reply@hepicsolutions.com',
+    'EMAIL_PASSWORD_RESET_FROM_EMAIL' => 'no-reply@youremail.com',
     'EMAIL_PASSWORD_RESET_FROM_NAME' => 'BlogNation',
     'EMAIL_PASSWORD_RESET_SUBJECT' => 'Återställning av lösenord - BlogNation',
     'EMAIL_PASSWORD_RESET_CONTENT' => 'Klicka på denna länk för att återställa ditt lösenord: ',
     'EMAIL_VERIFICATION_URL' => 'register/verify',
-    'EMAIL_VERIFICATION_FROM_EMAIL' => 'no-reply@hepicsolutions.com',
+    'EMAIL_VERIFICATION_FROM_EMAIL' => 'no-reply@youremail.com',
     'EMAIL_VERIFICATION_FROM_NAME' => 'BlogNation',
     'EMAIL_VERIFICATION_SUBJECT' => 'Kontoaktivering - BlogNation',
     'EMAIL_VERIFICATION_CONTENT' => 'Klicka på länken för att aktivera ditt konto: ',
