@@ -12,40 +12,41 @@
             </div>
             <div class="form-group">
                 <div class="row">
-                    <?php
-                    foreach ($this->social_pages as $social) {
-                        ?>
-                        <div class="col-md-4" id="<?= $social->parent_class ?>">
-                            <div class="input-group"><span class="input-group-addon"><i style="font-size:21px"
-                                                                                        class="<?= $social->class ?>"></i></span><input
-                                    type="text" name="social[<?= $social->id ?>]" value="<?= $social->link ?>"
-                                    class="form-control"
-                                    placeholder="<?= $social->placeholder ?>"></div>
-                        </div>
-                        <?php
-                    }
-                    ?>
-
-                        <div class="col-md-3">
-                            <select id="social_select" class="form-control" style="margin-bottom:15px;">
-                                <?php
-                                foreach ($this->social as $social) {
-                                    ?>
-                                    <option value="<?= $social->id ?>"
-                                            data-placeholder="<?= $social->placeholder ?>"
-                                            data-class="<?= $social->class ?>"
-                                            data-parentclass="<?=$social->parent_class?>"><?= $social->name ?></option>
-                                    <?php
-                                }
+                    <div class="col-md-3">
+                        <select id="social_select" class="form-control" style="margin-bottom:15px;">
+                            <?php
+                            foreach ($this->social as $social) {
                                 ?>
-                            </select>
-                        </div>
+                                <option value="<?= $social->id ?>"
+                                        data-placeholder="<?= $social->placeholder ?>"
+                                        data-class="<?= $social->class ?>"
+                                        data-parentclass="<?= $social->parent_class ?>"><?= $social->name ?></option>
+                                <?php
+                            }
+                            ?>
+                        </select>
+                    </div>
 
-                        <div class="col-md-3">
-                            <button type="button" class="btn btn-primary" onclick="addSocial(this)">Lägg till</button>
-                        </div>
-
+                    <div class="col-md-3">
+                        <button type="button" class="btn btn-primary" onclick="addSocial(this)">Lägg till</button>
+                    </div>
                 </div>
+                <?php
+                foreach ($this->social_pages as $social) {
+                    ?>
+                    <div class="col-md-6" style="margin-left:-15px;" id="<?= $social->parent_class ?>">
+                        <div class="input-group col-md-10" style="float: left"><span class="input-group-addon"><i
+                                    style="font-size:21px" class="<?= $social->class ?>"></i></span><input
+                                type="text" value="<?=$social->link?>" name="social[<?= $social->id ?>]" class="form-control"
+                                placeholder="<?= $social->placeholder ?>"></div>
+                        <button type="button" class="btn btn-danger" onclick="removeSocial(this)">X</button>
+                    </div>
+                    <br>
+                    <br>
+                    <br>
+                    <?php
+                }
+                ?>
             </div>
             <div class="form-group">
                 <label>Kort beskrivning om dig</label>

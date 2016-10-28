@@ -213,8 +213,13 @@ class BlogModel
 
         $social = $database->prepare("INSERT INTO Social_link(blog_id, social_id, link) VALUES(:blog, :social, :link)");
         $updateQuery = $database->prepare("UPDATE Social_link SET link = :link WHERE id = :id");
-        $deleteQuery = $database->prepare("DELETE FROM Social_link WHERE id = :id");
+        $deleteQuery = $database->prepare("DELETE FROM Social_link WHERE blog_id = :blog");
+        $deleteQuery->execute(array(':blog' => $blogid));
         foreach ($socialarray as $key => $link){
+            $social->execute(array(':blog'=> $blogid, ':social' => $key, ':link' => Filter::XSSFilter($link)));
+        }
+
+        /*foreach ($socialarray as $key => $link){
             $update = false;
             $curid = -1;
             foreach ($cursocial as $current){
@@ -233,7 +238,7 @@ class BlogModel
             }else{
                 $social->execute(array(':blog'=> $blogid, ':social' => $key, ':link' => Filter::XSSFilter($link)));
             }
-        }
+        }*/
     }
 
     //uppdaterar blogg info
